@@ -41,6 +41,11 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/Company/Add.vue"),
                     },
                     {
+                        path: '/company-edit/:id',
+                        name: 'company-edit',
+                        component: () => import("../components/Pages/Company/Edit.vue"),
+                    },
+                    {
                         path: '/Passenger/add',
                         name: 'AddPassenger',
                         component: () => import("../components/Pages/Passenger/Add.vue"),

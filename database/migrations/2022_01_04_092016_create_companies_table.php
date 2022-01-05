@@ -19,7 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->string('address');
             $table->string('contact_person');
             $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->string('phone');
             $table->integer('is_approved')->default(0);
             $table->timestamps();
         });

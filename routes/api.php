@@ -22,7 +22,7 @@ use App\Http\Controllers\Backend\CompanyController;
     //------------------------------- User  Login Register ,  Logout--------------------------\\
     //------------------------------------------------------------------\\
     Route::post('user-register', [AuthController::class, 'register']);
-    Route::post('user-login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login']);
 
     //------------------------------- User  Logout --------------------------\\
     //------------------------------------------------------------------\\
@@ -31,7 +31,7 @@ use App\Http\Controllers\Backend\CompanyController;
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
     });
 
@@ -40,6 +40,7 @@ use App\Http\Controllers\Backend\CompanyController;
     //------------------------------------------------------------------\\
     Route::get('companies', [CompanyController::class, 'index']);
     Route::post('add-company', [CompanyController::class, 'store']);
-    Route::post('edit-company', [CompanyController::class, 'edit']);
-    Route::post('update-company', [CompanyController::class, 'update']);
+    Route::get('edit-company/{id}', [CompanyController::class, 'edit']);
+    Route::post('update-company/{id}', [CompanyController::class, 'update']);
+    Route::post('delete-company/{id}', [CompanyController::class, 'destroy']);
 

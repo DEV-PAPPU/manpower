@@ -50,12 +50,11 @@ const store = new Vuex.Store({
       authUser ({ commit, dispatch }) {
         commit('SET_AUTHENTICATED', true)
           
-        return axios.get('user',{
-            headers:{
-                authorization: 'Bearer' + localStorage.getItem('token')
-            }
+        let token = localStorage.getItem('token');
 
-        }).then(res => {
+        return axios.get('user',{ 
+            headers: {"Authorization" : `Bearer ${token}`} 
+         }).then(res => {
             
             commit('SET_USER', res.data)
 
@@ -63,7 +62,7 @@ const store = new Vuex.Store({
             commit('SET_AUTHENTICATED', false)
 
             if(router.currentRoute.name !== 'login'){
-                router.push({ name: 'login' })
+                router.push({ name: 'Login' })
             };
         })
       },

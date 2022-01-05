@@ -17,10 +17,37 @@ class CompanyController extends Controller
     }
 
 
+
+    public function store (Request $request){
+       
+        // dd($request->all());
+       
+        $this->validate($request,[
+
+            'name' => 'required',
+            'address' => 'required',
+            'contact_person' => 'required',
+            'phone' => 'required',
+            'email' => ['required', 'email', 'unique:companies'],
+        ]);
+    
+         $company = new Company();
+         $company->name = $request->name;
+         $company->address = $request->address;
+         $company->contact_person = $request->contact_person;
+         $company->phone = $request->phone;
+         $company->email = $request->email;
+    
+         $company->save();
+    
+        return response()->json(['msg' => 'Company Created Sucess'], 200);
+    }
+
+
     public function edit($id)
     {
-        $coupon = Coupon::find($id);
-        return response()->json($coupon, 200);
+        $company = Company::find($id);
+        return response()->json($company, 200);
 
     }
 
@@ -28,38 +55,38 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
 
-         $coupon = Coupon::findOrfail($id);
-         $coupon->coupon_code = $request->coupon_code;
-         $coupon->coupon_type = $request->coupon_type;
-         $coupon->coupon_amount = $request->coupon_amount;
-         $coupon->user_id = $request->user_id;
-         $coupon->status = $request->status;
-         $coupon->save();
+         $company = Company::findOrfail($id);
+         $company->name = $request->name;
+         $company->address = $request->address;
+         $company->contact_person = $request->contact_person;
+         $company->phone = $request->phone;
+         $company->email = $request->email;
+         $company->save();
 
-         return response()->json(['success' => 'Cououn Updated Sucess'], 200);
+         return response()->json(['msg' => 'Company Updated Sucess'], 200);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $coupon = Coupon::findOrfail($id);
+        $company = Company::findOrfail($id);
 
-        if($coupon){
-            $coupon->delete();
+        if($company){
+            $company->delete();
 
-            return response()->json('success', 200);
+            return response()->json(['msg' => 'Delete Sucess'], 200);
         }else {
             return response()->json('failed', 404);
         }

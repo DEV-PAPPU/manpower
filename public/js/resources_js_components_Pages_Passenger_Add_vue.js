@@ -208,21 +208,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -324,104 +309,71 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [_vm._v("Tables")]),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", {}, [
-      _c("div", { staticClass: "card shadow mb-4" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "form" }, [
-            _c("form", { staticClass: "user", attrs: { _lpchecked: "1" } }, [
-              _c(
-                "form",
-                {
-                  attrs: {
-                    role: "form",
-                    id: "frm-Passenger",
-                    action: "/Passenger/SavePassenger",
-                    method: "post",
-                    enctype: "multipart/form-data",
-                    name: "frm-Passenger",
-                    _lpchecked: "1",
-                  },
-                },
-                [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      autocomplete: "on",
-                      id: "Id",
-                      name: "Id",
-                      placeholder: "Please enter Id ",
-                      tabindex: "",
-                      type: "hidden",
-                      value: "0",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _vm._m(3),
+  return _c("div", {}, [
+    _c("div", { staticClass: "card shadow mb-4" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "form" }, [
+          _c("form", { staticClass: "user", attrs: { _lpchecked: "1" } }, [
+            _c("form", [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm._m(3),
+                _vm._v(" "),
+                _vm._m(4),
+                _vm._v(" "),
+                _vm._m(5),
+                _vm._v(" "),
+                _vm._m(6),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "PerDistrictId" } }, [
+                      _vm._v("District "),
+                    ]),
                     _vm._v(" "),
-                    _vm._m(4),
-                    _vm._v(" "),
-                    _vm._m(5),
-                    _vm._v(" "),
-                    _vm._m(6),
-                    _vm._v(" "),
-                    _vm._m(7),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "PerDistrictId" } }, [
-                          _vm._v("District "),
+                    _c(
+                      "select",
+                      {
+                        staticClass: "form-control filter-select",
+                        attrs: {
+                          autocomplete: "on",
+                          id: "PerDistrictId",
+                          name: "PerDistrictId",
+                          tabindex: "",
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("=== Select ==="),
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-control filter-select",
-                            attrs: {
-                              autocomplete: "on",
-                              id: "PerDistrictId",
-                              name: "PerDistrictId",
-                              tabindex: "",
+                        _vm._l(_vm.districts, function (district) {
+                          return _c(
+                            "option",
+                            {
+                              key: district.id,
+                              domProps: { value: district.id },
                             },
-                          },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("=== Select ==="),
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.districts, function (district) {
-                              return _c(
-                                "option",
-                                {
-                                  key: district.id,
-                                  domProps: { value: district.id },
-                                },
-                                [_vm._v(_vm._s(district.name))]
-                              )
-                            }),
-                          ],
-                          2
-                        ),
-                      ]),
-                    ]),
+                            [_vm._v(_vm._s(district.name))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
                   ]),
-                  _vm._v(" "),
-                  _vm._m(8),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }),
-                  _vm._v(" "),
-                  _vm._m(9),
-                ]
-              ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }),
+              _vm._v(" "),
+              _vm._m(8),
             ]),
           ]),
         ]),
@@ -434,20 +386,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "mb-4" }, [
-      _vm._v(
-        "DataTables is a third party plugin that is used to generate the demo table below.\n        For more information about DataTables, please visit the "
-      ),
-      _c("a", { attrs: { target: "_blank", href: "https://datatables.net" } }, [
-        _vm._v("official DataTables documentation"),
-      ]),
-      _vm._v("."),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -456,7 +394,7 @@ var staticRenderFns = [
       },
       [
         _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-          _vm._v("Earnings Overview"),
+          _vm._v("Passenger Enter"),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "dropdown no-arrow" }, [
@@ -642,7 +580,7 @@ var staticRenderFns = [
             name: "DOB",
             placeholder: "Please enter DOB ",
             tabindex: "",
-            type: "text",
+            type: "date",
             value: "",
           },
         }),
@@ -869,7 +807,7 @@ var staticRenderFns = [
                   attrs: { name: "IsApproved", type: "hidden", value: "false" },
                 }),
                 _vm._v(
-                  "\n                                            Is Approved\n                                        "
+                  "\n                                        Is Approved\n                                    "
                 ),
               ]
             ),

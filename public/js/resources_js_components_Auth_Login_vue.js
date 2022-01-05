@@ -87,7 +87,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('sanctum/csrf-cookie').then(function (response) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('user-login', _this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('login', _this.form).then(function (response) {
           var token = response.data.token;
           var user = response.data.user;
 

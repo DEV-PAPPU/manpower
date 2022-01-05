@@ -73,20 +73,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //Bootstrap and jQuery libraries
  //Datatable Modules
 
@@ -110,9 +96,22 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(function () {
           jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            pageLength: 5
+            pageLength: 5 // "bDestroy": true,                        
+
           });
         });
+      });
+    },
+    deleteCompany: function deleteCompany(id) {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-company/".concat(id)).then(function (res) {
+        Toast.fire({
+          icon: 'success',
+          title: res.data.msg
+        });
+
+        _this2.loadCompany();
       });
     }
   },
@@ -182,7 +181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-3ef3fe4c], table.dataTable thead td[data-v-3ef3fe4c] {\r\n    font-size: 12px;\n}\n.table td[data-v-3ef3fe4c], .table th[data-v-3ef3fe4c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 13;\n}\n@media only screen and (max-width: 800px){\n.database__table[data-v-3ef3fe4c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-3ef3fe4c], table.dataTable thead td[data-v-3ef3fe4c] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-3ef3fe4c], .table th[data-v-3ef3fe4c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-3ef3fe4c], .delete_icon[data-v-3ef3fe4c]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-3ef3fe4c]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-3ef3fe4c]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-3ef3fe4c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27084,7 +27083,28 @@ var render = function () {
   return _c("div", [
     _c("div", {}, [
       _c("div", { staticClass: "card shadow mb-4" }, [
-        _vm._m(0),
+        _c(
+          "div",
+          {
+            staticClass:
+              "card-header py-3 d-flex flex-row align-items-center justify-content-between",
+          },
+          [
+            _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
+              _vm._v("Company List"),
+            ]),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              {
+                staticClass: "btn bg-light btn-sm",
+                attrs: { to: { name: "AddCompany" } },
+              },
+              [_vm._v("Add Company")]
+            ),
+          ],
+          1
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "database__table" }, [
@@ -27095,31 +27115,65 @@ var render = function () {
                 attrs: { id: "example" },
               },
               [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.companies, function (user) {
-                    return _c("tr", { key: user.id }, [
-                      _c("td", [_vm._v(_vm._s(user.id))]),
+                  _vm._l(_vm.companies, function (company) {
+                    return _c("tr", { key: company.id }, [
+                      _c("td", [_vm._v(_vm._s(company.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.name))]),
+                      _c("td", [_vm._v(_vm._s(company.name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.address))]),
+                      _c("td", [_vm._v(_vm._s(company.address))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.contact_person))]),
+                      _c("td", [_vm._v(_vm._s(company.contact_person))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.email))]),
+                      _c("td", [_vm._v(_vm._s(company.email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.phone))]),
+                      _c("td", [_vm._v(_vm._s(company.phone))]),
                       _vm._v(" "),
                       _c("td", [
-                        user.is_approved == 0
+                        company.is_approved == 0
                           ? _c("i", { staticClass: "fa fa-check Yes" })
                           : _c("i", { staticClass: "fas fa-times" }),
                       ]),
                       _vm._v(" "),
-                      _vm._m(2, true),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              attrs: {
+                                to: {
+                                  name: "company-edit",
+                                  params: { id: company.id },
+                                },
+                              },
+                            },
+                            [_c("i", { staticClass: "far edit_icon fa-edit" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.deleteCompany(company.id)
+                                },
+                              },
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fas delete_icon fa-trash-alt",
+                              }),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
                     ])
                   }),
                   0
@@ -27133,27 +27187,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "card-header py-3 d-flex flex-row align-items-center justify-content-between",
-      },
-      [
-        _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-          _vm._v("Company List."),
-        ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn btn-info btn-sm" }, [
-          _vm._v("Add Company"),
-        ]),
-      ]
-    )
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -27176,16 +27209,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Actions")]),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("i", { staticClass: "far fa-edit" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fas fa-trash-alt" }),
     ])
   },
 ]

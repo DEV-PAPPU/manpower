@@ -11,8 +11,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Pages_Dashboard_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Pages/Dashboard/Dashboard.vue */ "./resources/js/components/Pages/Dashboard/Dashboard.vue");
-/* harmony import */ var _Menus_SuperAdminMenus_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Menus/SuperAdminMenus.vue */ "./resources/js/components/Layouts/Menus/SuperAdminMenus.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Pages_Dashboard_Dashboard_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Pages/Dashboard/Dashboard.vue */ "./resources/js/components/Pages/Dashboard/Dashboard.vue");
+/* harmony import */ var _Menus_SuperAdminMenus_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Menus/SuperAdminMenus.vue */ "./resources/js/components/Layouts/Menus/SuperAdminMenus.vue");
 //
 //
 //
@@ -161,111 +163,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    SuperAdminMenu: _Menus_SuperAdminMenus_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Dashboard: _Pages_Dashboard_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    SuperAdminMenu: _Menus_SuperAdminMenus_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Dashboard: _Pages_Dashboard_Dashboard_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -278,6 +182,26 @@ __webpack_require__.r(__webpack_exports__);
       // this.iSAdmin = !this.iSAdmin
       var note = document.querySelector(".sidebar");
       note.classList.toggle('toggled');
+    },
+    logout: function logout() {
+      var _this = this;
+
+      var token = localStorage.getItem('token');
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('logout', {
+        headers: {
+          "Authorization": "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        _this.$store.commit('SET_AUTHENTICATED', false);
+
+        _this.$store.commit('SET_USER', '');
+
+        localStorage.removeItem("token");
+
+        _this.$router.push({
+          name: 'Login'
+        });
+      });
     }
   },
   mounted: function mounted() {
@@ -303,7 +227,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Enter and leave animations can use different */\r\n/* durations and timing functions.              */\r\n/* .slide-fade-enter-active {\r\n  transition: all .3s ease;\r\n} */\n.slide-fade-leave-active[data-v-4759768a] {\r\n  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(10px);\n}\n.slide-fade-leave-to[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(-10px);\r\n  opacity: 0;\r\n/* left__sidebar */\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Enter and leave animations can use different */\r\n/* durations and timing functions.              */\r\n/* .slide-fade-enter-active {\r\n  transition: all .3s ease;\r\n} */\n.slide-fade-leave-active[data-v-4759768a] {\r\n  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(10px);\n}\n.slide-fade-leave-to[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(-10px);\r\n  opacity: 0;\r\n/* left__sidebar */\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -926,7 +850,77 @@ var render = function () {
                 [_c("i", { staticClass: "fa fa-bars" })]
               ),
               _vm._v(" "),
-              _vm._m(0),
+              _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "topbar-divider d-none d-sm-block" }),
+                _vm._v(" "),
+                _c("li", { staticClass: "nav-item dropdown no-arrow" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link dropdown-toggle",
+                      attrs: {
+                        href: "#",
+                        id: "userDropdown",
+                        role: "button",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false",
+                      },
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "mr-2 d-none d-lg-inline text-gray-600 small",
+                        },
+                        [_vm._v(_vm._s(_vm.AuthUser.name))]
+                      ),
+                      _vm._v(" "),
+                      _c("img", {
+                        staticClass: "img-profile rounded-circle",
+                        attrs: { src: "img/undraw_profile.svg" },
+                      }),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "dropdown-menu dropdown-menu-right shadow animated--grow-in",
+                      attrs: { "aria-labelledby": "userDropdown" },
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "dropdown-divider" }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "#" },
+                          on: { click: _vm.logout },
+                        },
+                        [
+                          _c("i", {
+                            staticClass:
+                              "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400",
+                          }),
+                          _vm._v(
+                            "\n                                Logout\n                            "
+                          ),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]),
             ]
           ),
           _vm._v(" "),
@@ -945,7 +939,7 @@ var render = function () {
                     _vm._v(_vm._s(_vm.currentRouteName)),
                   ]),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _vm._m(3),
                 ]
               ),
               _vm._v(" "),
@@ -958,16 +952,6 @@ var render = function () {
             2
           ),
         ]),
-        _vm._v(" "),
-        _c("footer", { staticClass: "sticky-footer bg-white" }, [
-          _c("div", { staticClass: "container my-auto" }, [
-            _c("div", { staticClass: "copyright text-center my-auto" }, [
-              _c("span", [
-                _vm._v("Copyright © Your Website 2021 " + _vm._s(_vm.text)),
-              ]),
-            ]),
-          ]),
-        ]),
       ]),
     ],
     2
@@ -978,450 +962,83 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-      _c("li", { staticClass: "nav-item dropdown no-arrow d-sm-none" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link dropdown-toggle",
-            attrs: {
-              href: "#",
-              id: "searchDropdown",
-              role: "button",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false",
-            },
+    return _c("li", { staticClass: "nav-item dropdown no-arrow d-sm-none" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link dropdown-toggle",
+          attrs: {
+            href: "#",
+            id: "searchDropdown",
+            role: "button",
+            "data-toggle": "dropdown",
+            "aria-haspopup": "true",
+            "aria-expanded": "false",
           },
-          [_c("i", { staticClass: "fas fa-search fa-fw" })]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in",
-            attrs: { "aria-labelledby": "searchDropdown" },
-          },
-          [
-            _c(
-              "form",
-              { staticClass: "form-inline mr-auto w-100 navbar-search" },
-              [
-                _c("div", { staticClass: "input-group" }, [
-                  _c("input", {
-                    staticClass: "form-control bg-light border-0 small",
-                    attrs: {
-                      type: "text",
-                      placeholder: "Search for...",
-                      "aria-label": "Search",
-                      "aria-describedby": "basic-addon2",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-group-append" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                      },
-                      [_c("i", { staticClass: "fas fa-search fa-sm" })]
-                    ),
-                  ]),
-                ]),
-              ]
-            ),
-          ]
-        ),
-      ]),
+        },
+        [_c("i", { staticClass: "fas fa-search fa-fw" })]
+      ),
       _vm._v(" "),
-      _c("li", { staticClass: "nav-item dropdown no-arrow mx-1" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link dropdown-toggle",
-            attrs: {
-              href: "#",
-              id: "alertsDropdown",
-              role: "button",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false",
-            },
-          },
-          [
-            _c("i", { staticClass: "fas fa-bell fa-fw" }),
-            _vm._v(" "),
-            _c("span", { staticClass: "badge badge-danger badge-counter" }, [
-              _vm._v("3+"),
-            ]),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in",
-            attrs: { "aria-labelledby": "alertsDropdown" },
-          },
-          [
-            _c("h6", { staticClass: "dropdown-header" }, [
-              _vm._v(
-                "\n                                Alerts Center\n                            "
-              ),
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "mr-3" }, [
-                  _c("div", { staticClass: "icon-circle bg-primary" }, [
-                    _c("i", { staticClass: "fas fa-file-alt text-white" }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("December 12, 2019"),
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "font-weight-bold" }, [
-                    _vm._v("A new monthly report is ready to download!"),
-                  ]),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "mr-3" }, [
-                  _c("div", { staticClass: "icon-circle bg-success" }, [
-                    _c("i", { staticClass: "fas fa-donate text-white" }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("December 7, 2019"),
-                  ]),
-                  _vm._v(
-                    "\n                                    $290.29 has been deposited into your account!\n                                "
-                  ),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "mr-3" }, [
-                  _c("div", { staticClass: "icon-circle bg-warning" }, [
-                    _c("i", {
-                      staticClass: "fas fa-exclamation-triangle text-white",
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("December 2, 2019"),
-                  ]),
-                  _vm._v(
-                    "\n                                    Spending Alert: We've noticed unusually high spending for your account.\n                                "
-                  ),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item text-center small text-gray-500",
-                attrs: { href: "#" },
-              },
-              [_vm._v("Show All Alerts")]
-            ),
-          ]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item dropdown no-arrow mx-1" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link dropdown-toggle",
-            attrs: {
-              href: "#",
-              id: "messagesDropdown",
-              role: "button",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false",
-            },
-          },
-          [
-            _c("i", { staticClass: "fas fa-envelope fa-fw" }),
-            _vm._v(" "),
-            _c("span", { staticClass: "badge badge-danger badge-counter" }, [
-              _vm._v("7"),
-            ]),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in",
-            attrs: { "aria-labelledby": "messagesDropdown" },
-          },
-          [
-            _c("h6", { staticClass: "dropdown-header" }, [
-              _vm._v(
-                "\n                                Message Center\n                            "
-              ),
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "dropdown-list-image mr-3" }, [
-                  _c("img", {
-                    staticClass: "rounded-circle",
-                    attrs: { src: "img/undraw_profile_1.svg", alt: "..." },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "status-indicator bg-success" }),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "font-weight-bold" }, [
-                  _c("div", { staticClass: "text-truncate" }, [
-                    _vm._v(
-                      "Hi there! I am wondering if you can help me with a\n                                        problem I've been having."
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("Emily Fowler · 58m"),
-                  ]),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "dropdown-list-image mr-3" }, [
-                  _c("img", {
-                    staticClass: "rounded-circle",
-                    attrs: { src: "img/undraw_profile_2.svg", alt: "..." },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "status-indicator" }),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "text-truncate" }, [
-                    _vm._v(
-                      "I have the photos that you ordered last month, how\n                                        would you like them sent to you?"
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("Jae Chun · 1d"),
-                  ]),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "dropdown-list-image mr-3" }, [
-                  _c("img", {
-                    staticClass: "rounded-circle",
-                    attrs: { src: "img/undraw_profile_3.svg", alt: "..." },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "status-indicator bg-warning" }),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "text-truncate" }, [
-                    _vm._v(
-                      "Last month's report looks great, I am very happy with\n                                        the progress so far, keep up the good work!"
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("Morgan Alvarez · 2d"),
-                  ]),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item d-flex align-items-center",
-                attrs: { href: "#" },
-              },
-              [
-                _c("div", { staticClass: "dropdown-list-image mr-3" }, [
-                  _c("img", {
-                    staticClass: "rounded-circle",
-                    attrs: {
-                      src: "https://source.unsplash.com/Mv9hjnEUHR4/60x60",
-                      alt: "...",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "status-indicator bg-success" }),
-                ]),
-                _vm._v(" "),
-                _c("div", [
-                  _c("div", { staticClass: "text-truncate" }, [
-                    _vm._v(
-                      "Am I a good boy? The reason I ask is because someone\n                                        told me that people say this to all dogs, even if they aren't good..."
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-gray-500" }, [
-                    _vm._v("Chicken the Dog · 2w"),
-                  ]),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item text-center small text-gray-500",
-                attrs: { href: "#" },
-              },
-              [_vm._v("Read More Messages")]
-            ),
-          ]
-        ),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "topbar-divider d-none d-sm-block" }),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item dropdown no-arrow" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link dropdown-toggle",
-            attrs: {
-              href: "#",
-              id: "userDropdown",
-              role: "button",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false",
-            },
-          },
-          [
-            _c(
-              "span",
-              { staticClass: "mr-2 d-none d-lg-inline text-gray-600 small" },
-              [_vm._v("Douglas McGee")]
-            ),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "img-profile rounded-circle",
-              attrs: { src: "img/undraw_profile.svg" },
-            }),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "dropdown-menu dropdown-menu-right shadow animated--grow-in",
-            attrs: { "aria-labelledby": "userDropdown" },
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", {
-                staticClass: "fas fa-user fa-sm fa-fw mr-2 text-gray-400",
-              }),
-              _vm._v(
-                "\n                                Profile\n                            "
-              ),
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", {
-                staticClass: "fas fa-cogs fa-sm fa-fw mr-2 text-gray-400",
-              }),
-              _vm._v(
-                "\n                                Settings\n                            "
-              ),
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", {
-                staticClass: "fas fa-list fa-sm fa-fw mr-2 text-gray-400",
-              }),
-              _vm._v(
-                "\n                                Activity Log\n                            "
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-divider" }),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item",
-                attrs: {
-                  href: "#",
-                  "data-toggle": "modal",
-                  "data-target": "#logoutModal",
-                },
-              },
-              [
-                _c("i", {
-                  staticClass:
-                    "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400",
+      _c(
+        "div",
+        {
+          staticClass:
+            "dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in",
+          attrs: { "aria-labelledby": "searchDropdown" },
+        },
+        [
+          _c(
+            "form",
+            { staticClass: "form-inline mr-auto w-100 navbar-search" },
+            [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  staticClass: "form-control bg-light border-0 small",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Search for...",
+                    "aria-label": "Search",
+                    "aria-describedby": "basic-addon2",
+                  },
                 }),
-                _vm._v(
-                  "\n                                Logout\n                            "
-                ),
-              ]
-            ),
-          ]
-        ),
-      ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group-append" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                    },
+                    [_c("i", { staticClass: "fas fa-search fa-sm" })]
+                  ),
+                ]),
+              ]),
+            ]
+          ),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fas fa-user fa-sm fa-fw mr-2 text-gray-400" }),
+      _vm._v(
+        "\n                                Profile\n                            "
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" }),
+      _vm._v(
+        "\n                                Settings\n                            "
+      ),
     ])
   },
   function () {

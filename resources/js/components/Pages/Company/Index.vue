@@ -4,22 +4,8 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Company List.</h6>
-                     <button class="btn btn-info btn-sm">Add Company</button>
-                    <!-- <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div> -->
+                    <h6 class="m-0 font-weight-bold text-white">Company List</h6>
+                     <router-link :to="{name: 'AddCompany'}" class="btn bg-light btn-sm">Add Company</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -38,21 +24,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="user in companies" :key="user.id">
-                                    <td>{{user.id}}</td>
-                                    <td>{{user.name}}</td>
-                                    <td>{{user.address}}</td>
-                                    <td>{{user.contact_person}}</td>
-                                    <td>{{user.email}}</td>
-                                    <td>{{user.phone}}</td>
+                                <tr v-for="company in companies" :key="company.id">
+                                    <td>{{company.id}}</td>
+                                    <td>{{company.name}}</td>
+                                    <td>{{company.address}}</td>
+                                    <td>{{company.contact_person}}</td>
+                                    <td>{{company.email}}</td>
+                                    <td>{{company.phone}}</td>
                                     <td>
-                                        <i v-if="user.is_approved == 0" class="fa fa-check Yes"></i>
+                                        <i v-if="company.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
                                    
                                     <td>
-                                        <i class="far fa-edit"></i>
-                                        <i class="fas fa-trash-alt"></i>
+                                        <router-link :to="{name: 'company-edit', params: {id: company.id}}"><i class="far edit_icon fa-edit"></i></router-link>
+                                        <a href="#" @click="deleteCompany(company.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
@@ -97,9 +83,21 @@ export default {
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 5,
+                        // "bDestroy": true,                        
                     });
                     });
               })
+        },
+
+        deleteCompany(id){
+            axios.post(`delete-company/${id}`).then(res =>{
+                Toast.fire({
+                        icon: 'success',
+                        title: res.data.msg
+                });
+
+                this.loadCompany();
+            })
         }
 
     },
@@ -113,18 +111,31 @@ export default {
 
 <style scoped>
 table.dataTable thead th, table.dataTable thead td {
-    font-size: 12px;
+    font-size: 14px;
+    color: rgb(43, 43, 43);
 }
 
 .table td, .table th {
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #e3e6f0;
-    font-size: 13;
+    font-size: 14;
 }
 
+.edit_icon, .delete_icon{
+    font-size: 18px;
+    padding: 0px 3px;
+}
 
-@media only screen and (max-width: 800px){
+.edit_icon{
+    color: rgb(37, 102, 223);
+}
+
+.delete_icon{
+    color: rgb(238, 12, 12);
+}
+
+@media only screen and (max-width: 1000px){
 	.database__table{
     overflow-x: scroll;
 }

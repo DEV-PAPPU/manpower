@@ -5458,6 +5458,12 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
         return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Company_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Company/Add.vue */ "./resources/js/components/Pages/Company/Add.vue"));
       }
     }, {
+      path: '/company-edit/:id',
+      name: 'company-edit',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Company_Edit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Company/Edit.vue */ "./resources/js/components/Pages/Company/Edit.vue"));
+      }
+    }, {
       path: '/Passenger/add',
       name: 'AddPassenger',
       component: function component() {
@@ -5547,9 +5553,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       var commit = _ref.commit,
           dispatch = _ref.dispatch;
       commit('SET_AUTHENTICATED', true);
+      var token = localStorage.getItem('token');
       return axios.get('user', {
         headers: {
-          authorization: 'Bearer' + localStorage.getItem('token')
+          "Authorization": "Bearer ".concat(token)
         }
       }).then(function (res) {
         commit('SET_USER', res.data);
@@ -5558,7 +5565,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 
         if (_router_route__WEBPACK_IMPORTED_MODULE_2__["default"].currentRoute.name !== 'login') {
           _router_route__WEBPACK_IMPORTED_MODULE_2__["default"].push({
-            name: 'login'
+            name: 'Login'
           });
         }
 
@@ -45014,7 +45021,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21.4","_id":"axios@0.21.4","_inB
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Company_Edit_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
