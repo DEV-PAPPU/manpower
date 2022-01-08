@@ -1531,6 +1531,15 @@ var render = function () {
                   },
                   [_vm._v("Company List")]
                 ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "RequisitionList" } },
+                  },
+                  [_vm._v("Requisition")]
+                ),
               ],
               1
             ),

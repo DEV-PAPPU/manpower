@@ -86,6 +86,16 @@ const routes = new VueRouter({
                         name: 'Sector',
                         component: () => import("../components/Pages/Sector/Index.vue"),
                     },
+                    {
+                        path: '/addRequisition',
+                        name: 'addRequisition',
+                        component: () => import("../components/Pages/Requisition/Add.vue"),
+                    },
+                    {
+                        path: '/Requisitions',
+                        name: 'RequisitionList',
+                        component: () => import("../components/Pages/Requisition/Index.vue"),
+                    },
 
                  ]
             },

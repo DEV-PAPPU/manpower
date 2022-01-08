@@ -67,6 +67,7 @@
                     <router-link :to="{name: 'PassengerList'}" class="collapse-item">Passenger List</router-link>
                     <router-link :to="{name: 'AgentList'}" class="collapse-item">Agent</router-link>
                     <router-link :to="{name: 'Companies'}" class="collapse-item">Company List</router-link>
+                    <router-link :to="{name: 'RequisitionList'}" class="collapse-item">Requisition</router-link>
                 </div>
             </div>
         </li>
