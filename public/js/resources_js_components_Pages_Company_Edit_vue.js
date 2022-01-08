@@ -85,17 +85,18 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        name: '',
-        address: '',
+        company_name: '',
+        company_address: '',
         contact_person: '',
-        phone: '',
-        email: ''
+        company_phone: '',
+        company_email: '',
+        sector_id: ''
       },
       errors: ''
     };
   },
   methods: {
-    UpdateCompany: function UpdateCompany() {
+    updateCompany: function updateCompany() {
       var _this = this;
 
       var id = this.$route.params.id;
@@ -239,7 +240,7 @@ var render = function () {
               on: {
                 submit: function ($event) {
                   $event.preventDefault()
-                  return _vm.UpdateCompany.apply(null, arguments)
+                  return _vm.updateCompany.apply(null, arguments)
                 },
               },
             },
@@ -256,8 +257,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.name,
-                          expression: "form.name",
+                          value: _vm.form.company_name,
+                          expression: "form.company_name",
                         },
                       ],
                       staticClass: "form-control",
@@ -265,20 +266,24 @@ var render = function () {
                         placeholder: "Please enter company name",
                         type: "text",
                       },
-                      domProps: { value: _vm.form.name },
+                      domProps: { value: _vm.form.company_name },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "name", $event.target.value)
+                          _vm.$set(
+                            _vm.form,
+                            "company_name",
+                            $event.target.value
+                          )
                         },
                       },
                     }),
                     _vm._v(" "),
-                    _vm.errors.name
+                    _vm.errors.company_name
                       ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.name[0])),
+                          _vm._v(_vm._s(_vm.errors.company_name[0])),
                         ])
                       : _vm._e(),
                   ]),
@@ -295,8 +300,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.address,
-                          expression: "form.address",
+                          value: _vm.form.company_address,
+                          expression: "form.company_address",
                         },
                       ],
                       staticClass: "form-control",
@@ -304,18 +309,22 @@ var render = function () {
                         placeholder: "Please enter company address",
                         type: "text",
                       },
-                      domProps: { value: _vm.form.address },
+                      domProps: { value: _vm.form.company_address },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "address", $event.target.value)
+                          _vm.$set(
+                            _vm.form,
+                            "company_address",
+                            $event.target.value
+                          )
                         },
                       },
                     }),
                     _vm._v(" "),
-                    _vm.errors.address
+                    _vm.errors.company_address
                       ? _c("small", { staticClass: "form-text text-danger" }, [
                           _vm._v(_vm._s(_vm.errors.address[0])),
                         ])
@@ -377,8 +386,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.phone,
-                          expression: "form.phone",
+                          value: _vm.form.company_phone,
+                          expression: "form.company_phone",
                         },
                       ],
                       staticClass: "form-control",
@@ -386,20 +395,24 @@ var render = function () {
                         placeholder: "Please enter phone no",
                         type: "text",
                       },
-                      domProps: { value: _vm.form.phone },
+                      domProps: { value: _vm.form.company_phone },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "phone", $event.target.value)
+                          _vm.$set(
+                            _vm.form,
+                            "company_phone",
+                            $event.target.value
+                          )
                         },
                       },
                     }),
                     _vm._v(" "),
-                    _vm.errors.phone
+                    _vm.errors.company_phone
                       ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.phone[0])),
+                          _vm._v(_vm._s(_vm.errors.company_phone[0])),
                         ])
                       : _vm._e(),
                   ]),
@@ -414,8 +427,8 @@ var render = function () {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.email,
-                          expression: "form.email",
+                          value: _vm.form.company_email,
+                          expression: "form.company_email",
                         },
                       ],
                       staticClass: "form-control",
@@ -423,20 +436,24 @@ var render = function () {
                         placeholder: "Please enter email ",
                         type: "email",
                       },
-                      domProps: { value: _vm.form.email },
+                      domProps: { value: _vm.form.company_email },
                       on: {
                         input: function ($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.form, "email", $event.target.value)
+                          _vm.$set(
+                            _vm.form,
+                            "company_email",
+                            $event.target.value
+                          )
                         },
                       },
                     }),
                     _vm._v(" "),
-                    _vm.errors.email
+                    _vm.errors.company_email
                       ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.email[0])),
+                          _vm._v(_vm._s(_vm.errors.company_email[0])),
                         ])
                       : _vm._e(),
                   ]),

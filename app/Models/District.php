@@ -9,4 +9,5 @@ class District extends Model
 {
 
     protected  $guarded = [];
+    
 }

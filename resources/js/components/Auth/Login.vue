@@ -79,8 +79,8 @@ export default {
              const token = response.data.token;
              const user = response.data.user;
 
-
-             if(user){
+              //  if user role is not "user" then it will work
+             if(user.role !== 'user'){
                   this.$store.commit('SET_AUTHENTICATED',true);
                   this.$router.push({name:'Dashboard'});
                   this.$store.commit('SET_USER', response.data.user);
@@ -92,9 +92,18 @@ export default {
                     });
              }
 
+             else{
+
+                 Toast.fire({
+                        icon: 'error',
+                        title: 'The provided credentials are incorrect.'
+                    });
+
+             }
+
             })
 
-            .catch(e => {
+            .catch(() => {
                 
                 Toast.fire({
                         icon: 'error',

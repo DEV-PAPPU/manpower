@@ -4,8 +4,8 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Passenger List</h6>
-                    <router-link :to="{name: 'AddPassenger'}" class="btn bg-light btn-sm">Add Passenger</router-link>
+                    <h6 class="m-0 font-weight-bold text-white">Agent List</h6>
+                    <router-link :to="{name: 'AgentEntry'}" class="btn bg-light btn-sm">Add Agent</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -14,15 +14,11 @@
                             <thead>
                                 <tr>
                                     <th>Ser</th>
-                                    <th>Passenger Name & DOB</th>
-                                    <th>Passport Info</th>
-                                    <th>Email & Mobile</th>
-                                    <th>Father Name</th>
-                                    <th>Gurdian's No</th>
+                                    <th>Agent Name</th>
+                                    <th>Address</th>
                                     <th>Email & Mobile</th>
                                     <th>District</th>
-                                    <th>Passport Source</th>
-                                    <th>Agent Name</th>
+                                    <th>Area</th>
                                     <th>Is Approved</th>
                                     <th>Actions</th>
                                 </tr>
@@ -70,15 +66,15 @@ export default {
         return {
             form:{
             },
-            passengers:[]
+            agents:[]
         }
     },
 
     methods:{
         loadagents(){
             //API Call
-            axios.get("passengers").then((res)=>{
-                this.passengers = res.data;
+            axios.get("agents").then((res)=>{
+                this.agents = res.data;
                 setTimeout(() => {
                     $("#example").DataTable({
                         lengthMenu: [
@@ -92,7 +88,7 @@ export default {
         },
 
         deleteAgent(id){
-            axios.post(`delete-passenger/${id}`).then(res =>{
+            axios.post(`delete-agent/${id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
@@ -105,14 +101,15 @@ export default {
 
     mounted() {
         this.loadagents();
+            console.log('Component mounted.')
         }
+
 }
 </script>
 
 <style scoped>
 table.dataTable thead th, table.dataTable thead td {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
     color: rgb(43, 43, 43);
 }
 

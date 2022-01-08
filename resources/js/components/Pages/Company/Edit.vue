@@ -11,21 +11,21 @@
                     <!-- Card Body -->
                     <div class="card-body">
 
-                        <form @submit.prevent="UpdateCompany" >
+                        <form @submit.prevent="updateCompany" >
                               <div class="form-group row">
 
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="PerAddress">Company Name</label>
-                                            <input class="form-control" v-model="form.name" placeholder="Please enter company name" type="text" >
-                                            <small v-if="errors.name" class="form-text text-danger">{{ errors.name[0] }}</small>
+                                            <input class="form-control" v-model="form.company_name" placeholder="Please enter company name" type="text" >
+                                            <small v-if="errors.company_name" class="form-text text-danger">{{ errors.company_name[0] }}</small>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="PerAddress">Company Address</label>
-                                            <input class="form-control" v-model="form.address" placeholder="Please enter company address" type="text" >
-                                            <small v-if="errors.address" class="form-text text-danger">{{ errors.address[0] }}</small>
+                                            <input class="form-control" v-model="form.company_address" placeholder="Please enter company address" type="text" >
+                                            <small v-if="errors.company_address" class="form-text text-danger">{{ errors.address[0] }}</small>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -38,15 +38,15 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="PerAddress">Phone No </label>
-                                            <input class="form-control" v-model="form.phone" placeholder="Please enter phone no" type="text" >
-                                            <small v-if="errors.phone" class="form-text text-danger">{{ errors.phone[0] }}</small>
+                                            <input class="form-control" v-model="form.company_phone" placeholder="Please enter phone no" type="text" >
+                                            <small v-if="errors.company_phone" class="form-text text-danger">{{ errors.company_phone[0] }}</small>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input class="form-control" v-model="form.email" placeholder="Please enter email " type="email" >
-                                            <small v-if="errors.email" class="form-text text-danger">{{ errors.email[0] }}</small>
+                                            <input class="form-control" v-model="form.company_email" placeholder="Please enter email " type="email" >
+                                            <small v-if="errors.company_email" class="form-text text-danger">{{ errors.company_email[0] }}</small>
 
                                         </div>
                                     </div>
@@ -71,19 +71,21 @@ import axios from 'axios'
         data: () =>{
             return {
                 form:{
-                name: '',
-                address: '',
+                company_name: '',
+                company_address: '',
                 contact_person: '',
-                phone: '',
-                email: ''
+                company_phone: '',
+                company_email: '',
+                sector_id: ''
                },
                errors: '',
             }
         },
 
+
         methods:{
 
-            UpdateCompany(){
+            updateCompany(){
              
               let id = this.$route.params.id;
 

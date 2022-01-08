@@ -5446,6 +5446,18 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
         return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_UserManagement_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/UserManagement/Index.vue */ "./resources/js/components/Pages/UserManagement/Index.vue"));
       }
     }, {
+      path: '/district',
+      name: 'District',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_District_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/District/Index.vue */ "./resources/js/components/Pages/District/Index.vue"));
+      }
+    }, {
+      path: '/add-user',
+      name: 'AddUser',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_UserManagement_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/UserManagement/Add.vue */ "./resources/js/components/Pages/UserManagement/Add.vue"));
+      }
+    }, {
       path: '/companies',
       name: 'Companies',
       component: function component() {
@@ -5464,10 +5476,40 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
         return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Company_Edit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Company/Edit.vue */ "./resources/js/components/Pages/Company/Edit.vue"));
       }
     }, {
+      path: '/Passengers',
+      name: 'PassengerList',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Passenger_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Passenger/Index.vue */ "./resources/js/components/Pages/Passenger/Index.vue"));
+      }
+    }, {
       path: '/Passenger/add',
       name: 'AddPassenger',
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Passenger_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Passenger/Add.vue */ "./resources/js/components/Pages/Passenger/Add.vue"));
+      }
+    }, {
+      path: '/Agent',
+      name: 'AgentList',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Agent_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Agent/Index.vue */ "./resources/js/components/Pages/Agent/Index.vue"));
+      }
+    }, {
+      path: '/Agent-edit/:id',
+      name: 'AgentEdit',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Agent_Edit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Agent/Edit.vue */ "./resources/js/components/Pages/Agent/Edit.vue"));
+      }
+    }, {
+      path: '/AgentEntry',
+      name: 'AgentEntry',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Agent_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Agent/Add.vue */ "./resources/js/components/Pages/Agent/Add.vue"));
+      }
+    }, {
+      path: '/Sector',
+      name: 'Sector',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_Sector_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/Sector/Index.vue */ "./resources/js/components/Pages/Sector/Index.vue"));
       }
     }]
   }, {
@@ -45021,7 +45063,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21.4","_id":"axios@0.21.4","_inB
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Company_Edit_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_District_Index_vue":1,"resources_js_components_Pages_UserManagement_Add_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Company_Edit_vue":1,"resources_js_components_Pages_Passenger_Index_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Pages_Agent_Index_vue":1,"resources_js_components_Pages_Agent_Edit_vue":1,"resources_js_components_Pages_Agent_Add_vue":1,"resources_js_components_Pages_Sector_Index_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

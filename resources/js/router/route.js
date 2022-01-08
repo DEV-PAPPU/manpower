@@ -31,6 +31,16 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/UserManagement/Index.vue"),
                     },
                     {
+                        path: '/district',
+                        name: 'District',
+                        component: () => import("../components/Pages/District/Index.vue"),
+                    },
+                    {
+                        path: '/add-user',
+                        name: 'AddUser',
+                        component: () => import("../components/Pages/UserManagement/Add.vue"),
+                    },
+                    {
                         path: '/companies',
                         name: 'Companies',
                         component: () => import("../components/Pages/Company/Index.vue"),
@@ -46,9 +56,35 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/Company/Edit.vue"),
                     },
                     {
+                        path: '/Passengers',
+                        name: 'PassengerList',
+                        component: () => import("../components/Pages/Passenger/Index.vue"),
+                    },
+                    {
                         path: '/Passenger/add',
                         name: 'AddPassenger',
                         component: () => import("../components/Pages/Passenger/Add.vue"),
+                    },
+
+                    {
+                        path: '/Agent',
+                        name: 'AgentList',
+                        component: () => import("../components/Pages/Agent/Index.vue"),
+                    },
+                    {
+                        path: '/Agent-edit/:id',
+                        name: 'AgentEdit',
+                        component: () => import("../components/Pages/Agent/Edit.vue"),
+                    },
+                    {
+                        path: '/AgentEntry',
+                        name: 'AgentEntry',
+                        component: () => import("../components/Pages/Agent/Add.vue"),
+                    },
+                    {
+                        path: '/Sector',
+                        name: 'Sector',
+                        component: () => import("../components/Pages/Sector/Index.vue"),
                     },
 
                  ]

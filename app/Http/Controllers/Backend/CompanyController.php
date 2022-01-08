@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\District;
 
 class CompanyController extends Controller
 {
@@ -21,23 +22,22 @@ class CompanyController extends Controller
     public function store (Request $request){
        
         // dd($request->all());
+    
        
         $this->validate($request,[
-
-            'name' => 'required',
-            'address' => 'required',
+            'company_name' => 'required',
+            'company_address' => 'required',
             'contact_person' => 'required',
-            'phone' => 'required',
-            'email' => ['required', 'email', 'unique:companies'],
+            'company_phone' => 'required',
+            'company_email' => ['required', 'email', 'unique:companies'],
         ]);
     
          $company = new Company();
-         $company->name = $request->name;
-         $company->address = $request->address;
+         $company->company_name = $request->company_name;
+         $company->company_address = $request->company_address;
          $company->contact_person = $request->contact_person;
-         $company->phone = $request->phone;
-         $company->email = $request->email;
-    
+         $company->company_phone = $request->company_phone;
+         $company->company_email = $request->company_email;
          $company->save();
     
         return response()->json(['msg' => 'Company Created Sucess'], 200);
@@ -62,11 +62,11 @@ class CompanyController extends Controller
     {
 
          $company = Company::findOrfail($id);
-         $company->name = $request->name;
-         $company->address = $request->address;
-         $company->contact_person = $request->contact_person;
-         $company->phone = $request->phone;
-         $company->email = $request->email;
+         $company->company_name = $request->name;
+         $company->company_address = $request->address;
+         $company->company_contact_person = $request->contact_person;
+         $company->company_phone = $request->phone;
+         $company->company_email = $request->email;
          $company->save();
 
          return response()->json(['msg' => 'Company Updated Sucess'], 200);

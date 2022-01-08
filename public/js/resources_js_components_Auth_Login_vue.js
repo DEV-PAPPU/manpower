@@ -89,9 +89,9 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('sanctum/csrf-cookie').then(function (response) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('login', _this.form).then(function (response) {
           var token = response.data.token;
-          var user = response.data.user;
+          var user = response.data.user; //  if user role is not "user" then it will work
 
-          if (user) {
+          if (user.role !== 'user') {
             _this.$store.commit('SET_AUTHENTICATED', true);
 
             _this.$router.push({
@@ -105,8 +105,13 @@ __webpack_require__.r(__webpack_exports__);
               icon: 'success',
               title: 'Login Success.'
             });
+          } else {
+            Toast.fire({
+              icon: 'error',
+              title: 'The provided credentials are incorrect.'
+            });
           }
-        })["catch"](function (e) {
+        })["catch"](function () {
           Toast.fire({
             icon: 'error',
             title: 'The provided credentials are incorrect.'

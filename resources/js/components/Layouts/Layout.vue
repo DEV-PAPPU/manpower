@@ -25,8 +25,11 @@
         <!-- Sidebar -->
         <template class="left__sidebar">
             <transition name="slide-fade">
-                <template v-if="iSAdmin">
+                <template v-if="AuthUser.role == 'superadmin'">
                     <SuperAdminMenu />
+                </template>
+                <template v-if="AuthUser.role == 'admin'">
+                    <AdminMenu/>
                 </template>
             </transition>
 
@@ -150,8 +153,9 @@
 import axios from 'axios'
 import Dashboard from '../Pages/Dashboard/Dashboard.vue'
 import SuperAdminMenu from './Menus/SuperAdminMenus.vue'
+import AdminMenu from './Menus/AdminMenu.vue'
 export default {
-    components:{SuperAdminMenu, Dashboard},
+    components:{SuperAdminMenu, AdminMenu, Dashboard},
     data : () =>{
         return {
              text: 'hello',

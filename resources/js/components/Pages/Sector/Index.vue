@@ -4,8 +4,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Passenger List</h6>
-                    <router-link :to="{name: 'AddPassenger'}" class="btn bg-light btn-sm">Add Passenger</router-link>
+                    <h6 class="m-0 font-weight-bold text-white">District List</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -14,34 +13,17 @@
                             <thead>
                                 <tr>
                                     <th>Ser</th>
-                                    <th>Passenger Name & DOB</th>
-                                    <th>Passport Info</th>
-                                    <th>Email & Mobile</th>
-                                    <th>Father Name</th>
-                                    <th>Gurdian's No</th>
-                                    <th>Email & Mobile</th>
-                                    <th>District</th>
-                                    <th>Passport Source</th>
-                                    <th>Agent Name</th>
-                                    <th>Is Approved</th>
+                                    <th>District Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in agents" :key="item.id">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.agent_name}}</td>
-                                    <td>{{item.agent_address}}</td>
-                                    <td>{{item.agent_email}} <br> {{item.agent_phone}}</td>
-                                    <td>{{item.district.district_name}}</td>
-                                    <td>{{item.agent_area}}</td>
+                                <tr v-for="setor in setors" :key="setor.id">
+                                    <td>{{setor.id}}</td>
+                                    <td>{{setor.setor_name}}</td>
                                     <td>
-                                        <i v-if="item.agent_is_approved == 0" class="fa fa-check Yes"></i>
-                                        <i v-else class="fas fa-times"></i>
-                                    </td>
-                                    <td>
-                                        <router-link :to="{name: 'AgentEdit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deleteAgent(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <i class="far edit_icon fa-edit"></i>
+                                        <a href="#" @click="deletesetor(setor.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
@@ -57,7 +39,6 @@
 <script>
 
 //Bootstrap and jQuery libraries
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
@@ -68,17 +49,17 @@ import axios from 'axios';
 export default {
     data : () =>{
         return {
-            form:{
-            },
-            passengers:[]
+            setors:[]
         }
     },
 
     methods:{
-        loadagents(){
+        loadSetor(){
             //API Call
-            axios.get("passengers").then((res)=>{
-                this.passengers = res.data;
+            axios.get("setors")
+            .then((res)=>
+            {
+                this.setors = res.data;
                 setTimeout(() => {
                     $("#example").DataTable({
                         lengthMenu: [
@@ -86,33 +67,35 @@ export default {
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 5,
+                        // "bDestroy": true,                        
                     });
                     });
               })
         },
 
-        deleteAgent(id){
-            axios.post(`delete-passenger/${id}`).then(res =>{
+        deletesetor(id){
+            axios.post(`delete-setor/${id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-                this.loadagents();
+                this.loadSetor();
             })
         }
+
     },
 
     mounted() {
-        this.loadagents();
+        this.loadSetor();
         }
+
 }
 </script>
 
 <style scoped>
 table.dataTable thead th, table.dataTable thead td {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
     color: rgb(43, 43, 43);
 }
 

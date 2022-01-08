@@ -73,6 +73,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //Bootstrap and jQuery libraries
  //Datatable Modules
 
@@ -27119,22 +27121,24 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.companies, function (company) {
-                    return _c("tr", { key: company.id }, [
-                      _c("td", [_vm._v(_vm._s(company.id))]),
+                  _vm._l(_vm.companies, function (item) {
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(company.name))]),
+                      _c("td", [_vm._v(_vm._s(item.company_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(company.address))]),
+                      _c("td", [_vm._v(_vm._s(item.company_address))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(company.contact_person))]),
+                      _c("td", [_vm._v(_vm._s(item.contact_person))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(company.email))]),
+                      _c("td", [_vm._v(_vm._s(item.company_email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(company.phone))]),
+                      _c("td", [_vm._v(_vm._s(item.company_phone))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.sector_id))]),
                       _vm._v(" "),
                       _c("td", [
-                        company.is_approved == 0
+                        item.is_approved == 0
                           ? _c("i", { staticClass: "fa fa-check Yes" })
                           : _c("i", { staticClass: "fas fa-times" }),
                       ]),
@@ -27148,7 +27152,7 @@ var render = function () {
                               attrs: {
                                 to: {
                                   name: "company-edit",
-                                  params: { id: company.id },
+                                  params: { id: item.id },
                                 },
                               },
                             },
@@ -27161,7 +27165,7 @@ var render = function () {
                               attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deleteCompany(company.id)
+                                  return _vm.deleteCompany(item.id)
                                 },
                               },
                             },
@@ -27204,6 +27208,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mobile")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Sector")]),
         _vm._v(" "),
         _c("th", [_vm._v("Is Approved")]),
         _vm._v(" "),

@@ -19,26 +19,28 @@
                                     <th>Contact Person</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
+                                    <th>Sector</th>
                                     <th>Is Approved</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="company in companies" :key="company.id">
-                                    <td>{{company.id}}</td>
-                                    <td>{{company.name}}</td>
-                                    <td>{{company.address}}</td>
-                                    <td>{{company.contact_person}}</td>
-                                    <td>{{company.email}}</td>
-                                    <td>{{company.phone}}</td>
+                                <tr v-for="item in companies" :key="item.id">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.company_name}}</td>
+                                    <td>{{item.company_address}}</td>
+                                    <td>{{item.contact_person}}</td>
+                                    <td>{{item.company_email}}</td>
+                                    <td>{{item.company_phone}}</td>
+                                    <td>{{item.sector_id}}</td>
                                     <td>
-                                        <i v-if="company.is_approved == 0" class="fa fa-check Yes"></i>
+                                        <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
                                    
                                     <td>
-                                        <router-link :to="{name: 'company-edit', params: {id: company.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deleteCompany(company.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <router-link :to="{name: 'company-edit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
+                                        <a href="#" @click="deleteCompany(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 

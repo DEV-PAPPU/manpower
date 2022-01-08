@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\District;
+use App\Models\Sector;
 
-class DistrictController extends Controller
+class SetorController extends Controller
 {
-
     public function index(){
         
-        $districts = District::all();
+        $sector = Sector::latest()->get();
 
-        return response()->json($districts, 200);
+        return response()->json($sector, 200);
     }
 
     public function store (Request $request){

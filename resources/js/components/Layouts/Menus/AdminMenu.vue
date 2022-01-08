@@ -75,27 +75,10 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
-            All Settings
-        </div>
+       
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Seeting</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <router-link :to="{name: 'UserManagement'}" class="collapse-item">User Management</router-link>
-                    <router-link :to="{name: 'District'}" class="collapse-item">District</router-link>
-                    <router-link :to="{name: 'Sector'}" class="collapse-item">Setor Lists</router-link>
-                    <!-- <a class="collapse-item" href="cards.html">Lookup Data</a> -->
-                </div>
-            </div>
-        </li>
+        
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
