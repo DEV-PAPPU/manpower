@@ -56,7 +56,7 @@ export default {
     methods:{
         loadSetor(){
             //API Call
-            axios.get("setors")
+            axios.get("sectors")
             .then((res)=>
             {
                 this.setors = res.data;
@@ -74,7 +74,7 @@ export default {
         },
 
         deletesetor(id){
-            axios.post(`delete-setor/${id}`).then(res =>{
+            axios.post(`delete-sector/${id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg

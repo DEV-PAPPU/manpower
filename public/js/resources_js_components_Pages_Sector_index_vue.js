@@ -76,7 +76,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //API Call
-      axios__WEBPACK_IMPORTED_MODULE_4___default().get("setors").then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("sectors").then(function (res) {
         _this.setors = res.data;
         setTimeout(function () {
           jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
@@ -90,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
     deletesetor: function deletesetor(id) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-setor/".concat(id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-sector/".concat(id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
