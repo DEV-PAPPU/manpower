@@ -9,37 +9,31 @@
             <!-- Card Body -->
             <div class="card-body">
                 <div class="form">
-                    <form @submit.prevent="addPassenger">
-                        <form>
+                        <form @submit.prevent="addPassenger">
                             <div class="form-group row">
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PassengerName">Passenger Name </label>
-                                        <input v-model="form.passenger_name" class="form-control" required id="PassengerName"
-                                            name="PassengerName" placeholder="Please enter PassengerName " tabindex=""
-                                            type="text" value="">
+                                        <input v-model="form.passenger_name" class="form-control" required type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="FatherName">Father's Name </label>
-                                        <input v-model="form.passenger_father_name" class="form-control" required id="FatherName" name="FatherName"
-                                            placeholder="Please enter FatherName " tabindex="" type="text" value="">
+                                        <input v-model="form.passenger_father_name" class="form-control" required  type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PhoneNo1">Phone No (Primary)</label>
-                                        <input v-model="form.passenger_phone"  class="form-control" required id="PhoneNo1" name="PhoneNo1"
-                                            placeholder="Please enter PhoneNo1 " tabindex="" type="text" value="">
+                                        <input v-model="form.passenger_phone" class="form-control" type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PerAddress">Gurdian's No </label>
-                                        <input class="form-control" required id="EmrgncyPhoneNo"
-                                            name="EmrgncyPhoneNo" placeholder="Please enter Gurdian's No " type="text">
+                                        <input v-model="form.passenger_gurdian_no" class="form-control" required  type="text">
                                     </div>
                                 </div>
                                 
@@ -48,40 +42,34 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="DOB">Date of Birth </label>
-                                        <input  class="form-control dtpicker" id="DOB" name="DOB"
-                                            placeholder="Please enter DOB " tabindex="" type="date" value="">
+                                        <input v-model="form.passenger_date_of_birth"  class="form-control dtpicker" type="date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportNo">Passport No </label>
-                                        <input  class="form-control" required id="PassportNo" name="PassportNo"
-                                            placeholder="Please enter PassportNo " tabindex="" type="text" value="">
+                                        <input v-model="form.passport_no" class="form-control" required type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportExpireDate">Passport Expire Date </label>
-                                        <input  class="form-control dtpicker" id="PassportExpireDate"
-                                            name="PassportExpireDate" placeholder="Please enter passport expire date"
-                                         type="text" value="">
+                                        <input v-model="form.passport_expire_date" class="form-control dtpicker" type="date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportNo">Old Passport No </label>
-                                        <input  class="form-control" required id="OldPassportNo"
-                                            name="OldPassportNo" placeholder="Please enter OldPassportNo"
-                                            type="text" value="">
+                                        <input v-model="form.old_passport_no" class="form-control" required type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="Gender">Gender </label>
-                                        <select  class="form-control filter-select" id="Gender" required>
-                                            <option value="">=== Select ===</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
+                                        <select v-model="form.passenger_gender" class="form-control filter-select" required>
+                                            <option value="">-- Select --</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
                                         </select>
 
 
@@ -90,10 +78,10 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PerDistrictId">District </label>
-                                        <select  class="form-control filter-select" required>
-                                            <option value="">=== Select ===</option>
+                                        <select v-model="form.district_id" class="form-control filter-select" required>
+                                            <option value="">-- Select --</option>
                                             <option v-for="district in districts" :value="district.id"
-                                                :key="district.id">{{district.name}}</option>
+                                                :key="district.id">{{district.district_name}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -103,12 +91,11 @@
                                     <div class="form-group">
                                         <label for="PassportSource">Passport Source</label>
 
-                                        <select  class="form-control filter-select" required id="PassportSource"
-                                            name="PassportSource" tabindex="">
+                                        <select v-model="form.passport_source"  class="form-control filter-select" required>
                                             <option value="">=== Select ===</option>
-                                            <option value="1">Self</option>
-                                            <option value="2">Process</option>
-                                            <option value="3">Agent</option>
+                                            <option value="self">Self</option>
+                                            <option value="process">Process</option>
+                                            <option value="agent">Agent</option>
                                         </select>
                                     </div>
                                 </div>
@@ -116,8 +103,8 @@
                                     <div class="form-group">
                                         <label for="AgentId">Agent Name</label>
 
-                                        <select  class="form-control" required>
-                                            <option value="">=== Select ===</option>
+                                        <select v-model="form.agent_id"  class="form-control" required>
+                                            <option value="">-- Select --</option>
                                             <option value="none">None</option>
                                             <option v-for="item in agents" :key="item.id" :value="item.id">{{item.agent_name}}</option>
                                         </select>
@@ -127,8 +114,8 @@
                                 <div class="col-md-3">
                                     <div class="skin skin-square square-skin">
                                         <label>Is Approved</label>
-                                         <select  class="form-control filter-select">
-                                            <option value="">=== Select ===</option>
+                                         <select v-model="form.is_approved" class="form-control filter-select">
+                                            <option value="">-- Select --</option>
                                             <option value="0">Approved</option>
                                             <option value="1">Pending</option>
                                         </select>
@@ -157,7 +144,6 @@
                                 </div>
                             </div>
                         </form>
-                    </form>
                 </div>
 
             </div>
@@ -167,6 +153,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data : () =>{
         return {
@@ -181,7 +168,6 @@ export default {
                 passport_expire_date: '',
                 old_passport_no: '',
                 passenger_gender: '',
-                passenger_area: '',
                 is_approved: '',
                 district_id: '',
                 agent_id: '',
@@ -199,15 +185,45 @@ export default {
     methods:{
 
         addPassenger(){
+             
+                // let data = new FormData();
+                // data.append('passenger_name', this.form.passenger_name);
+                // data.append('passenger_photo', document.getElementById('file').files[0])
+
+            axios.post('add-passenger', this.form).then(response =>{
+                console.log(response)
+            })
 
         },
 
-        changeImg(){
+        changeImg(e){
             var image = document.getElementById('file');
-            let form_img  = this.form.passenger_photo = image.files[0];
+            // this.form.passenger_photo = image.files[0];
+            let form_img  = image.files[0];
             var output = document.getElementById('uploadPreview');
             output.src = URL.createObjectURL(form_img);
+
+            let file = e.target.files[0];
+                let reader = new FileReader();  
+
+                if(file['size'] < 2111775)
+                {
+                    reader.onloadend = (file) => {
+                    //console.log('RESULT', reader.result)
+                     this.form.passenger_photo = reader.result;
+                    }              
+                     reader.readAsDataURL(file);
+                }else{
+                    alert('File size can not be bigger than 2 MB')
+                }
         }
+        // changeImg(e){
+        //     var image = document.getElementById('file');
+        //     this.form.passenger_photo = image.files[0];
+        //     let form_img  = image.files[0];
+        //     var output = document.getElementById('uploadPreview');
+        //     output.src = URL.createObjectURL(form_img);
+        // }
 
     },
 

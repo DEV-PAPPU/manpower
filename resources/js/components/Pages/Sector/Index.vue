@@ -4,7 +4,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">District List</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Sector List</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -13,17 +13,17 @@
                             <thead>
                                 <tr>
                                     <th>Ser</th>
-                                    <th>District Name</th>
+                                    <th>Sector Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="setor in setors" :key="setor.id">
-                                    <td>{{setor.id}}</td>
-                                    <td>{{setor.setor_name}}</td>
+                                <tr v-for="sector in setors" :key="sector.id">
+                                    <td>{{sector.id}}</td>
+                                    <td>{{sector.sector_name}}</td>
                                     <td>
                                         <i class="far edit_icon fa-edit"></i>
-                                        <a href="#" @click="deletesetor(setor.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <a href="#" @click="deletesetor(sector.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 

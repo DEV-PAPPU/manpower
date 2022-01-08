@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sector;
 
-class SetorController extends Controller
+class SectorController extends Controller
 {
     public function index(){
         

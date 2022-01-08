@@ -97,7 +97,7 @@ export default {
                  Toast.fire({
                         icon: 'error',
                         title: 'The provided credentials are incorrect.'
-                    });
+                 });
 
              }
 

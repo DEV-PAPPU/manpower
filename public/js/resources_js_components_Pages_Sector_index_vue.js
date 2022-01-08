@@ -27083,11 +27083,11 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.setors, function (setor) {
-                    return _c("tr", { key: setor.id }, [
-                      _c("td", [_vm._v(_vm._s(setor.id))]),
+                  _vm._l(_vm.setors, function (sector) {
+                    return _c("tr", { key: sector.id }, [
+                      _c("td", [_vm._v(_vm._s(sector.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(setor.setor_name))]),
+                      _c("td", [_vm._v(_vm._s(sector.sector_name))]),
                       _vm._v(" "),
                       _c("td", [
                         _c("i", { staticClass: "far edit_icon fa-edit" }),
@@ -27098,7 +27098,7 @@ var render = function () {
                             attrs: { href: "#" },
                             on: {
                               click: function ($event) {
-                                return _vm.deletesetor(setor.id)
+                                return _vm.deletesetor(sector.id)
                               },
                             },
                           },
@@ -27134,7 +27134,7 @@ var staticRenderFns = [
       },
       [
         _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-          _vm._v("District List"),
+          _vm._v("Sector List"),
         ]),
       ]
     )
@@ -27147,7 +27147,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Ser")]),
         _vm._v(" "),
-        _c("th", [_vm._v("District Name")]),
+        _c("th", [_vm._v("Sector Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")]),
       ]),
