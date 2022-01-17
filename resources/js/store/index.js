@@ -10,6 +10,7 @@ const store = new Vuex.Store({
       loading:false,
       Toast:'',
       Toastmassage:'',
+      visaFormdata:[],
     },
     getters: {
       get_Loading(state){
@@ -28,6 +29,9 @@ const store = new Vuex.Store({
       Get_TOAST_MASSAGE: state => {
           return state.Toastmassage;
       },
+      Get_VisaFormdata: state => {
+          return state.visaFormdata;
+      },
     },
     mutations:{
         SET_LOADING(state, data){
@@ -44,6 +48,9 @@ const store = new Vuex.Store({
         },
         SET_TOAST_MASSAGE(state,data){
             state.Toastmassage = data;
+        },
+        SET_VisaFormdata(state,data){
+            state.visaFormdata = data;
         },
     },
     actions:{

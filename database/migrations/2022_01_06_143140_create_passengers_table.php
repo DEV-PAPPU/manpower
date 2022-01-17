@@ -17,18 +17,18 @@ class CreatePassengersTable extends Migration
             $table->id();
             $table->string('passenger_name');
             $table->string('passenger_father_name');
-            $table->string('passenger_gurdian_no');
-            $table->string('passenger_photo');
+            $table->string('passenger_gurdian_no')->nullable();
+            $table->string('passenger_photo')->nullable();
+            $table->string('passenger_phone');
             $table->string('passenger_date_of_birth');
             $table->string('passport_no');
-            $table->string('passport_source');
+            $table->string('passport_source')->nullable();
             $table->string('passport_expire_date');
             $table->string('old_passport_no')->nullable();
             $table->string('passenger_gender');
-            $table->string('passenger_area');
-            $table->integer('is_approved')->default(0);
+            $table->integer('is_approved')->nullable();
             $table->unsignedInteger('district_id');
-            $table->unsignedInteger('agent_id');
+            $table->unsignedInteger('agent_id')->nullable();
             $table->timestamps();
         });
     }

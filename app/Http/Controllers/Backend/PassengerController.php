@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Passenger;
-
+use DB;
 class PassengerController extends Controller
 {
-    
     public function index(){
         
         $passengers = Passenger::latest()->get();
-        // $passengers = DB::table('passengers')
-        //             ->leftJoin('districts', 'passengers.id', '=', 'district_id')
-        //             // ->select('passengers.id','passengers.name', 'passengers.email', 'districts.name');
-        //             ->get();
+        $passengers = DB::table('passengers')
+                    ->leftJoin('agents', 'agents.id', '=', 'passengers.agent_id')
+                    ->leftJoin('districts', 'districts.id', '=', 'passengers.district_id')
+                    ->select('passengers.id','passengers.passenger_name', 'passengers.passenger_father_name',
+                    'passengers.passenger_date_of_birth', 'passengers.passenger_gurdian_no','passengers.passenger_gender',
+                    'passengers.passport_source','passengers.passport_no','passengers.is_approved','passengers.old_passport_no',
+                    'passengers.passenger_phone','districts.district_name', 'agents.agent_name')
+                    ->get();
 
         return response()->json($passengers, 200);
     }
@@ -23,7 +26,7 @@ class PassengerController extends Controller
 
     public function store (Request $request){
        
-        dd($request->all());
+        // dd($request->all());
        
         // $this->validate($request,[
 
@@ -46,7 +49,7 @@ class PassengerController extends Controller
          $passenger->passport_source = $request->passport_source;
          $passenger->passenger_gender = $request->passenger_gender;
          $passenger->passenger_phone = $request->passenger_phone;
-         $passenger->passenger_is_approved = $request->passenger_is_approved;
+         $passenger->is_approved = $request->is_approved;
          $passenger->district_id = $request->district_id;
          $passenger->agent_id = $request->agent_id;
 
@@ -55,7 +58,7 @@ class PassengerController extends Controller
             $image = $request->passenger_photo;
             $image_new_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('storage/images/', $image_new_name);
-            $category->image = '/storage/images/' . $image_new_name;
+            $passenger->passenger_photo = '/storage/images/' . $image_new_name;
             $passenger->save();
         }
 
@@ -66,39 +69,50 @@ class PassengerController extends Controller
 
     public function edit($id)
     {
-        $passenger = passenger::find($id);
+        $passenger = Passenger::find($id);
         return response()->json($passenger, 200);
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\passenger  $passenger
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
 
-         $passenger = passenger::findOrfail($id);
-         if($request->hasFile('image')){
+        // dd($request->all());
 
-            $categoryImage = $category->image;
-            $imagePath = public_path($categoryImage);
+         $passenger = Passenger::findOrfail($id);
+         $passenger->passenger_name = $request->passenger_name;
+         $passenger->passenger_father_name = $request->passenger_father_name;
+         $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
+         $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
+         $passenger->passport_expire_date = $request->passport_expire_date;
+         $passenger->passport_no = $request->passport_no;
+         $passenger->old_passport_no = $request->old_passport_no;
+         $passenger->passport_source = $request->passport_source;
+         $passenger->passenger_gender = $request->passenger_gender;
+         $passenger->passenger_phone = $request->passenger_phone;
+         $passenger->is_approved = $request->is_approved;
+         $passenger->district_id = $request->district_id;
+         $passenger->agent_id = $request->agent_id;
+         $passenger->save();
 
-            if ($categoryImage && file_exists($imagePath)) {
+         if($request->hasFile('passenger_photo')){
+
+            $passengerImage = $passenger->image;
+            $imagePath = public_path($passengerImage);
+
+            if ($passengerImage && file_exists($imagePath)) {
                 unlink($imagePath);
             }
 
-            $image = $request->image;
+            $image = $request->passenger_photo;
             $image_new_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('storage/images/', $image_new_name);
-            $category->image = '/storage/images/' . $image_new_name;
-            $category->save();
+            $passenger->passenger_photo = '/storage/images/' . $image_new_name;
+            $passenger->save();
         }
 
-         return response()->json(['msg' => 'passenger Updated Sucess'], 200);
+         return response()->json(['msg' => 'Passenger Updated Sucess'], 200);
 
     }
 

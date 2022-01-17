@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="">
-            <div class="card shadow mb-4">
+        <div class="row">
+            <div class="ml-2 card shadow mb-4 col-md-7 mr-5">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Sector List</h6>
@@ -9,7 +9,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="database__table">
-                        <table class="table table-hover table-bordered" id="example">
+                        <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
                                     <th>Ser</th>
@@ -22,14 +22,43 @@
                                     <td>{{sector.id}}</td>
                                     <td>{{sector.sector_name}}</td>
                                     <td>
-                                        <i class="far edit_icon fa-edit"></i>
-                                        <a href="#" @click="deletesetor(sector.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <button @click="edit(sector)" ><i class="far edit_icon fa-edit"></i></button>
+                                        <a href="#" @click="deletesetor(sector)"><i
+                                                class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 col-md-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-white">Sector List</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="form-group">
+                                    <label for="PerAddress">Company Name</label>
+                                    <input class="form-control" v-model="form.sector_name" type="text" required>
+                                    <small v-if="errors.sector_name"
+                                        class="form-text text-danger">{{ errors.sector_name[0] }}</small>
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex gap-3" style="clear:both;">
+                                <button v-if="isEdit" class="btn btn-success" @click="update">Update</button>
+                                <button v-else class="btn btn-success" @click.prevent="addSector">Save Changes</button>
+                                <button class="btn btn-danger" type="reset">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -49,7 +78,13 @@ import axios from 'axios';
 export default {
     data : () =>{
         return {
-            setors:[]
+            form:{
+             sector_name: ''
+            },
+            setors:[],
+            errors: '',
+            isEdit: false,
+            sector_id:'',
         }
     },
 
@@ -61,29 +96,75 @@ export default {
             {
                 this.setors = res.data;
                 setTimeout(() => {
-                    $("#example").DataTable({
+                    $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 5,
+                        // destroy: true,
+                        orderCellsTop: true,
                         // "bDestroy": true,                        
                     });
                     });
               })
         },
 
-        deletesetor(id){
+        addSector(){
+
+            axios.post('add-sector', this.form).then(response =>{
+               
+                Toast.fire({
+                        icon: 'success',
+                        title: response.data.msg
+                });
+
+                this.loadSetor();
+            })
+            .catch(e => {
+                     this.errors = e.response.data.errors                     
+                });
+
+        },
+
+        edit(sector){
+         this.isEdit = true
+         this.sector_id = sector.id;
+         this.form = sector;
+
+        },
+
+        update(){
+            let id = this.sector_id
+            axios.post(`update-sector/${id}`,this.form).then(response =>{
+                Toast.fire({
+                        icon: 'success',
+                        title: response.data.msg
+                });
+
+                this.isEdit = false;
+                this.form = '';
+                this.loadSetor();
+            })
+
+            .catch(e => {
+                     this.errors = e.response.data.errors                     
+            });
+        },
+
+        deletesetor(sector){
+            let id = sector.id
             axios.post(`delete-sector/${id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-                this.loadSetor();
-            })
-        }
+            });
 
+            let index = this.setors.indexOf(sector);
+            this.setors.splice(index, 1);
+        }
     },
 
     mounted() {
@@ -123,5 +204,9 @@ table.dataTable thead th, table.dataTable thead td {
 	.database__table{
     overflow-x: scroll;
 }
+}
+
+.card{
+    padding: 0px;
 }
 </style>

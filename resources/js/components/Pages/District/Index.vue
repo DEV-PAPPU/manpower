@@ -24,7 +24,7 @@
                                     <td>{{district.district_name}}</td>
                                     <td>
                                         <router-link :to="{name: 'district-edit', params: {id: district.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deletedistrict(district.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <a href="#" @click="deletedistrict(district)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
@@ -75,14 +75,16 @@ export default {
               })
         },
 
-        deletedistrict(id){
-            axios.post(`delete-districts/${id}`).then(res =>{
+        deletedistrict(district){
+            axios.post(`delete-districts/${district.id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-                this.loadDistrict();
+                
+                let index = this.districts.indexOf(district);
+                this.districts.splice(index, 1);
             })
         }
 

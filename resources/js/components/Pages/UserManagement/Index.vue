@@ -10,7 +10,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="user__table">
-                        <table class="table table-hover table-bordered" id="example">
+                        <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
                                     <th>Ser</th>
@@ -27,11 +27,11 @@
                                     <td>{{user.id}}</td>
                                     <td>{{user.name}}</td>
                                     <td>{{user.email}}</td>
-                                    <td>{{user.email}}</td>
+                                    <td>{{user.phone}}</td>
                                     <td>{{user.role}}</td>
                                     <td>{{user.status}}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-user">Edit</button>
+                                        <router-link :to="{name: 'UserEdit', params: {id: user.id}}" class="mr-2 btn btn-primary btn-user"><i class="far edit_icon fa-edit pr-2"></i>Edit</router-link>
                                         <button class="btn btn-danger btn-user">Delete</button>
                                     </td>
                                 </tr>
@@ -74,7 +74,7 @@ export default {
             {
                 this.users = res.data;
                 setTimeout(() => {
-                    $("#example").DataTable({
+                    $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],

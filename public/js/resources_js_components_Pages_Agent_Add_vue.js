@@ -101,10 +101,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -287,7 +283,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { placeholder: "Please enter name", type: "text" },
+                      attrs: { required: "", type: "text" },
                       domProps: { value: _vm.form.agent_name },
                       on: {
                         input: function ($event) {
@@ -310,7 +306,7 @@ var render = function () {
                 _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "agent_email" } }, [
-                      _vm._v("agent_email"),
+                      _vm._v("Agent Email"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -323,10 +319,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        placeholder: "Please enter agent_email ",
-                        type: "agent_email",
-                      },
+                      attrs: { required: "", type: "agent_email" },
                       domProps: { value: _vm.form.agent_email },
                       on: {
                         input: function ($event) {
@@ -349,7 +342,7 @@ var render = function () {
                 _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("agent_phone No (Primary)"),
+                      _vm._v("Phone No (Primary)"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -362,10 +355,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        placeholder: "Please enter agent_phone",
-                        type: "text",
-                      },
+                      attrs: { required: "", type: "text" },
                       domProps: { value: _vm.form.agent_phone },
                       on: {
                         input: function ($event) {
@@ -426,7 +416,7 @@ var render = function () {
                       },
                       [
                         _c("option", { attrs: { value: "" } }, [
-                          _vm._v("=== Select District ==="),
+                          _vm._v("-- Select District --"),
                         ]),
                         _vm._v(" "),
                         _vm._l(_vm.districts, function (district) {
@@ -454,7 +444,7 @@ var render = function () {
                 _c("div", { staticClass: "col-md-5" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("agent_area"),
+                      _vm._v("Agent Area"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -467,10 +457,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        placeholder: "Please enter agent_area",
-                        type: "text",
-                      },
+                      attrs: { type: "text" },
                       domProps: { value: _vm.form.agent_area },
                       on: {
                         input: function ($event) {
@@ -481,19 +468,13 @@ var render = function () {
                         },
                       },
                     }),
-                    _vm._v(" "),
-                    _vm.errors.agent_area
-                      ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.agent_area[0])),
-                        ])
-                      : _vm._e(),
                   ]),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-7" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Office agent_address"),
+                      _vm._v("Office  Agent Address"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -506,10 +487,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        placeholder: "Please enter agent_address",
-                        type: "text",
-                      },
+                      attrs: { type: "text" },
                       domProps: { value: _vm.form.agent_address },
                       on: {
                         input: function ($event) {
@@ -524,12 +502,6 @@ var render = function () {
                         },
                       },
                     }),
-                    _vm._v(" "),
-                    _vm.errors.agent_address
-                      ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.agent_address[0])),
-                        ])
-                      : _vm._e(),
                   ]),
                 ]),
                 _vm._v(" "),
@@ -574,7 +546,7 @@ var render = function () {
                       },
                       [
                         _c("option", { attrs: { value: "" } }, [
-                          _vm._v("=== Select Status ==="),
+                          _vm._v("-- Select Status --"),
                         ]),
                         _vm._v(" "),
                         _c("option", { attrs: { value: "0" } }, [

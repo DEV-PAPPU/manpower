@@ -19,13 +19,37 @@ class SectorController extends Controller
        
         $this->validate($request,[
 
-            'district_name' => 'required',
+            'sector_name' => 'required',
         ]);
     
-         $district = new District();
-         $district->district_name = $request->name;
-         $district->save();
+         $sector = new Sector();
+         $sector->sector_name = $request->sector_name;
+         $sector->save();
     
-        return response()->json(['success' => 'District Created Sucess'], 200);
+        return response()->json(['msg' => 'Sector Created Sucess'], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+         $sector = Sector::findOrfail($id);
+         $sector->sector_name = $request->sector_name;
+         $sector->save();
+
+         return response()->json(['msg' => 'Sector Updated Sucess'], 200);
+
+    }
+
+    public function destroy($id)
+    {
+        $sector = Sector::findOrfail($id);
+
+        if($sector){
+            $sector->delete();
+
+            return response()->json(['msg' => 'Sector Delete Sucess'], 200);
+        }else {
+            return response()->json('failed', 404);
+        }
     }
 }

@@ -41,6 +41,11 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/UserManagement/Add.vue"),
                     },
                     {
+                        path: '/edit-user/:id',
+                        name: 'UserEdit',
+                        component: () => import("../components/Pages/UserManagement/Edit"),
+                    },
+                    {
                         path: '/companies',
                         name: 'Companies',
                         component: () => import("../components/Pages/Company/Index.vue"),
@@ -66,6 +71,21 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/Passenger/Add.vue"),
                     },
 
+                    {
+                        path: '/passenger-edit/:id',
+                        name: 'PassengerEdit',
+                        component: () => import("../components/Pages/Passenger/Edit.vue"),
+                    },
+                    {
+                        path: '/Passenger/file/:id',
+                        name: 'PassengerFile',
+                        component: () => import("../components/Pages/Passenger/PassengerInfo/Index.vue"),
+                    },
+                    {
+                        path: '/Passenger/file/add/:id',
+                        name: 'AddPassengerFile',
+                        component: () => import("../components/Pages/Passenger/PassengerInfo/Add.vue"),
+                    },
                     {
                         path: '/Agent',
                         name: 'AgentList',
@@ -95,6 +115,31 @@ const routes = new VueRouter({
                         path: '/Requisitions',
                         name: 'RequisitionList',
                         component: () => import("../components/Pages/Requisition/Index.vue"),
+                    },
+                    {
+                        path: '/Edit/Requisitions/:id',
+                        name: 'EditRequisition',
+                        component: () => import("../components/Pages/Requisition/Edit.vue"),
+                    },
+                    {
+                        path: '/Requisition/visa-trade/:id',
+                        name: 'RequisitionVisa',
+                        component: () => import("../components/Pages/VisaInfo/SingleTrade.vue"),
+                    },
+                    {
+                        path: '/MofaInformation',
+                        name: 'MofaInformationlist',
+                        component: () => import("../components/Pages/MofaInformation/Index.vue"),
+                    },
+                    {
+                        path: '/Mofa/Enter',
+                        name: 'MofaEntry',
+                        component: () => import("../components/Pages/MofaInformation/Add.vue"),
+                    },
+                    {
+                        path: '/Mofa/edit/:id',
+                        name: 'MofaEdit',
+                        component: () => import("../components/Pages/MofaInformation/Edit.vue"),
                     },
 
                  ]

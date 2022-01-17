@@ -87,39 +87,27 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PassportSource">Passport Source</label>
 
                                         <select v-model="form.passport_source"  class="form-control filter-select" required>
-                                            <option value="">=== Select ===</option>
+                                            <option value="">-- Select --</option>
                                             <option value="self">Self</option>
                                             <option value="process">Process</option>
                                             <option value="agent">Agent</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div v-if="form.passport_source == 'agent'" class="col-md-3">
                                     <div class="form-group">
                                         <label for="AgentId">Agent Name</label>
 
-                                        <select v-model="form.agent_id"  class="form-control" required>
+                                        <select v-model="form.agent_id"  class="form-control">
                                             <option value="">-- Select --</option>
-                                            <option value="none">None</option>
+                                            <option value="null">None</option>
                                             <option v-for="item in agents" :key="item.id" :value="item.id">{{item.agent_name}}</option>
                                         </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-3">
-                                    <div class="skin skin-square square-skin">
-                                        <label>Is Approved</label>
-                                         <select v-model="form.is_approved" class="form-control filter-select">
-                                            <option value="">-- Select --</option>
-                                            <option value="0">Approved</option>
-                                            <option value="1">Pending</option>
-                                        </select>
-
                                     </div>
                                 </div>
 
@@ -168,7 +156,6 @@ export default {
                 passport_expire_date: '',
                 old_passport_no: '',
                 passenger_gender: '',
-                is_approved: '',
                 district_id: '',
                 agent_id: '',
                 passenger_photo: '',
@@ -186,12 +173,27 @@ export default {
 
         addPassenger(){
              
-                // let data = new FormData();
-                // data.append('passenger_name', this.form.passenger_name);
-                // data.append('passenger_photo', document.getElementById('file').files[0])
+                let data = new FormData();
+                data.append('passenger_name', this.form.passenger_name);
+                data.append('passenger_father_name', this.form.passenger_father_name);
+                data.append('passenger_phone', this.form.passenger_phone);
+                data.append('passport_no', this.form.passport_no);
+                data.append('passport_source', this.form.passport_source);
+                data.append('passenger_gurdian_no', this.form.passenger_gurdian_no);
+                data.append('passenger_date_of_birth', this.form.passenger_date_of_birth);
+                data.append('passport_expire_date', this.form.passport_expire_date);
+                data.append('old_passport_no', this.form.old_passport_no);
+                data.append('passenger_gender', this.form.passenger_gender);
+                data.append('district_id', this.form.district_id);
+                data.append('agent_id', this.form.agent_id);
+                data.append('passenger_photo', document.getElementById('file').files[0])
 
-            axios.post('add-passenger', this.form).then(response =>{
-                console.log(response)
+            axios.post('add-passenger', data).then(response =>{
+                
+                Toast.fire({
+                        icon: 'success',
+                        title: response.data.msg
+                });
             })
 
         },

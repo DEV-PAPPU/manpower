@@ -10,7 +10,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="database__table">
-                        <table class="table table-hover table-bordered" id="example">
+                        <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
                                     <th>Ser</th>
@@ -37,7 +37,7 @@
                                     </td>
                                     <td>
                                         <router-link :to="{name: 'AgentEdit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deleteAgent(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <a href="#" @click="deleteAgent(item)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
@@ -76,7 +76,7 @@ export default {
             axios.get("agents").then((res)=>{
                 this.agents = res.data;
                 setTimeout(() => {
-                    $("#example").DataTable({
+                    $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
@@ -87,15 +87,17 @@ export default {
               })
         },
 
-        deleteAgent(id){
-            axios.post(`delete-agent/${id}`).then(res =>{
+        deleteAgent(agent){
+            axios.post(`delete-agent/${agent.id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-                this.loadagents();
-            })
+            });
+
+            let index = this.agents.indexOf(agent);
+            this.agents.splice(index, 1);
         }
     },
 

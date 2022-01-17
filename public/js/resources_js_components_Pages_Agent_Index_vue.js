@@ -95,24 +95,22 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("agents").then(function (res) {
         _this.agents = res.data;
         setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
+          jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             pageLength: 5
           });
         });
       });
     },
-    deleteAgent: function deleteAgent(id) {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-agent/".concat(id)).then(function (res) {
+    deleteAgent: function deleteAgent(agent) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-agent/".concat(agent.id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
         });
-
-        _this2.loadagents();
       });
+      var index = this.agents.indexOf(agent);
+      this.agents.splice(index, 1);
     }
   },
   mounted: function mounted() {
@@ -27111,10 +27109,7 @@ var render = function () {
           _c("div", { staticClass: "database__table" }, [
             _c(
               "table",
-              {
-                staticClass: "table table-hover table-bordered",
-                attrs: { id: "example" },
-              },
+              { staticClass: "table table-hover table-bordered dbtable" },
               [
                 _vm._m(0),
                 _vm._v(" "),
@@ -27166,7 +27161,7 @@ var render = function () {
                               attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deleteAgent(item.id)
+                                  return _vm.deleteAgent(item)
                                 },
                               },
                             },

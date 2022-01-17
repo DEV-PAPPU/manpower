@@ -19,6 +19,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('main-component', require('./App.vue').default);
 
+import Multiselect from 'vue-multiselect'
+import moment from 'moment';
+  // register globally
+  Vue.component('multiselect', Multiselect)
+  
 //Import Sweetalert2
 import Swal from 'sweetalert2'
 window.Swal = Swal
@@ -33,6 +38,11 @@ const Toast = Swal.mixin({
     toast.addEventListener('mouseleave', Swal.resumeTimer)
   }
 })
+
+Vue.filter('dateformat', value=> {
+    if (!value) return ''
+    return moment(String(value)).format('LL')
+});
 
 window.Toast = Toast
 

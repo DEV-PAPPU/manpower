@@ -71,9 +71,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//Bootstrap and jQuery libraries
-// import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
 
 
@@ -83,8 +80,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      form: {},
-      agents: []
+      requisitions: ''
     };
   },
   methods: {
@@ -92,32 +88,33 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //API Call
-      axios__WEBPACK_IMPORTED_MODULE_4___default().get("agents").then(function (res) {
-        _this.agents = res.data;
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("requisitions").then(function (res) {
+        _this.requisitions = res.data;
         setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
+          jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             pageLength: 5
           });
         });
       });
     },
-    deleteAgent: function deleteAgent(id) {
+    requisitionDelete: function requisitionDelete(id) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-agent/".concat(id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-requisition/".concat(id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
         });
 
-        _this2.loadagents();
+        var index = _this2.passengers.indexOf(item);
+
+        _this2.passengers.splice(index, 1);
       });
     }
   },
   mounted: function mounted() {
     this.loadagents();
-    console.log('Component mounted.');
   }
 });
 
@@ -27092,7 +27089,7 @@ var render = function () {
           },
           [
             _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-              _vm._v("RequisitionList List"),
+              _vm._v("Requisition List"),
             ]),
             _vm._v(" "),
             _c(
@@ -27111,35 +27108,24 @@ var render = function () {
           _c("div", { staticClass: "database__table" }, [
             _c(
               "table",
-              {
-                staticClass: "table table-hover table-bordered",
-                attrs: { id: "example" },
-              },
+              { staticClass: "table table-hover table-bordered dbtable" },
               [
                 _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.agents, function (item) {
+                  _vm._l(_vm.requisitions, function (item) {
                     return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_name))]),
+                      _c("td", [_vm._v(_vm._s(item.company.company_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_address))]),
+                      _c("td", [_vm._v(_vm._s(item.sector.sector_name))]),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(item.agent_email) + " "),
-                        _c("br"),
-                        _vm._v(" " + _vm._s(item.agent_phone)),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.district.district_name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_area))]),
+                      _c("td", [_vm._v(_vm._s(item.requisition_date))]),
                       _vm._v(" "),
                       _c("td", [
-                        item.agent_is_approved == 0
+                        item.is_approved == 0
                           ? _c("i", { staticClass: "fa fa-check Yes" })
                           : _c("i", { staticClass: "fas fa-times" }),
                       ]),
@@ -27152,7 +27138,7 @@ var render = function () {
                             {
                               attrs: {
                                 to: {
-                                  name: "AgentEdit",
+                                  name: "EditRequisition",
                                   params: { id: item.id },
                                 },
                               },
@@ -27166,7 +27152,7 @@ var render = function () {
                               attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deleteAgent(item.id)
+                                  return _vm.requisitionDelete(item.id)
                                 },
                               },
                             },
@@ -27175,6 +27161,20 @@ var render = function () {
                                 staticClass: "fas delete_icon fa-trash-alt",
                               }),
                             ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "edit_icon",
+                              attrs: {
+                                to: {
+                                  name: "RequisitionVisa",
+                                  params: { id: item.id },
+                                },
+                              },
+                            },
+                            [_c("i", { staticClass: "fa fa-list act-btn-txt" })]
                           ),
                         ],
                         1
@@ -27200,15 +27200,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Ser")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Agent Name")]),
+        _c("th", [_vm._v("Company Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Address")]),
+        _c("th", [_vm._v("Sector")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Email & Mobile")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("District")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Area")]),
+        _c("th", [_vm._v("Requisition Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("Is Approved")]),
         _vm._v(" "),

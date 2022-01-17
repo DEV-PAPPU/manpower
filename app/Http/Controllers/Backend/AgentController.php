@@ -27,11 +27,9 @@ class AgentController extends Controller
         $this->validate($request,[
 
             'agent_name' => 'required',
-            'agent_address' => 'required',
             'agent_phone' => 'required',
             'district_id' => 'required',
             'agent_email' => 'required',
-            'agent_is_approved' => 'required',
         ]);
     
          $agent = new Agent();

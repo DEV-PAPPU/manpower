@@ -58,6 +58,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Bootstrap and jQuery libraries
  //Datatable Modules
 
@@ -68,7 +97,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      setors: []
+      form: {
+        sector_name: ''
+      },
+      setors: [],
+      errors: '',
+      isEdit: false,
+      sector_id: ''
     };
   },
   methods: {
@@ -79,25 +114,62 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("sectors").then(function (res) {
         _this.setors = res.data;
         setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
+          jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            pageLength: 5 // "bDestroy": true,                        
+            pageLength: 5,
+            // destroy: true,
+            orderCellsTop: true // "bDestroy": true,                        
 
           });
         });
       });
     },
-    deletesetor: function deletesetor(id) {
+    addSector: function addSector() {
       var _this2 = this;
 
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post('add-sector', this.form).then(function (response) {
+        Toast.fire({
+          icon: 'success',
+          title: response.data.msg
+        });
+
+        _this2.loadSetor();
+      })["catch"](function (e) {
+        _this2.errors = e.response.data.errors;
+      });
+    },
+    edit: function edit(sector) {
+      this.isEdit = true;
+      this.sector_id = sector.id;
+      this.form = sector;
+    },
+    update: function update() {
+      var _this3 = this;
+
+      var id = this.sector_id;
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("update-sector/".concat(id), this.form).then(function (response) {
+        Toast.fire({
+          icon: 'success',
+          title: response.data.msg
+        });
+        _this3.isEdit = false;
+        _this3.form = '';
+
+        _this3.loadSetor();
+      })["catch"](function (e) {
+        _this3.errors = e.response.data.errors;
+      });
+    },
+    deletesetor: function deletesetor(sector) {
+      var id = sector.id;
       axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-sector/".concat(id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
         });
-
-        _this2.loadSetor();
       });
+      var index = this.setors.indexOf(sector);
+      this.setors.splice(index, 1);
     }
   },
   mounted: function mounted() {
@@ -166,7 +238,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-694b24ff], table.dataTable thead td[data-v-694b24ff] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-694b24ff], .table th[data-v-694b24ff] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-694b24ff], .delete_icon[data-v-694b24ff]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-694b24ff]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-694b24ff]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-694b24ff]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-694b24ff], table.dataTable thead td[data-v-694b24ff] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-694b24ff], .table th[data-v-694b24ff] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-694b24ff], .delete_icon[data-v-694b24ff]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-694b24ff]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-694b24ff]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-694b24ff]{\r\n    overflow-x: scroll;\n}\n}\n.card[data-v-694b24ff]{\r\n    padding: 0px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27066,18 +27138,15 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", {}, [
-      _c("div", { staticClass: "card shadow mb-4" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "ml-2 card shadow mb-4 col-md-7 mr-5" }, [
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "database__table" }, [
             _c(
               "table",
-              {
-                staticClass: "table table-hover table-bordered",
-                attrs: { id: "example" },
-              },
+              { staticClass: "table table-hover table-bordered dbtable" },
               [
                 _vm._m(1),
                 _vm._v(" "),
@@ -27090,7 +27159,17 @@ var render = function () {
                       _c("td", [_vm._v(_vm._s(sector.sector_name))]),
                       _vm._v(" "),
                       _c("td", [
-                        _c("i", { staticClass: "far edit_icon fa-edit" }),
+                        _c(
+                          "button",
+                          {
+                            on: {
+                              click: function ($event) {
+                                return _vm.edit(sector)
+                              },
+                            },
+                          },
+                          [_c("i", { staticClass: "far edit_icon fa-edit" })]
+                        ),
                         _vm._v(" "),
                         _c(
                           "a",
@@ -27098,7 +27177,7 @@ var render = function () {
                             attrs: { href: "#" },
                             on: {
                               click: function ($event) {
-                                return _vm.deletesetor(sector.id)
+                                return _vm.deletesetor(sector)
                               },
                             },
                           },
@@ -27115,6 +27194,87 @@ var render = function () {
                 ),
               ]
             ),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card shadow mb-4 col-md-4" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("form", [
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "PerAddress" } }, [
+                  _vm._v("Company Name"),
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.sector_name,
+                      expression: "form.sector_name",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", required: "" },
+                  domProps: { value: _vm.form.sector_name },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "sector_name", $event.target.value)
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm.errors.sector_name
+                  ? _c("small", { staticClass: "form-text text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.sector_name[0])),
+                    ])
+                  : _vm._e(),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "div",
+                { staticClass: "d-flex gap-3", staticStyle: { clear: "both" } },
+                [
+                  _vm.isEdit
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.update },
+                        },
+                        [_vm._v("Update")]
+                      )
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.addSector.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [_vm._v("Save Changes")]
+                      ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "btn btn-danger", attrs: { type: "reset" } },
+                    [_vm._v("Cancel")]
+                  ),
+                ]
+              ),
+            ]),
           ]),
         ]),
       ]),
@@ -27152,6 +27312,23 @@ var staticRenderFns = [
         _c("th", [_vm._v("Actions")]),
       ]),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "card-header py-3 d-flex flex-row align-items-center justify-content-between",
+      },
+      [
+        _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
+          _vm._v("Sector List"),
+        ]),
+      ]
+    )
   },
 ]
 render._withStripped = true

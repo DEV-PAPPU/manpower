@@ -9,18 +9,16 @@ use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\PassengerController;
 use App\Http\Controllers\Backend\SectorController;
+use App\Http\Controllers\Backend\RequisitionController;
+use App\Http\Controllers\Backend\MofaInformationController;
+use App\Http\Controllers\Backend\PasssengerFileController;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
-
 
     //------------------------------- User  Login Register ,  Logout--------------------------\\
     //------------------------------------------------------------------\\
@@ -46,7 +44,7 @@ use App\Http\Controllers\Backend\SectorController;
     Route::get('edit-user/{id}', [UserController::class, 'edit']);
     Route::post('update-user/{id}', [UserController::class, 'update']);
     Route::post('delete-user/{id}', [UserController::class, 'destroy']);
-
+    
 
     //------------------------------- Company Api Routes --------------------------\\
     //------------------------------------------------------------------\\
@@ -85,10 +83,43 @@ use App\Http\Controllers\Backend\SectorController;
     Route::post('delete-passenger/{id}', [PassengerController::class, 'destroy']);
 
 
-    //------------------------------- Passenger Api Routes --------------------------\\
+    //------------------------------- Sector Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('sectors', [SectorController::class, 'index']);
-    Route::post('add-Sector', [SectorController::class, 'store']);
+    Route::post('add-sector', [SectorController::class, 'store']);
     Route::get('edit-Sector/{id}', [SectorController::class, 'edit']);
-    Route::post('update-Sector/{id}', [SectorController::class, 'update']);
-    Route::post('delete-Sector/{id}', [SectorController::class, 'destroy']);
+    Route::post('update-sector/{id}', [SectorController::class, 'update']);
+    Route::post('delete-sector/{id}', [SectorController::class, 'destroy']);
+
+
+    //------------------------------- Requisitions Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('requisitions', [RequisitionController::class, 'index']);
+    Route::post('add-requisition', [RequisitionController::class, 'store']);
+    Route::get('edit-requisition/{id}', [RequisitionController::class, 'edit']);
+    Route::post('update-requisition/{id}', [RequisitionController::class, 'update']);
+    Route::post('delete-requisition/{id}', [RequisitionController::class, 'destroy']);
+    Route::get('requisition/visa-info/{id}', [RequisitionController::class, 'requisition_visa_info']);
+    Route::get('requisition/visa-trade/{id}', [RequisitionController::class, 'requisition_visa_trade']);
+
+
+
+    //------------------------------- MofaInformation Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('mofaInformations', [MofaInformationController::class, 'index']);
+    Route::post('add-mofaInformation', [MofaInformationController::class, 'store']);
+    Route::get('edit-mofaInformation/{id}', [MofaInformationController::class, 'edit']);
+    Route::post('update-mofaInformation/{id}', [MofaInformationController::class, 'update']);
+    Route::post('delete-mofaInformation/{id}', [MofaInformationController::class, 'destroy']);
+    Route::get('visa-trades', [MofaInformationController::class, 'trade_data']);
+
+
+    //------------------------------- [PasssengerFile Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('passenger-image/{id}', [PasssengerFileController::class, 'images']);
+    Route::post('passenger-image', [PasssengerFileController::class, 'store']);
+
+
+    Route::post('testapi', function () {
+        return 'working';
+    });

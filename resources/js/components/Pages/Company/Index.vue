@@ -10,7 +10,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="database__table">
-                        <table class="table table-hover table-bordered" id="example">
+                        <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
                                     <th>Ser</th>
@@ -19,7 +19,6 @@
                                     <th>Contact Person</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
-                                    <th>Sector</th>
                                     <th>Is Approved</th>
                                     <th>Actions</th>
                                 </tr>
@@ -32,7 +31,6 @@
                                     <td>{{item.contact_person}}</td>
                                     <td>{{item.company_email}}</td>
                                     <td>{{item.company_phone}}</td>
-                                    <td>{{item.sector_id}}</td>
                                     <td>
                                         <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
@@ -40,7 +38,7 @@
                                    
                                     <td>
                                         <router-link :to="{name: 'company-edit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deleteCompany(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <a href="#" @click="deleteCompany(item)" ><i class="fas delete_icon fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
 
@@ -77,9 +75,9 @@ export default {
             .get("companies")
             .then((res)=>
             {
-                this.companies = res.data;
+                this.companies = res.data.companies;
                 setTimeout(() => {
-                    $("#example").DataTable({
+                    $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
@@ -91,14 +89,15 @@ export default {
               })
         },
 
-        deleteCompany(id){
-            axios.post(`delete-company/${id}`).then(res =>{
+        deleteCompany(company){
+            axios.post(`delete-company/${company.id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-                this.loadCompany();
+                let index = this.companies.indexOf(company);
+               this.companies.splice(index, 1);
             })
         }
 

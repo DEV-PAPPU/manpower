@@ -92,6 +92,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -102,7 +122,9 @@ __webpack_require__.r(__webpack_exports__);
         status: '',
         phone: '',
         address: '',
-        email: ''
+        email: '',
+        password: '',
+        password_confirmation: ''
       },
       errors: ''
     };
@@ -367,7 +389,7 @@ var render = function () {
                 _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "PerAddress" } }, [
-                      _vm._v("Address"),
+                      _vm._v("Full Address"),
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -397,7 +419,83 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "UserRole" } }, [
+                      _vm._v("Password "),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.password,
+                          expression: "form.password",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "password" },
+                      domProps: { value: _vm.form.password },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "password", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.password
+                      ? _c("small", { staticClass: "form-text text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.password[0])),
+                        ])
+                      : _vm._e(),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "UserRole" } }, [
+                      _vm._v("Password Confirmation"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.password_confirmation,
+                          expression: "form.password_confirmation",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "password" },
+                      domProps: { value: _vm.form.password_confirmation },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "password_confirmation",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.password_confirmation
+                      ? _c("small", { staticClass: "form-text text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.password_confirmation[0])),
+                        ])
+                      : _vm._e(),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "UserRole" } }, [
                       _vm._v("User Role"),
@@ -438,7 +536,11 @@ var render = function () {
                       },
                       [
                         _c("option", { attrs: { value: "" } }, [
-                          _vm._v("=== Select Role ==="),
+                          _vm._v("-- Select Role --"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "user" } }, [
+                          _vm._v("User"),
                         ]),
                         _vm._v(" "),
                         _c("option", { attrs: { value: "superadmin" } }, [
@@ -450,10 +552,16 @@ var render = function () {
                         ]),
                       ]
                     ),
+                    _vm._v(" "),
+                    _vm.errors.role
+                      ? _c("small", { staticClass: "form-text text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.role[0])),
+                        ])
+                      : _vm._e(),
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "UserStatus" } }, [
                       _vm._v("User Status"),
@@ -466,8 +574,8 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.role,
-                            expression: "form.role",
+                            value: _vm.form.status,
+                            expression: "form.status",
                           },
                         ],
                         staticClass: "form-control filter-select",
@@ -484,7 +592,7 @@ var render = function () {
                               })
                             _vm.$set(
                               _vm.form,
-                              "role",
+                              "status",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -494,7 +602,7 @@ var render = function () {
                       },
                       [
                         _c("option", { attrs: { value: "" } }, [
-                          _vm._v("=== Select Status ==="),
+                          _vm._v("-- Select Status --"),
                         ]),
                         _vm._v(" "),
                         _c("option", { attrs: { value: "active" } }, [
@@ -506,6 +614,12 @@ var render = function () {
                         ]),
                       ]
                     ),
+                    _vm._v(" "),
+                    _vm.errors.status
+                      ? _c("small", { staticClass: "form-text text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.status[0])),
+                        ])
+                      : _vm._e(),
                   ]),
                 ]),
               ]),

@@ -88,16 +88,18 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    deletedistrict: function deletedistrict(id) {
+    deletedistrict: function deletedistrict(district) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-districts/".concat(id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-districts/".concat(district.id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
         });
 
-        _this2.loadDistrict();
+        var index = _this2.districts.indexOf(district);
+
+        _this2.districts.splice(index, 1);
       });
     }
   },
@@ -27133,7 +27135,7 @@ var render = function () {
                               attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deletedistrict(district.id)
+                                  return _vm.deletedistrict(district)
                                 },
                               },
                             },

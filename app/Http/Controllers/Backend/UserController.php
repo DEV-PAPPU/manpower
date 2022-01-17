@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
+use Hash;
+
 class UserController extends Controller
 {
     public function index(){
@@ -16,20 +19,23 @@ class UserController extends Controller
 
     public function store (Request $request){
        
-       
-        $this->validate($request,[
 
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => ['required', 'email', 'unique:users'],
+        $request->validate([
+            'name'                  => ['required'],
+            'role'                  => ['required'],
+            'email'                 => ['required', 'email', 'unique:users'],
+            'password'              => ['required', 'min:6', 'confirmed'],
+            'password_confirmation' => ['required'],
         ]);
-    
+
          $user = new User();
          $user->name = $request->name;
          $user->role = $request->role;
          $user->phone = $request->phone;
          $user->email = $request->email;
          $user->status = $request->status;
+         $user->address = $request->address;
+         $user->password = Hash::make($request->password);
          $user->save();
     
         return response()->json(['msg' => 'User Created Sucess'], 200);
@@ -58,7 +64,9 @@ class UserController extends Controller
          $user->role = $request->role;
          $user->phone = $request->phone;
          $user->email = $request->email;
-         $user->status = $request->status;
+         $user->address = $request->address;
+         $user->role = $request->role;
+         $user->password = Hash::make($request->password);
          $user->save();
 
          return response()->json(['msg' => 'User Updated Sucess'], 200);

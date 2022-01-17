@@ -155,18 +155,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -182,7 +170,6 @@ __webpack_require__.r(__webpack_exports__);
         passport_expire_date: '',
         old_passport_no: '',
         passenger_gender: '',
-        is_approved: '',
         district_id: '',
         agent_id: '',
         passenger_photo: ''
@@ -193,11 +180,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addPassenger: function addPassenger() {
-      // let data = new FormData();
-      // data.append('passenger_name', this.form.passenger_name);
-      // data.append('passenger_photo', document.getElementById('file').files[0])
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('add-passenger', this.form).then(function (response) {
-        console.log(response);
+      var data = new FormData();
+      data.append('passenger_name', this.form.passenger_name);
+      data.append('passenger_father_name', this.form.passenger_father_name);
+      data.append('passenger_phone', this.form.passenger_phone);
+      data.append('passport_no', this.form.passport_no);
+      data.append('passport_source', this.form.passport_source);
+      data.append('passenger_gurdian_no', this.form.passenger_gurdian_no);
+      data.append('passenger_date_of_birth', this.form.passenger_date_of_birth);
+      data.append('passport_expire_date', this.form.passport_expire_date);
+      data.append('old_passport_no', this.form.old_passport_no);
+      data.append('passenger_gender', this.form.passenger_gender);
+      data.append('district_id', this.form.district_id);
+      data.append('agent_id', this.form.agent_id);
+      data.append('passenger_photo', document.getElementById('file').files[0]);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('add-passenger', data).then(function (response) {
+        Toast.fire({
+          icon: 'success',
+          title: response.data.msg
+        });
       });
     },
     changeImg: function changeImg(e) {
@@ -755,7 +756,7 @@ var render = function () {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-2" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "PassportSource" } }, [
                       _vm._v("Passport Source"),
@@ -796,7 +797,7 @@ var render = function () {
                       },
                       [
                         _c("option", { attrs: { value: "" } }, [
-                          _vm._v("=== Select ==="),
+                          _vm._v("-- Select --"),
                         ]),
                         _vm._v(" "),
                         _c("option", { attrs: { value: "self" } }, [
@@ -815,119 +816,67 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "AgentId" } }, [
-                      _vm._v("Agent Name"),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                _vm.form.passport_source == "agent"
+                  ? _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "AgentId" } }, [
+                          _vm._v("Agent Name"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.agent_id,
-                            expression: "form.agent_id",
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.agent_id,
+                                expression: "form.agent_id",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "agent_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                            },
                           },
-                        ],
-                        staticClass: "form-control",
-                        attrs: { required: "" },
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "agent_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("-- Select --"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "none" } }, [
-                          _vm._v("None"),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.agents, function (item) {
-                          return _c(
-                            "option",
-                            { key: item.id, domProps: { value: item.id } },
-                            [_vm._v(_vm._s(item.agent_name))]
-                          )
-                        }),
-                      ],
-                      2
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "skin skin-square square-skin" }, [
-                    _c("label", [_vm._v("Is Approved")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.is_approved,
-                            expression: "form.is_approved",
-                          },
-                        ],
-                        staticClass: "form-control filter-select",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "is_approved",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("-- Select --"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "0" } }, [
-                          _vm._v("Approved"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Pending"),
-                        ]),
-                      ]
-                    ),
-                  ]),
-                ]),
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("-- Select --"),
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "null" } }, [
+                              _vm._v("None"),
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.agents, function (item) {
+                              return _c(
+                                "option",
+                                { key: item.id, domProps: { value: item.id } },
+                                [_vm._v(_vm._s(item.agent_name))]
+                              )
+                            }),
+                          ],
+                          2
+                        ),
+                      ]),
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-2" }, [
                   _c("div", { staticClass: "form-group" }, [

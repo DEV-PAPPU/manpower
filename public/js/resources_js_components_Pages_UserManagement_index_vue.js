@@ -90,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("users").then(function (res) {
         _this.users = res.data;
         setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
+          jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             pageLength: 5
           });
@@ -27025,10 +27025,7 @@ var render = function () {
           _c("div", { staticClass: "user__table" }, [
             _c(
               "table",
-              {
-                staticClass: "table table-hover table-bordered",
-                attrs: { id: "example" },
-              },
+              { staticClass: "table table-hover table-bordered dbtable" },
               [
                 _vm._m(0),
                 _vm._v(" "),
@@ -27042,13 +27039,42 @@ var render = function () {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(user.email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.email))]),
+                      _c("td", [_vm._v(_vm._s(user.phone))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(user.role))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(user.status))]),
                       _vm._v(" "),
-                      _vm._m(1, true),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "mr-2 btn btn-primary btn-user",
+                              attrs: {
+                                to: {
+                                  name: "UserEdit",
+                                  params: { id: user.id },
+                                },
+                              },
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "far edit_icon fa-edit pr-2",
+                              }),
+                              _vm._v("Edit"),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            { staticClass: "btn btn-danger btn-user" },
+                            [_vm._v("Delete")]
+                          ),
+                        ],
+                        1
+                      ),
                     ])
                   }),
                   0
@@ -27081,20 +27107,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-primary btn-user" }, [
-        _vm._v("Edit"),
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger btn-user" }, [
-        _vm._v("Delete"),
       ]),
     ])
   },

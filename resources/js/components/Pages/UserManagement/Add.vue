@@ -37,29 +37,49 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="PerAddress">Address</label>
+                                            <label for="PerAddress">Full Address</label>
                                             <input class="form-control" v-model="form.address" placeholder="Please enter address" type="text" >
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="UserRole">Password </label>
+                                            <input class="form-control" v-model="form.password" type="password" >
+                                             <small v-if="errors.password" class="form-text text-danger">{{ errors.password[0] }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="UserRole">Password Confirmation</label>
+                                            <input class="form-control" v-model="form.password_confirmation" type="password" >
+                                             <small v-if="errors.password_confirmation" class="form-text text-danger">{{ errors.password_confirmation[0] }}</small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="UserRole">User Role</label>
                                         <select v-model="form.role" class="form-control filter-select" id="UserRole">
-                                            <option value="">=== Select Role ===</option>
+                                            <option value="">-- Select Role --</option>
+                                            <option value="user">User</option>
                                             <option value="superadmin">Super Admin</option>
                                             <option value="admin">Adminn</option>
                                         </select>
+                                        <small v-if="errors.role" class="form-text text-danger">{{ errors.role[0] }}</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="UserStatus">User Status</label>
-                                        <select v-model="form.role" class="form-control filter-select" id="UserStatus">
-                                            <option value="">=== Select Status ===</option>
+                                        <select v-model="form.status" class="form-control filter-select" id="UserStatus">
+                                            <option value="">-- Select Status --</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">In Active</option>
                                         </select>
+                                        <small v-if="errors.status" class="form-text text-danger">{{ errors.status[0] }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +108,9 @@ import axios from 'axios'
                 status: '',
                 phone: '',
                 address: '',
-                email: ''
+                email: '',
+                password: '',
+                password_confirmation: '',
                },
                errors: '',
             }

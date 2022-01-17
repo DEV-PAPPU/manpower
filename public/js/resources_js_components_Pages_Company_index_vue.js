@@ -73,8 +73,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 //Bootstrap and jQuery libraries
  //Datatable Modules
 
@@ -94,9 +92,9 @@ __webpack_require__.r(__webpack_exports__);
 
       //API Call
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("companies").then(function (res) {
-        _this.companies = res.data;
+        _this.companies = res.data.companies;
         setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_3___default()("#example").DataTable({
+          jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             pageLength: 5 // "bDestroy": true,                        
 
@@ -104,16 +102,18 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    deleteCompany: function deleteCompany(id) {
+    deleteCompany: function deleteCompany(company) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-company/".concat(id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-company/".concat(company.id)).then(function (res) {
         Toast.fire({
           icon: 'success',
           title: res.data.msg
         });
 
-        _this2.loadCompany();
+        var index = _this2.companies.indexOf(company);
+
+        _this2.companies.splice(index, 1);
       });
     }
   },
@@ -27112,10 +27112,7 @@ var render = function () {
           _c("div", { staticClass: "database__table" }, [
             _c(
               "table",
-              {
-                staticClass: "table table-hover table-bordered",
-                attrs: { id: "example" },
-              },
+              { staticClass: "table table-hover table-bordered dbtable" },
               [
                 _vm._m(0),
                 _vm._v(" "),
@@ -27134,8 +27131,6 @@ var render = function () {
                       _c("td", [_vm._v(_vm._s(item.company_email))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.company_phone))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.sector_id))]),
                       _vm._v(" "),
                       _c("td", [
                         item.is_approved == 0
@@ -27165,7 +27160,7 @@ var render = function () {
                               attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deleteCompany(item.id)
+                                  return _vm.deleteCompany(item)
                                 },
                               },
                             },
@@ -27208,8 +27203,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mobile")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Sector")]),
         _vm._v(" "),
         _c("th", [_vm._v("Is Approved")]),
         _vm._v(" "),
