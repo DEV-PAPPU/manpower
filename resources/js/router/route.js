@@ -142,6 +142,31 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/MofaInformation/Edit.vue"),
                     },
 
+                    {
+                        path: '/Passports',
+                        name: 'PassportList',
+                        component: () => import("../components/Pages/PassportManagment/Index.vue"),
+                    },
+                    {
+                        path: '/Stms',
+                        name: 'STMLIST',
+                        component: () => import("../components/Pages/STM/Index.vue"),
+                    },
+                    {
+                        path: '/Stm/entry',
+                        name: 'STMAdd',
+                        component: () => import("../components/Pages/STM/Add.vue"),
+                    },
+                    {
+                        path: '/manpower',
+                        name: 'MPLIST',
+                        component: () => import("../components/Pages/ManPowerManage/Index.vue"),
+                    },
+                    {
+                        path: '/manpower/entry',
+                        name: 'MPAdd',
+                        component: () => import("../components/Pages/ManPowerManage/Add.vue"),
+                    },
                  ]
             },
 

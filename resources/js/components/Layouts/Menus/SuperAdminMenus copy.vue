@@ -62,6 +62,25 @@
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Management:</h6>
+                    <router-link :to="{name: 'AddPassenger'}" class="collapse-item">Add Passenger</router-link>
+                    <router-link :to="{name: 'PassengerList'}" class="collapse-item">Passenger List</router-link>
+                    <router-link :to="{name: 'AgentList'}" class="collapse-item">Agent</router-link>
+                    <router-link :to="{name: 'Companies'}" class="collapse-item">Company List</router-link>
+                    <router-link :to="{name: 'RequisitionList'}" class="collapse-item">Requisition</router-link>
+                    <router-link :to="{name: 'MofaInformationlist'}" class="collapse-item">MofaIn-VISA formationlist</router-link>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Info Management</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Login Screens:</h6>
                     <router-link :to="{name: 'AddPassenger'}" class="collapse-item">Add Passenger</router-link>
                     <router-link :to="{name: 'PassengerList'}" class="collapse-item">Passenger List</router-link>

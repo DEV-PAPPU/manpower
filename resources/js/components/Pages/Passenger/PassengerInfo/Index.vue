@@ -6,14 +6,14 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modelimageTitle">Passenger Image</h5>
+                        <h5 class="modal-title" id="modelimageTitle">{{modalImage.title}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <img :src="modalImage" alt="" srcset="">
+                            <img :src="modalImage.image" alt="" srcset="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -38,7 +38,8 @@
                         <thead>
                             <tr>
                                 <th>Ser</th>
-                                <th>Ser</th>
+                                <th>Date</th>
+                                <th>Title</th>
                                 <th>Image</th>
                                 <th>Actions</th>
                             </tr>
@@ -47,10 +48,11 @@
                             <tr v-for="item in images" :key="item.id">
                                 <td>{{item.id}}</td>
                                 <td>{{item.created_at | dateformat(item.created_at)}}</td>
+                                <td>{{item.title}}</td>
                                 <td><img :src="item.image" class="img-fluid border" style="width:100px" alt="" srcset=""> </td>
                                 <td>
                                     
-                                    <button @click="showImage(item.image)" data-toggle="modal" data-target="#modelimage"
+                                    <button @click="showImage(item)" data-toggle="modal" data-target="#modelimage"
                                      class="btn btn-success " >View Image </button>
                                     <button @click="deleteImage(item)" class="mx-3 btn btn-success " >Delete Image </button>
                                     <button @click="downloadImage(item.image)" class="btn btn-success " >Download Image<i class="fas fa-arrow-circle-right px-2"></i></button>

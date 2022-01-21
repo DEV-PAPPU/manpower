@@ -309,6 +309,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -1618,7 +1634,7 @@ var render = function () {
               { staticClass: "bg-white py-2 collapse-inner rounded" },
               [
                 _c("h6", { staticClass: "collapse-header" }, [
-                  _vm._v("Login Screens:"),
+                  _vm._v("Data Management :"),
                 ]),
                 _vm._v(" "),
                 _c(
@@ -1681,6 +1697,61 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse",
+            attrs: {
+              id: "InfocollapsePages",
+              "aria-labelledby": "headingPages",
+              "data-parent": "#accordionSidebar",
+            },
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "bg-white py-2 collapse-inner rounded" },
+              [
+                _c("h6", { staticClass: "collapse-header" }, [
+                  _vm._v("Info Management:"),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "PassportList" } },
+                  },
+                  [_vm._v("Passenger Status")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "STMLIST" } },
+                  },
+                  [_vm._v("STM LIST")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "MPLIST" } },
+                  },
+                  [_vm._v("MP RCV")]
+                ),
+              ],
+              1
+            ),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider" }),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-heading" }, [
@@ -1688,7 +1759,7 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("li", { staticClass: "nav-item" }, [
-        _vm._m(2),
+        _vm._m(3),
         _vm._v(" "),
         _c(
           "div",
@@ -1789,6 +1860,29 @@ var staticRenderFns = [
         _c("i", { staticClass: "fas fa-fw fa-folder" }),
         _vm._v(" "),
         _c("span", [_vm._v("Management")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "nav-link collapsed",
+        attrs: {
+          href: "#",
+          "data-toggle": "collapse",
+          "data-target": "#InfocollapsePages",
+          "aria-expanded": "true",
+          "aria-controls": "InfocollapsePages",
+        },
+      },
+      [
+        _c("i", { staticClass: "fas fa-fw fa-folder" }),
+        _vm._v(" "),
+        _c("span", [_vm._v("Info Management")]),
       ]
     )
   },

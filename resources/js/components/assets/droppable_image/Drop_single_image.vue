@@ -1,45 +1,37 @@
 <template>
-    <div class="flex items-center justify-center text-center mt-2 align-middle">
-        <div class="p-6 bg-gray-100 rounded-lg border-dotted border-4  border-blue-500 w-full py-16" @dragover="dragover"
-            @dragleave="dragleave" @drop="drop">
+    <div class="flex items-center justify-center text-center mt-2">
+        <div class="p-6 bg-gray-100 rounded-lg border-dotted border-4  border-blue-500 py-16 w-full"
+            @dragover="dragover" @dragleave="dragleave" @drop="drop">
             <input type="file" name="fields[assetsFieldHandle][]" id="assetsFieldHandle"
-                class="opacity-0 overflow-hidden absolute" @change="onChange" ref="file"
+                class="w-px h-px opacity-0 overflow-hidden absolute" @change="onChange" ref="file"
                 accept=".pdf,.jpg,.jpeg,.png" />
 
             <label for="assetsFieldHandle" class="block cursor-pointer">
                 <div>
-                    Drop your file
-                    or <span class="underline">click here</span>
+                    Upload your file <span class="underline">click here </span>
                 </div>
             </label>
 
-            <ul class="mt-4" v-if="this.filelist.length" v-cloak>
-                <div class="image">
-                    {{filelist[0].name }} <button class="ml-2" type="button" @click="remove()"
+            <!-- images showing -->
+            <ul class="mt-4" v-if="filelist.length" v-cloak>
+                <li class="text-sm p-1" v-for="file in filelist" :key="file.name">
+
+                    {{ file.name }}<button class="ml-2" type="button" @click="remove(filelist.indexOf(file))"
                         title="Remove file">remove</button>
-                </div>
-
+                </li>
             </ul>
-
-             <!-- if editing product -->
-            <div v-if="isEdit" v-cloak class="image flex gap-3">
-                <img :src="image" alt="" class="mx-auto" style="width:60px" srcset="">
-            </div>
-
-            <!-- <div v-if="!img" class="my-3 mr-2 flex items-center justify-center">
-                <img :src="websiteaddress+'images/upload-icon.png'" alt="" style="width:70px" srcset="">
-            </div> -->
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
    export default {
-     props:['image'],
      data: () => ({
-      filelist:'',
-      files:'',
-      isEdit:false
+      filelist:[],
+      files:[],
+      isEditingImage:false
+
       }),
 
         methods: {
@@ -52,54 +44,65 @@
                     this.files.push(f);
                 });
 
-                console.log(this.files)
                 },
                 removeFile(file){
-                this.files = this.files.filter(f => {
-                    return f != file;
-                });
-                },
 
+                    this.files = this.files.filter(f => {
+                        return f != file;
+                    });
+
+                   this.$emit('new_images',this.filelist); 
+
+                },
                 onChange() {
-                    this.filelist = [...this.$refs.file.files];
-                    this.$emit('image',this.filelist[0]);
+                    this.filelist = this.$refs.file.files;
+                    // this.filelist = [...this.$refs.file.files];
+                    // console.log(this.filelist);
+                    this.$emit('new_images',this.filelist);
 
                    },
-                    remove() {
-                    this.filelist = ''
+                    remove(i) {
+                    this.filelist.splice(i, 1);
                     },
-                    dragover(event) {
-                    event.preventDefault();
-                    // Add some visual fluff to show the user can drop its files
-                    if (!event.currentTarget.classList.contains('bg-green-300')) {
-                        event.currentTarget.classList.remove('bg-gray-100');
-                        event.currentTarget.classList.add('bg-green-300');
-                    }
-                    },
-                    dragleave(event) {
-                    // Clean up
-                    event.currentTarget.classList.add('bg-gray-100');
-                    event.currentTarget.classList.remove('bg-green-300');
-                    },
-                    drop(event) {
-                    event.preventDefault();
-                    this.$refs.file.files = event.dataTransfer.files;
-                    this.onChange(); // Trigger the onChange event manually
-                    // Clean up
-                    event.currentTarget.classList.add('bg-gray-100');
-                    event.currentTarget.classList.remove('bg-green-300');
-                  },
-
+                //     dragover(event) {
+                //     event.preventDefault();
+                //     // Add some visual fluff to show the user can drop its files
+                //     if (!event.currentTarget.classList.contains('bg-green-300')) {
+                //         event.currentTarget.classList.remove('bg-gray-100');
+                //         event.currentTarget.classList.add('bg-green-300');
+                //     }
+                //     },
+                //     dragleave(event) {
+                //     // Clean up
+                //     event.currentTarget.classList.add('bg-gray-100');
+                //     event.currentTarget.classList.remove('bg-green-300');
+                //     },
+                //     drop(event) {
+                //     event.preventDefault();
+                //     this.$refs.file.files = event.dataTransfer.files;
+                //     this.onChange(); // Trigger the onChange event manually
+                //     // Clean up
+                //     event.currentTarget.classList.add('bg-gray-100');
+                //     event.currentTarget.classList.remove('bg-green-300');
+                //   },
         },
-
-        computed:{
-            img(){
-                return this.filelist
-            }
-        }
 
     }
 </script>
+
+<style scoped>
+
+.imgdelete {
+    position: absolute;
+    top: -7px !important;
+    left: -4px !important;
+    background: red;
+    color: white;
+    border-radius: 70px !important;
+    width: 20px !important;
+}
+
+</style>
 
 
 

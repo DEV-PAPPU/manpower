@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Passenger extends Model
+class Stm extends Model
 {
     protected  $guarded = [];
 
-    public function agent()
+    public function stmpassport()
     {
-        return $this->belongsTo(Agent::class, 'agent_id');
+        return $this->hasMany(StmPassport::class, 'stm_id');
     }
 }

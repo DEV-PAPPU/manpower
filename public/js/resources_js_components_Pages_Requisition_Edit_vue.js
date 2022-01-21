@@ -514,10 +514,6 @@ __webpack_require__.r(__webpack_exports__);
         };
         this.visaForm.visaData.push(newData);
       }
-
-      var total = this.visaForm.visaData.reduce(function (a, b) {
-        return b.visa_qty + b.visa_qty;
-      }, 0);
     },
     removeVisa: function removeVisa(visa) {
       var index = this.visaForm.visaData.indexOf(visa);

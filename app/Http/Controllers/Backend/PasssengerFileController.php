@@ -15,23 +15,35 @@ class PasssengerFileController extends Controller
     public function store (Request $request){
         // dd($request->all());
 
-        //  Inserting product gallery images
-        if($request->hasFile('files')){
+        $gallery = new PassengerImage();
+        $gallery->passenger_id = $request->passenger_id;
+        $gallery->title = $request->title;
 
-            foreach($request->file('files') as  $image){
-
-                // $name = $image->getClientOriginalName();
-                $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
-                $image->move('storage/images/', $name);
-                $last_img = '/storage/images/' . $name;
-
-                //Inserting product gallery images to {ProductGallery} model
-                $gallery = new PassengerImage();
-                $gallery->passenger_id = $request->passenger_id;
-                $gallery->image = $last_img;
-                $gallery->save();
-            }
+        if($request->hasFile('image')){
+            $image = $request->image;
+            $image_new_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/images/', $image_new_name);
+            $gallery->image = '/storage/images/' . $image_new_name;
+            $gallery->save();
         }
+
+        //  Inserting product gallery images
+        // if($request->hasFile('files')){
+
+        //     foreach($request->file('files') as  $image){
+
+        //         // $name = $image->getClientOriginalName();
+        //         $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
+        //         $image->move('storage/images/', $name);
+        //         $last_img = '/storage/images/' . $name;
+
+        //         //Inserting product gallery images to {ProductGallery} model
+        //         $gallery = new PassengerImage();
+        //         $gallery->passenger_id = $request->passenger_id;
+        //         $gallery->image = $last_img;
+        //         $gallery->save();
+        //     }
+        // }
 
 
         return response()->json(['msg' => 'Images Added Sucess'], 200);

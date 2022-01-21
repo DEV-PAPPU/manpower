@@ -5596,6 +5596,36 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_MofaInformation_Edit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/MofaInformation/Edit.vue */ "./resources/js/components/Pages/MofaInformation/Edit.vue"));
       }
+    }, {
+      path: '/Passports',
+      name: 'PassportList',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_PassportManagment_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/PassportManagment/Index.vue */ "./resources/js/components/Pages/PassportManagment/Index.vue"));
+      }
+    }, {
+      path: '/Stms',
+      name: 'STMLIST',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_STM_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/STM/Index.vue */ "./resources/js/components/Pages/STM/Index.vue"));
+      }
+    }, {
+      path: '/Stm/entry',
+      name: 'STMAdd',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_STM_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/STM/Add.vue */ "./resources/js/components/Pages/STM/Add.vue"));
+      }
+    }, {
+      path: '/manpower',
+      name: 'MPLIST',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_ManPowerManage_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/ManPowerManage/Index.vue */ "./resources/js/components/Pages/ManPowerManage/Index.vue"));
+      }
+    }, {
+      path: '/manpower/entry',
+      name: 'MPAdd',
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Pages_ManPowerManage_Add_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Pages/ManPowerManage/Add.vue */ "./resources/js/components/Pages/ManPowerManage/Add.vue"));
+      }
     }]
   }, {
     path: '/login',
@@ -69921,7 +69951,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21.4","_id":"axios@0.21.4","_inB
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_District_Index_vue":1,"resources_js_components_Pages_UserManagement_Add_vue":1,"resources_js_components_Pages_UserManagement_Edit_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Company_Edit_vue":1,"resources_js_components_Pages_Passenger_Index_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Pages_Passenger_Edit_vue":1,"resources_js_components_Pages_Passenger_PassengerInfo_Index_vue":1,"resources_js_components_Pages_Passenger_PassengerInfo_Add_vue":1,"resources_js_components_Pages_Agent_Index_vue":1,"resources_js_components_Pages_Agent_Edit_vue":1,"resources_js_components_Pages_Agent_Add_vue":1,"resources_js_components_Pages_Sector_Index_vue":1,"resources_js_components_Pages_Requisition_Add_vue":1,"resources_js_components_Pages_Requisition_Index_vue":1,"resources_js_components_Pages_Requisition_Edit_vue":1,"resources_js_components_Pages_VisaInfo_SingleTrade_vue":1,"resources_js_components_Pages_MofaInformation_Index_vue":1,"resources_js_components_Pages_MofaInformation_Add_vue":1,"resources_js_components_Pages_MofaInformation_Edit_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Layouts_Layout_vue":1,"resources_js_components_Pages_UserManagement_Index_vue":1,"resources_js_components_Pages_District_Index_vue":1,"resources_js_components_Pages_UserManagement_Add_vue":1,"resources_js_components_Pages_UserManagement_Edit_vue":1,"resources_js_components_Pages_Company_Index_vue":1,"resources_js_components_Pages_Company_Add_vue":1,"resources_js_components_Pages_Company_Edit_vue":1,"resources_js_components_Pages_Passenger_Index_vue":1,"resources_js_components_Pages_Passenger_Add_vue":1,"resources_js_components_Pages_Passenger_Edit_vue":1,"resources_js_components_Pages_Passenger_PassengerInfo_Index_vue":1,"resources_js_components_Pages_Passenger_PassengerInfo_Add_vue":1,"resources_js_components_Pages_Agent_Index_vue":1,"resources_js_components_Pages_Agent_Edit_vue":1,"resources_js_components_Pages_Agent_Add_vue":1,"resources_js_components_Pages_Sector_Index_vue":1,"resources_js_components_Pages_Requisition_Add_vue":1,"resources_js_components_Pages_Requisition_Index_vue":1,"resources_js_components_Pages_Requisition_Edit_vue":1,"resources_js_components_Pages_VisaInfo_SingleTrade_vue":1,"resources_js_components_Pages_MofaInformation_Index_vue":1,"resources_js_components_Pages_MofaInformation_Add_vue":1,"resources_js_components_Pages_MofaInformation_Edit_vue":1,"resources_js_components_Pages_PassportManagment_Index_vue":1,"resources_js_components_Pages_STM_Index_vue":1,"resources_js_components_Pages_STM_Add_vue":1,"resources_js_components_Pages_ManPowerManage_Index_vue":1,"resources_js_components_Pages_ManPowerManage_Add_vue":1,"resources_js_components_Auth_Login_vue":1,"resources_js_components_Test_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

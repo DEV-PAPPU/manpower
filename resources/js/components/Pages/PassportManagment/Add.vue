@@ -48,7 +48,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportNo">Passport No </label>
-                                        <input v-model="form.passport_no" class="form-control" required type="text">
+                                        <input v-model="form.passport_no" class="form-control" required type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-2">

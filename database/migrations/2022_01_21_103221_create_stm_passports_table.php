@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePassengerImagesTable extends Migration
+class CreateStmPassportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreatePassengerImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('passenger_images', function (Blueprint $table) {
+        Schema::create('stm_passports', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('image');
+            $table->string('stm_passport_no');
+            $table->integer('status')->default(0)->comment('0 => Processing, 1 => Complete');
             $table->unsignedBigInteger('passenger_id');
             $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');
+            $table->unsignedBigInteger('stm_id');
+            $table->foreign('stm_id')->references('id')->on('stms')->onDelete('CasCade');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreatePassengerImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('passenger_images');
+        Schema::dropIfExists('stm_passports');
     }
 }

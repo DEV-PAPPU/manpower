@@ -12,6 +12,8 @@ use App\Http\Controllers\Backend\SectorController;
 use App\Http\Controllers\Backend\RequisitionController;
 use App\Http\Controllers\Backend\MofaInformationController;
 use App\Http\Controllers\Backend\PasssengerFileController;
+use App\Http\Controllers\Backend\SMTController;
+use App\Http\Controllers\Backend\ManPowerManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,12 +116,27 @@ use App\Http\Controllers\Backend\PasssengerFileController;
     Route::get('visa-trades', [MofaInformationController::class, 'trade_data']);
 
 
-    //------------------------------- [PasssengerFile Api Routes --------------------------\\
+    //------------------------------- SMT Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('passenger-image/{id}', [PasssengerFileController::class, 'images']);
     Route::post('passenger-image', [PasssengerFileController::class, 'store']);
 
 
-    Route::post('testapi', function () {
-        return 'working';
-    });
+    //------------------------------- Search Passport Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::post('search-passport', [SMTController::class, 'search_passport']);
+    Route::get('stm-lists', [SMTController::class, 'index']);
+    Route::post('add-stm-passport', [SMTController::class, 'store']);
+    Route::get('stm-passports/{id}', [SMTController::class, 'stm_passports']);
+    Route::post('change-passport-status', [SMTController::class, 'change_passport_status']);
+
+
+
+     //------------------------------- ManPowerManage Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::post('manpower-search-passport', [ManPowerManageController::class, 'search_passport']);
+    Route::get('manpower-lists', [ManPowerManageController::class, 'index']);
+    Route::post('add-manpower-passport', [ManPowerManageController::class, 'store']);
+    Route::get('manpower-passports/{id}', [ManPowerManageController::class, 'manpower_passports']);
+    Route::post('manpower-change-passport-status', [ManPowerManageController::class, 'change_passport_status']);
+
