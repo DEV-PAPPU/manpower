@@ -56,41 +56,40 @@
                     <table class="table table-hover table-bordered dbtable">
                         <thead>
                             <tr>
-                                <th>Passenger Name</th>
-                                <th>DOB</th>
-                                <th>Passport Info</th>
-                                <th>Mobile</th>
-                                <th>Father Name</th>
-                                <th>Gurdian's No</th>
-                                <th>District</th>
-                                <th>Passport Source</th>
-                                <th>Agent Name</th>
-                                <th>Is Approved</th>
-                                <th>Actions</th>
+                                <th style="width:60px">S/L</th>
+                                <th style="width:100px">Passenger Name</th>
+                                <th style="width:100px">DOB</th>
+                                <th style="width:100px">Passport No</th>
+                                <th style="width:100px">Old Passport No</th>
+                                <th style="width:100px">Passport Exp D</th>
+                                <th style="width:100px">Mobile</th>
+                                <th style="width:100px">Father Name</th>
+                                <th style="width:100px">Gurdian's No</th>
+                                <th style="width:100px">District</th>
+                                <th style="width:90px">Passport Source</th>
+                                <th style="width:100px">Agent Name</th>
+                                <!-- <th style="width:80px">Is Approved</th> -->
+                                <th style="width:100px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in passengers" :key="item.id">
+                                <td>{{item.id}}</td>
                                 <td>{{item.passenger_name}}</td>
                                 <td>{{item.passenger_date_of_birth}}</td>
-                                <td>
-                                    <div>
-                                        <span>No: {{item.passport_no}}</span>
-                                    </div>
-                                    <div>
-                                        <span>Exp D: {{item.passport_expire_date}}</span>
-                                    </div>
-                                </td>
+                                <td>{{item.passport_no}}</td>
+                                <td>{{item.old_passport_no}}</td>
+                                <td>{{item.passport_expire_date}}</td>
                                 <td>{{item.passenger_phone}}</td>
                                 <td>{{item.passenger_father_name}}</td>
                                 <td>{{item.passenger_gurdian_no}}</td>
                                 <td>{{item.district_name}}</td>
                                 <td>{{item.passport_source}}</td>
                                 <td>{{item.agent_name}}</td>
-                                <td>
+                                <!-- <td>
                                     <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                     <i v-else class="fas fa-times"></i>
-                                </td>
+                                </td> -->
                                 <td>
                                     <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
@@ -141,25 +140,23 @@ export default {
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 5,
+                        "scrollX": true
+                        
                     });
                     });
               })
         },
 
-        viewPassenger(data){
-            this.passenger = data;
-        },
-
         deleteAgent(item){
-            axios.post(`delete-passenger/${item.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+            // axios.post(`delete-passenger/${item.id}`).then(res =>{
+            //     Toast.fire({
+            //             icon: 'success',
+            //             title: res.data.msg
+            //     });
 
-                let index = this.passengers.indexOf(item);
-                this.passengers.splice(index, 1);
-            })
+            //     let index = this.passengers.indexOf(item);
+            //     this.passengers.splice(index, 1);
+            // })
         }
     },
 

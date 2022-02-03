@@ -180,6 +180,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addPassenger: function addPassenger() {
+      var _this = this;
+
       var data = new FormData();
       data.append('passenger_name', this.form.passenger_name);
       data.append('passenger_father_name', this.form.passenger_father_name);
@@ -195,14 +197,29 @@ __webpack_require__.r(__webpack_exports__);
       data.append('agent_id', this.form.agent_id);
       data.append('passenger_photo', document.getElementById('file').files[0]);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('add-passenger', data).then(function (response) {
-        Toast.fire({
-          icon: 'success',
-          title: response.data.msg
-        });
+        if (response.data.error_msg) {
+          Toast.fire({
+            icon: 'error',
+            title: response.data.error_msg
+          });
+        }
+
+        if (response.data.msg) {
+          Toast.fire({
+            icon: 'success',
+            title: response.data.msg
+          });
+
+          _this.$router.push({
+            name: 'PassengerList'
+          });
+        }
+      })["catch"](function (e) {
+        alert('Someting is Wrong');
       });
     },
     changeImg: function changeImg(e) {
-      var _this = this;
+      var _this2 = this;
 
       var image = document.getElementById('file'); // this.form.passenger_photo = image.files[0];
 
@@ -215,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
       if (file['size'] < 2111775) {
         reader.onloadend = function (file) {
           //console.log('RESULT', reader.result)
-          _this.form.passenger_photo = reader.result;
+          _this2.form.passenger_photo = reader.result;
         };
 
         reader.readAsDataURL(file);
@@ -232,13 +249,13 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios__WEBPACK_IMPORTED_MODULE_0___default().get("agents").then(function (res) {
-      _this2.agents = res.data;
+      _this3.agents = res.data;
     });
     axios__WEBPACK_IMPORTED_MODULE_0___default().get("districts").then(function (res) {
-      _this2.districts = res.data;
+      _this3.districts = res.data;
     });
   }
 });
@@ -339,7 +356,7 @@ var render = function () {
         },
         [
           _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-            _vm._v("Passenger Enter"),
+            _vm._v("Passenger Entry"),
           ]),
           _vm._v(" "),
           _c(
@@ -452,7 +469,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "number" },
+                      attrs: { required: "", type: "number" },
                       domProps: { value: _vm.form.passenger_phone },
                       on: {
                         input: function ($event) {
@@ -486,7 +503,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { required: "", type: "text" },
+                      attrs: { type: "number" },
                       domProps: { value: _vm.form.passenger_gurdian_no },
                       on: {
                         input: function ($event) {
@@ -522,7 +539,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control dtpicker",
-                      attrs: { type: "date" },
+                      attrs: { required: "", type: "date" },
                       domProps: { value: _vm.form.passenger_date_of_birth },
                       on: {
                         input: function ($event) {
@@ -586,7 +603,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control dtpicker",
-                      attrs: { type: "date" },
+                      attrs: { required: "", type: "date" },
                       domProps: { value: _vm.form.passport_expire_date },
                       on: {
                         input: function ($event) {
@@ -620,7 +637,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { required: "", type: "text" },
+                      attrs: { type: "text" },
                       domProps: { value: _vm.form.old_passport_no },
                       on: {
                         input: function ($event) {

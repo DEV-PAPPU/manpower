@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\Requisition;
 use App\Models\RequisitionVisainfo;
 use App\Models\RequisitionTradeInfo;
-
-
+use App\Models\Company;
+use App\Models\Sector;
+use App\Models\CompanySector;
+use App\Models\RequisitionCompanySector;
 use DB;
 class RequisitionController extends Controller
 {
     public function index(){
         
-        $requisitions = Requisition::with('company', 'sector')->latest()->get();
+        $requisitions = Requisition::with('company')->latest()->get();
 
         // $requisitions = DB::table('requisitions')
         //             ->leftJoin('companies', 'requisitions.id', '=', 'requisitions.company_id')
@@ -27,20 +29,32 @@ class RequisitionController extends Controller
 
     public function store (Request $request){
        
+        // return $request;
         $this->validate($request,[
 
             'kafil_id' => 'required',
             'requisition_date' => 'required',
             'company_id' => 'required',
-            'sector_id' => 'required',
+            // 'sector_id' => 'required',
         ]);
     
          $requisition = new Requisition();
          $requisition->kafil_id = $request->kafil_id;
          $requisition->requisition_date = $request->requisition_date;
          $requisition->company_id = $request->company_id;
-         $requisition->sector_id = $request->sector_id;
+        //  $requisition->sector_id = $request->sector_id;
          $requisition->save();
+
+
+         $company_sectors = $request->sector_id;
+
+         foreach($company_sectors as $item){
+            //  return $item;
+            $r_c_sector = new RequisitionCompanySector();
+            $r_c_sector->requisition_company_id = $request->company_id;
+            $r_c_sector->requisition_company_sector_id = $item['id'];
+            $r_c_sector->save();
+         }
 
 
          $visainfos = $request->visaFormdata;
@@ -78,6 +92,49 @@ class RequisitionController extends Controller
     {
         $data = Requisition::where('id', $id)->first();
         return response()->json($data, 200);
+    }
+
+
+    public function requisition_company_sectors($id)
+    {
+         $data = DB::table('companies')
+                    ->leftJoin('company_sectors', 'company_sectors.company_id', 'companies.id')
+                    ->join('sectors', 'sectors.id', '=', 'company_sectors.sector_id')
+                    ->where('companies.id', $id)
+                    ->select('sectors.sector_name', 'sectors.id')
+                    ->get();
+
+        return response()->json($data, 200);
+
+    }
+
+
+    public function search_sector_by_company($id)
+    {
+        $data = DB::table('companies')
+                    ->leftJoin('company_sectors', 'company_sectors.company_id', 'companies.id')
+                    ->join('sectors', 'sectors.id', '=', 'company_sectors.sector_id')
+                    ->where('companies.id', $id)
+                    ->select('sectors.id', 'sectors.sector_name')
+                    ->get();
+
+        $companysectors = '';
+        $msg = '';
+
+        if($data->count()){
+            $companysectors = RequisitionCompanySector::with('sector')->where('requisition_company_id', $id)->get();
+            
+        }
+        else{
+            $msg = 'There is no sector in this company';
+        }
+
+          return response()->json([
+            'msg' => $msg,
+            'data' => $data,
+            'companysectors' => $companysectors
+        ], 200);
+           
 
     }
 

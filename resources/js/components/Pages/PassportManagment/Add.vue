@@ -3,141 +3,120 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Passenger Enter</h6>
-                 <router-link :to="{name: 'PassengerList'}" class="btn bg-light btn-sm">Back To List</router-link>
+                <h6 class="m-0 font-weight-bold text-white">Passpor Entry</h6>
+                <router-link :to="{name: 'PassportList'}" class="btn bg-light btn-sm">Back To List</router-link>
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 <div class="form">
-                        <form @submit.prevent="addPassenger">
-                            <div class="form-group row">
+                    <div class="form-group row">
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PassengerName">Passenger Name </label>
-                                        <input v-model="form.passenger_name" class="form-control" required type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="FatherName">Father's Name </label>
-                                        <input v-model="form.passenger_father_name" class="form-control" required  type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PhoneNo1">Phone No (Primary)</label>
-                                        <input v-model="form.passenger_phone" class="form-control" type="number">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PerAddress">Gurdian's No </label>
-                                        <input v-model="form.passenger_gurdian_no" class="form-control" required  type="text">
-                                    </div>
-                                </div>
-                                
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PassengerName">Search Passoort</label>
+                                <input v-model="searchFrom.passport_no" class="form-control" type="text">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="DOB">Date of Birth </label>
-                                        <input v-model="form.passenger_date_of_birth"  class="form-control dtpicker" type="date">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="PassportNo">Passport No </label>
-                                        <input v-model="form.passport_no" class="form-control" required type="number">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="PassportExpireDate">Passport Expire Date </label>
-                                        <input v-model="form.passport_expire_date" class="form-control dtpicker" type="date">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="PassportNo">Old Passport No </label>
-                                        <input v-model="form.old_passport_no" class="form-control" required type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="Gender">Gender </label>
-                                        <select v-model="form.passenger_gender" class="form-control filter-select" required>
-                                            <option value="">-- Select --</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </select>
+                        </div>
 
+                        <div class="search_btn col-md-2">
+                            <button class="btn btn-success px-3" @click.prevent="searchPassport">Search<i
+                                    class="mx-2 fas fa-plus-circle"></i></button>
+                        </div>
 
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="PerDistrictId">District </label>
-                                        <select v-model="form.district_id" class="form-control filter-select" required>
-                                            <option value="">-- Select --</option>
-                                            <option v-for="district in districts" :value="district.id"
-                                                :key="district.id">{{district.district_name}}</option>
-                                        </select>
-                                    </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="DOB">Passport No.</label>
+                                <input v-model="form.passport_no" class="form-control" readonly type="text">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input v-model="form.passenger_name" class="form-control" readonly type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="name">Phone No.</label>
+                                <input v-model="form.passenger_name" class="form-control" readonly type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <form>
+                        <div class="form-group row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name">Video</label>
+                                    <select v-model="form.video" class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="0">Pending</option>
+                                        <option value="1">Ok</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PassportSource">Passport Source</label>
-
-                                        <select v-model="form.passport_source"  class="form-control filter-select" required>
-                                            <option value="">-- Select --</option>
-                                            <option value="self">Self</option>
-                                            <option value="process">Process</option>
-                                            <option value="agent">Agent</option>
-                                        </select>
-                                    </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="name">TKT date</label>
+                                    <input v-model="form.tkt_date" class="form-control" type="date">
                                 </div>
-                                <div v-if="form.passport_source == 'agent'" class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="AgentId">Agent Name</label>
-
-                                        <select v-model="form.agent_id"  class="form-control">
-                                            <option value="">-- Select --</option>
-                                            <option value="null">None</option>
-                                            <option v-for="item in agents" :key="item.id" :value="item.id">{{item.agent_name}}</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="trade">TC RCV Date</label>
+                                    <input v-model="form.tc_rcv_date" class="form-control" type="date">
                                 </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label id="PhotoPathLabel" for="PhotoPath">Photo</label><br>
-                                        <input style="width: 103px" @change="changeImg" required type="file" id="file">
-                                        
-                                    </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="trade">PC Date</label>
+                                    <input v-model="form.pc_date" class="form-control" type="date">
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="Preview">
-                                            <img src="" id="uploadPreview" class="image" alt="">
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name">Fly</label>
+                                    <select v-model="form.fly" class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="0">Pending</option>
+                                        <option value="1">Ok</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="UserRole">Medical</label>
+                                    <select v-model="form.medical" class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="0">Gone</option>
+                                        <option value="1">Fit</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-md-4" style="clear:both;">
-                                    <button class="btn btn-success" type="submit">Save Changes</button>
-                                    <button class="btn btn-danger" type="reset">Cancel</button>
+                            <div v-if="form.medical == '0'" class="col-md-3">
+                                <div class="form-group">
+                                    <label for="trade">Gone Date</label>
+                                    <input v-model="form.gone_date" class="form-control" type="date">
                                 </div>
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-4" style="clear:both;">
+                                <button @click.prevent="submitPassport" class="btn btn-success">Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -145,97 +124,87 @@ import axios from 'axios';
 export default {
     data : () =>{
         return {
-            form:{
-                passenger_name: '',
-                passenger_father_name: '',
-                passenger_phone: '',
-                passenger_gurdian_no: '',
-                passenger_date_of_birth: '',
-                passport_no: '',
-                passport_source: '',
-                passport_expire_date: '',
-                old_passport_no: '',
-                passenger_gender: '',
-                district_id: '',
-                agent_id: '',
-                passenger_photo: '',
+            searchFrom:{
+              passport_no: '',
             },
-            agents: [],
-            districts:[
-                
-            ]
-
-
+            date : '',
+            form:{
+                medical: '',
+                gone_date: '',
+                video: '',
+                pc_date: '',
+                passenger_id: '',
+                passenger_name: '',
+                passport_no: '',
+                company_name: '',
+                tc_rcv_date: '',
+                tkt_date: '',
+                fly: '',
+                passport_source: '',
+            },
+            passports: [],
         }
     },
 
     methods:{
 
-        addPassenger(){
-             
-                let data = new FormData();
-                data.append('passenger_name', this.form.passenger_name);
-                data.append('passenger_father_name', this.form.passenger_father_name);
-                data.append('passenger_phone', this.form.passenger_phone);
-                data.append('passport_no', this.form.passport_no);
-                data.append('passport_source', this.form.passport_source);
-                data.append('passenger_gurdian_no', this.form.passenger_gurdian_no);
-                data.append('passenger_date_of_birth', this.form.passenger_date_of_birth);
-                data.append('passport_expire_date', this.form.passport_expire_date);
-                data.append('old_passport_no', this.form.old_passport_no);
-                data.append('passenger_gender', this.form.passenger_gender);
-                data.append('district_id', this.form.district_id);
-                data.append('agent_id', this.form.agent_id);
-                data.append('passenger_photo', document.getElementById('file').files[0])
+        searchPassport(){
 
-            axios.post('add-passenger', data).then(response =>{
+            axios.post('search-passport', this.searchFrom).then(res =>{
+                const passenger = res.data.data;
                 
-                Toast.fire({
-                        icon: 'success',
-                        title: response.data.msg
+                if(passenger){
+                   this.form = passenger;
+                }
+                if(res.data.msg){
+                    Toast.fire({
+                        icon: 'error',
+                        title: res.data.msg
                 });
+                }
             })
-
         },
 
-        changeImg(e){
-            var image = document.getElementById('file');
-            // this.form.passenger_photo = image.files[0];
-            let form_img  = image.files[0];
-            var output = document.getElementById('uploadPreview');
-            output.src = URL.createObjectURL(form_img);
+       submitPassport(){
 
-            let file = e.target.files[0];
-                let reader = new FileReader();  
+       }
 
-                if(file['size'] < 2111775)
-                {
-                    reader.onloadend = (file) => {
-                    //console.log('RESULT', reader.result)
-                     this.form.passenger_photo = reader.result;
-                    }              
-                     reader.readAsDataURL(file);
-                }else{
-                    alert('File size can not be bigger than 2 MB')
-                }
-        }
-        // changeImg(e){
-        //     var image = document.getElementById('file');
-        //     this.form.passenger_photo = image.files[0];
-        //     let form_img  = image.files[0];
-        //     var output = document.getElementById('uploadPreview');
-        //     output.src = URL.createObjectURL(form_img);
-        // }
+    },
+
+    watch: { 
+    // 'form.passport_no': {
+    //   handler(newVal, oldVal) {
+    //       this.searchPassport(newVal);
+    //   },
+    //   deep: true
+    // }
 
     },
 
     mounted(){
-        axios.get("agents").then(res =>{
-           this.agents = res.data
-        });
-        axios.get("districts").then(res =>{
-           this.districts = res.data
-        });
+
+        let today = new Date().toLocaleDateString();
+        this.form.date = today
     }
 }
 </script>
+
+
+<style scoped>
+.search_btn{
+    margin-top: 30px;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(43, 43, 43);
+}
+
+.table td, .table th {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    font-size: 14;
+}
+</style>

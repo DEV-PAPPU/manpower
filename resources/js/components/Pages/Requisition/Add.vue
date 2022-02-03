@@ -11,7 +11,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
 
-                    <form >
+                    <form>
                         <div class="form-group row">
 
                             <div class="col-md-3">
@@ -34,8 +34,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserRole">Company Name</label>
-                                    <select v-model="form.company_id" class="form-control filter-select" required>
-                                        <option value="">-- Select District --</option>
+                                    <select @change="changeCompany" v-model="form.company_id" class="form-control filter-select" required>
+                                        <option value="">-- Select company --</option>
                                         <option v-for="company in companies" :key="company.id" :value="company.id">
                                             {{company.company_name}}</option>
                                     </select>
@@ -45,17 +45,21 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div  class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserRole">Sector</label>
-                                    <select v-model="form.sector_id" class="form-control filter-select">
-                                        <option value="">-- Select Sector --</option>
-                                        <option v-for="sector in sector_of_company" :key="sector.id" :value="sector.id" required>
+                                 
+                                    <select v-model="form.sector_id" multiple="true" class="form-control filter-select">
+                                        <option value="" selected >-- Select Sector --</option>
+                                        <option v-for="sector in companysectors" :key="sector.id" :value="sector" required>
                                             {{sector.sector_name}}</option>
-                                    </select>
+                                    </select>   
+                                     
                                     <small v-if="errors.sector_id"
                                         class="form-text text-danger">{{ errors.sector_id[0] }}</small>
                                 </div>
+
+
                             </div>
                             
 
@@ -89,7 +93,7 @@ import axios from 'axios'
                 form:{
                 kafil_iD: '',
                 requisition_date: '',
-                sector_id: '',
+                sector_id: [],
                 company_id: '',
                 is_approved: '',
                 visaFormdata:[],
@@ -98,21 +102,26 @@ import axios from 'axios'
                },
                errors: '',
                companies:[],
-               companysectors:[],
+               companysectors:'',
+
 
             }
         },
 
         methods:{
-
             addRequisition(){
              
               axios.post('add-requisition', this.form).then(response =>{
                
-                Toast.fire({
+                if(response.data.msg){
+
+                    Toast.fire({
                         icon: 'success',
                         title: response.data.msg
-                });
+                     });
+
+                    this.$router.push({name:'RequisitionList'});
+                }
 
                 this.errors = '';
 
@@ -125,6 +134,43 @@ import axios from 'axios'
             formData(event){
                 this.form.visaFormdata = event.visa;
                 this.form.tradeFormdata = event.trade;
+            },
+
+            changeCompany(){
+                
+                let id = this.form.company_id;
+
+                axios.get(`search-sector-by-company/${id}`).then(res =>{
+                   this.companysectors = res.data.data
+                  
+                  if(res.data.msg){
+                        Toast.fire({
+                        icon: 'error',
+                        title: res.data.msg
+                        });
+                    }
+                })
+            },
+
+
+            lelectSector(sector){
+
+                //checking is item in list  or not
+                let item = this.form.sector_id.filter(a => a.id == sector.id)
+                if(item.length){
+
+                    let index = this.form.sector_id.indexOf(sector);
+                    this.form.sector_id.splice(index, 1);
+
+                   console.log('new items',this.form.sector_id.length)
+                }
+
+                // if item not in list then push this iten in list
+                else{
+                    this.form.sector_id.push(sector);
+                    console.log('old items',this.form.sector_id.length)
+                }
+
             }
 
         },
@@ -140,7 +186,7 @@ import axios from 'axios'
         mounted() {
             axios.get('companies').then(response =>{
                 this.companies = response.data.companies;
-                this.companysectors = response.data.companysector;
+                // this.companysectors = response.data.companysector;
               });
         }
     }
@@ -161,5 +207,10 @@ table.dataTable thead th, table.dataTable thead td {
     vertical-align: top;
     border-top: 1px solid #e3e6f0;
     font-size: 13;
+}
+
+.form-control.all_sectors.filter-select {
+    height: 200px;
+    overflow-y: scroll;
 }
 </style>

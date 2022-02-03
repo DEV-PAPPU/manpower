@@ -1,7 +1,7 @@
 <template>
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -52,8 +52,10 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Info Management:</h6>
                     <router-link :to="{name: 'PassportList'}" class="collapse-item">Passenger Status</router-link>
+                    <router-link :to="{name: 'InterviewEntry'}" class="collapse-item">Interview Entry</router-link>
                     <router-link :to="{name: 'STMLIST'}" class="collapse-item">STM LIST</router-link>
                     <router-link :to="{name: 'MPLIST'}" class="collapse-item">MP RCV</router-link>
+                    <router-link :to="{name: 'TKTLists'}" class="collapse-item">TKT Lists</router-link>
                 </div>
             </div>
         </li>

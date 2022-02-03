@@ -16,8 +16,9 @@ class CreateMofaInformationTable extends Migration
         Schema::create('mofa_information', function (Blueprint $table) {
             $table->id();
             $table->string('discount')->nullable();
-            $table->unsignedBigInteger('passenger_id');
             $table->unsignedBigInteger('trade_id');
+            $table->unsignedBigInteger('passenger_id');
+            $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');
             $table->timestamps();
         });
     }

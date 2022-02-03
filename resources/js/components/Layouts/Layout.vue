@@ -110,13 +110,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                    <span class="mt-4"></span>
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">{{currentRouteName}}</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Manpower Soft</a>
-                    </div>
+                    </div> -->
 
                     <!--Page Router Content -->
                     <template v-if="currentRouteName == 'Dashboard'">

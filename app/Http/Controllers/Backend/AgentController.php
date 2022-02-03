@@ -29,7 +29,6 @@ class AgentController extends Controller
             'agent_name' => 'required',
             'agent_phone' => 'required',
             'district_id' => 'required',
-            'agent_email' => 'required',
         ]);
     
          $agent = new Agent();

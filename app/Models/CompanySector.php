@@ -9,4 +9,9 @@ class CompanySector extends Model
 {
     protected  $guarded = [];
 
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'sector_id');
+    }
+
 }

@@ -128,6 +128,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Bootstrap and jQuery libraries
 // import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
@@ -141,20 +157,22 @@ __webpack_require__.r(__webpack_exports__);
     return {
       form: {},
       passengers: [],
-      passenger: ''
+      passenger: '',
+      passenger_fly_data: ''
     };
   },
   methods: {
-    loadagents: function loadagents() {
+    loadInterview: function loadInterview() {
       var _this = this;
 
       //API Call
-      axios__WEBPACK_IMPORTED_MODULE_4___default().get("passengers").then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("interview/lists").then(function (res) {
         _this.passengers = res.data;
         setTimeout(function () {
           jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            pageLength: 5
+            pageLength: 5,
+            "scrollX": true
           });
         });
       });
@@ -162,23 +180,45 @@ __webpack_require__.r(__webpack_exports__);
     viewMore: function viewMore(data) {
       this.passenger = data;
     },
-    deleteAgent: function deleteAgent(item) {
+    FlyStatus: function FlyStatus(item) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-passenger/".concat(item.id)).then(function (res) {
-        Toast.fire({
-          icon: 'success',
-          title: res.data.msg
-        });
-
-        var index = _this2.passengers.indexOf(item);
-
-        _this2.passengers.splice(index, 1);
+      Swal.fire({
+        title: 'Change Passenger Fly Status.',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: "No"
+      }).then(function (result) {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire('Saved!', '', 'success');
+          axios__WEBPACK_IMPORTED_MODULE_4___default().post("interview/change-fly-status/".concat(item.id)).then(function (res) {
+            Toast.fire({
+              icon: 'success',
+              title: res.data.msg
+            });
+            axios__WEBPACK_IMPORTED_MODULE_4___default().get("interview/lists").then(function (res) {
+              _this2.passengers = res.data;
+            });
+          });
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info');
+        }
       });
+    },
+    deleteAgent: function deleteAgent(item) {// axios.post(`delete-passenger/${item.id}`).then(res =>{
+      //     Toast.fire({
+      //             icon: 'success',
+      //             title: res.data.msg
+      //     });
+      //     let index = this.passengers.indexOf(item);
+      //     this.passengers.splice(index, 1);
+      // })
     }
   },
   mounted: function mounted() {
-    this.loadagents();
+    this.loadInterview();
   }
 });
 
@@ -243,7 +283,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-55372389], table.dataTable thead td[data-v-55372389] {\r\n    font-size: 12px;\r\n    font-weight: 500;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-55372389], .table th[data-v-55372389] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-55372389], .delete_icon[data-v-55372389]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-55372389]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-55372389]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-55372389]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-55372389], table.dataTable thead td[data-v-55372389] {\r\n    font-size: 12px;\r\n    font-weight: 500;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-55372389], .table th[data-v-55372389] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-55372389], .delete_icon[data-v-55372389]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-55372389]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-55372389]{\r\n    color: rgb(238, 12, 12);\n}\r\n\r\n/* .database__table{\r\n    max-width: 1140px;\r\n    overflow-x: scroll;\r\n}\r\n\r\n.dbtable{\r\n    max-width: 1500px;\r\n    overflow-x: scroll;\r\n} */\r\n\r\n\r\n/* @media only screen and (max-width: 1000px){\r\n\t.database__table{\r\n    overflow-x: scroll;\r\n}\r\n} */\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27143,147 +27183,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "card shadow mb-4" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "card-header py-3 d-flex flex-row align-items-center justify-content-between",
-        },
-        [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-            _vm._v("Passport List"),
-          ]),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass: "btn bg-light btn-sm",
-              attrs: { to: { name: "AddPassenger" } },
-            },
-            [_vm._v("Add Passenger")]
-          ),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "database__table" }, [
-          _c(
-            "table",
-            { staticClass: "table table-hover table-bordered dbtable" },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.passengers, function (item) {
-                  return _c("tr", { key: item.id }, [
-                    _c("td", [_vm._v(_vm._s(item.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.passenger_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.passenger_date_of_birth))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("div", [
-                        _c("span", [_vm._v("No: " + _vm._s(item.passport_no))]),
-                      ]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c("span", [
-                          _vm._v("Exp D: " + _vm._s(item.passport_expire_date)),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.passenger_gurdian_no))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.district_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.passport_source))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.agent_name))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      item.is_approved == 0
-                        ? _c("i", { staticClass: "fa fa-check Yes" })
-                        : _c("i", { staticClass: "fas fa-times" }),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: {
-                                name: "PassengerEdit",
-                                params: { id: item.id },
-                              },
-                            },
-                          },
-                          [_c("i", { staticClass: "far edit_icon fa-edit" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            on: {
-                              click: function ($event) {
-                                return _vm.deleteAgent(item)
-                              },
-                            },
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "fas delete_icon fa-trash-alt",
-                            }),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target": "#exampleModalCenter",
-                            },
-                            on: {
-                              click: function ($event) {
-                                return _vm.viewMore(item)
-                              },
-                            },
-                          },
-                          [
-                            _c("i", {
-                              staticClass: "edit_icon fas fa-align-justify",
-                            }),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                  ])
-                }),
-                0
-              ),
-            ]
-          ),
-        ]),
-      ]),
-    ]),
-  ])
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
+    _c(
       "div",
       {
         staticClass: "modal fade",
@@ -27304,33 +27204,7 @@ var staticRenderFns = [
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "exampleModalCenterTitle" },
-                  },
-                  [_vm._v("Modal title")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close",
-                    },
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×"),
-                    ]),
-                  ]
-                ),
-              ]),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "database__table" }, [
@@ -27338,35 +27212,26 @@ var staticRenderFns = [
                     "table",
                     { staticClass: "table table-hover table-bordered" },
                     [
-                      _c("thead", [
-                        _c("tr", [
-                          _c("th", [_vm._v("Company Name")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Agent")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Sector")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Video")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Medical")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("PC Date")]),
-                        ]),
-                      ]),
+                      _vm._m(1),
                       _vm._v(" "),
                       _c("tbody", [
                         _c("tr", [
-                          _c("td", [_vm._v("data")]),
+                          _c("td", [
+                            _vm.passenger.passenger_video == "1"
+                              ? _c("span", [_vm._v("Yes")])
+                              : _c("span", [_vm._v("No")]),
+                          ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v("data")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("data")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("data")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("data")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v("data")]),
+                          _c("td", [
+                            _vm.passenger.medical_result == "1"
+                              ? _c("span", [_vm._v("Fit")])
+                              : _c("span", [
+                                  _vm._v(
+                                    "Gone " +
+                                      _vm._s(_vm.passenger.medical_gone_date)
+                                  ),
+                                ]),
+                          ]),
                         ]),
                       ]),
                     ]
@@ -27374,19 +27239,243 @@ var staticRenderFns = [
                 ]),
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                  },
-                  [_vm._v("Close")]
-                ),
-              ]),
+              _vm._m(2),
             ]),
           ]
         ),
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "card shadow mb-4" }, [
+      _vm._m(3),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "div",
+          {
+            staticClass: "database__table",
+            staticStyle: { "overflow-x": "auto" },
+          },
+          [
+            _c(
+              "table",
+              { staticClass: "table table-hover table-bordered dbtable" },
+              [
+                _vm._m(4),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.passengers, function (item) {
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(item.id))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            attrs: {
+                              "data-toggle": "modal",
+                              "data-target": "#exampleModalCenter",
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.viewMore(item)
+                              },
+                            },
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fas fa-user-plus edit_icon",
+                            }),
+                          ]
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.passenger_name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.passport_no))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.trade))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.company_name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.pc_date))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        !item.stm_passport_complete_date
+                          ? _c("span", [_vm._v("Processing")])
+                          : _c("span", [
+                              _vm._v(_vm._s(item.stm_passport_complete_date)),
+                            ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.tc_rcv_date))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        !item.man_power_passport_complete_date
+                          ? _c("span", [_vm._v("Processing")])
+                          : _c("span", [
+                              _vm._v(
+                                _vm._s(item.man_power_passport_complete_date)
+                              ),
+                            ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        !item.tkt_passport_booking_date
+                          ? _c("span", [_vm._v("Processing")])
+                          : _c("span", [
+                              _vm._v(_vm._s(item.tkt_passport_booking_date)),
+                            ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        item.passenger_fly == "1"
+                          ? _c("span", [_vm._v("Fly")])
+                          : _c(
+                              "div",
+                              {
+                                staticClass: "d-flex gap-2 align-items-center",
+                              },
+                              [
+                                _c("span", [_vm._v("No")]),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary btn-sm",
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.FlyStatus(item)
+                                      },
+                                    },
+                                  },
+                                  [_c("i", { staticClass: "fas fa-toggle-on" })]
+                                ),
+                              ]
+                            ),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.sector_name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.agent_name))]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              attrs: {
+                                to: {
+                                  name: "PassengerEdit",
+                                  params: { id: item.id },
+                                },
+                              },
+                            },
+                            [_c("i", { staticClass: "far edit_icon fa-edit" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              on: {
+                                click: function ($event) {
+                                  return _vm.deleteAgent(item)
+                                },
+                              },
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fas delete_icon fa-trash-alt",
+                              }),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ])
+                  }),
+                  0
+                ),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "exampleModalCenterTitle" },
+        },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close",
+          },
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Video")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Medical")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button", "data-dismiss": "modal" },
+        },
+        [_vm._v("Close")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "card-header py-3 d-flex flex-row align-items-center justify-content-between",
+      },
+      [
+        _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
+          _vm._v("Passengers Status"),
+        ]),
       ]
     )
   },
@@ -27398,23 +27487,33 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("S/L")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", { staticStyle: { width: "60px" } }, [_vm._v("Interview")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Passport")]),
+        _c("th", { staticStyle: { width: "110px" } }, [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Trade")]),
+        _c("th", { staticStyle: { width: "110px" } }, [_vm._v("Passport")]),
         _vm._v(" "),
-        _c("th", [_vm._v("STM Date")]),
+        _c("th", { staticStyle: { width: "60px" } }, [_vm._v("Trade")]),
         _vm._v(" "),
-        _c("th", [_vm._v("TC RCV Date")]),
+        _c("th", { staticStyle: { width: "120px" } }, [_vm._v("Company")]),
         _vm._v(" "),
-        _c("th", [_vm._v("MP RCV Date")]),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("Pc Date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("TKT Date")]),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("STM Date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Fly")]),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("TC RCV Date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Actions")]),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("MP RCV Date")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("TKT Date")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Fly")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("Sector")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "90px" } }, [_vm._v("Agent")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "70px" } }, [_vm._v("Actions")]),
       ]),
     ])
   },

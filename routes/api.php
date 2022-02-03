@@ -14,6 +14,11 @@ use App\Http\Controllers\Backend\MofaInformationController;
 use App\Http\Controllers\Backend\PasssengerFileController;
 use App\Http\Controllers\Backend\SMTController;
 use App\Http\Controllers\Backend\ManPowerManageController;
+use App\Http\Controllers\Backend\PassengerStatusManagement;
+use App\Http\Controllers\Backend\TKTController;
+use App\Http\Controllers\Backend\InterviewController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\DataSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +26,11 @@ use App\Http\Controllers\Backend\ManPowerManageController;
 |--------------------------------------------------------------------------
 |
 */
+
+    //------------------------------- DashboardController--------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('dashboard-status', [DashboardController::class, 'dashboard_status']);
+
 
     //------------------------------- User  Login Register ,  Logout--------------------------\\
     //------------------------------------------------------------------\\
@@ -103,7 +113,8 @@ use App\Http\Controllers\Backend\ManPowerManageController;
     Route::post('delete-requisition/{id}', [RequisitionController::class, 'destroy']);
     Route::get('requisition/visa-info/{id}', [RequisitionController::class, 'requisition_visa_info']);
     Route::get('requisition/visa-trade/{id}', [RequisitionController::class, 'requisition_visa_trade']);
-
+    Route::get('search-sector-by-company/{id}', [RequisitionController::class, 'search_sector_by_company']);
+    Route::get('requisition-company-sectors/{id}', [RequisitionController::class, 'requisition_company_sectors']);
 
 
     //------------------------------- MofaInformation Api Routes --------------------------\\
@@ -139,4 +150,41 @@ use App\Http\Controllers\Backend\ManPowerManageController;
     Route::post('add-manpower-passport', [ManPowerManageController::class, 'store']);
     Route::get('manpower-passports/{id}', [ManPowerManageController::class, 'manpower_passports']);
     Route::post('manpower-change-passport-status', [ManPowerManageController::class, 'change_passport_status']);
+
+
+    
+     //------------------------------- TKT Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('tkt')->group(function () {
+        Route::post('/search-passport', [TKTController::class, 'search_passport']);
+        Route::get('/lists', [TKTController::class, 'index']);
+        Route::post('/add-passport', [TKTController::class, 'store']);
+        Route::get('/passports/{id}', [TKTController::class, 'Tkt_passports']);
+        Route::post('/change-passport-status', [TKTController::class, 'change_passport_status']);
+    });
+
+
+
+     //------------------------------- Interview Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('interview')->group(function () {
+        Route::post('/search-passenger', [InterviewController::class, 'search_passenger']);
+        Route::get('/lists', [InterviewController::class, 'index']);
+        Route::post('/edit', [InterviewController::class, 'edit']);
+        Route::post('/update', [InterviewController::class, 'update']);
+        Route::post('/add', [InterviewController::class, 'store']);
+        Route::post('/change-fly-status/{id}', [InterviewController::class, 'change_fly_status']);
+    });
+    
+
+     //------------------------------- DataSearchController Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::post('trade-search-by-company', [DataSearchController::class, 'search_trade_by_company']);
+    Route::post('/search-passenger', [DataSearchController::class, 'search_passenger']);
+    
+    
+     //------------------------------- PassengerStatusManagement Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('passenger-status', [PassengerStatusManagement::class, 'index']);
+
 

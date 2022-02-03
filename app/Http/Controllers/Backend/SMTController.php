@@ -11,6 +11,7 @@ use App\Models\RequisitionTradeInfo;
 use App\Models\Passenger;
 use App\Models\Stm;
 use App\Models\StmPassport;
+use App\Models\Interview;
 use DB;
 class SMTController extends Controller
 {
@@ -28,76 +29,87 @@ class SMTController extends Controller
         
         $data = '';
         $msg = '';
+        $msg_status = '';
+        $error_msg = '';
+        $passenger_interview = '';
 
-        $old_passport = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
-       
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
 
+        $old_passport = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
+
+
         if($old_passport){
-            $msg = 'Already added in STM list';
+            $error_msg =   'Passenger Already Added STM';
         }
-        else{
-
-            if($passenger){
-
-                if($passenger->passport_source == 'agent'){
-                    $passenger = Passenger::with('agent')->where('passport_no',  $request->passport_no)->first();
-                }
-    
-            }
-    
-            // checking passenger of request passport_no
-            if($passenger){
-    
-                $mofa = MofaInformation::with('trade')->where('passenger_id', $passenger->id)->first();
-                
-                // checking trade of passenger 
-                if($mofa){
-    
-                    $mofa_info = MofaInformation::with('trade','passenger')->where('passenger_id', $passenger->id)->first();
-                    
-                    // getting company name
-                     $company_info = Requisition::with('company')->where('id',$mofa_info->trade->requisition_id)->first();
-                    
-            
-                     $agent_name = '';
-                      
-                     if($passenger->passport_source == 'agent'){
-                         $agent_name = $passenger->agent->agent_name;
-                     }
-    
-                    // data collection 
-                    $data = array(
-                        'passenger_id'  => $passenger->id,
-                        'passport_no'  => $passenger->passport_no,
-                        'passenger_name'  => $passenger->passenger_name,
-                        'passport_source'  => $passenger->passport_source,
-                        'agent_name'  => $agent_name,
-                        'trade'  => $mofa_info->trade->trade,
-                        'company_name'  => $company_info->company->company_name,
-                    );
-                    
-                }
-    
-                else{
-                    $msg = 'Please entry in Mofa-List';
-                }
-            }
-    
-            else{
-              
-                $msg = 'Passenger  Not found';
-            } 
-
-        }
-
-
-      
         
+        //checking passenger interview done or not
+        if($passenger){
+            
+            $passenger_interview = Interview::where('passenger_id',$passenger->id)->first();
+
+            //checking interview data
+            if($passenger_interview){
+                
+                if($passenger_interview->pc_date == null && $passenger_interview->medical_result == '0'){
+                   
+                    $error_msg = 'Please Complate Passenger Interview';
+                }
+            }
+
+        }
+
+        else {
+            $error_msg = 'Passenger Not Found!';
+        }
+
+
+
+
+        if($passenger){
+
+            if($passenger->passport_source == 'agent'){
+                $passenger = Passenger::with('agent')->where('passport_no',  $request->passport_no)->first();
+            }
+    
+            $mofa = MofaInformation::with('trade')->where('passenger_id', $passenger->id)->first();
+            // checking trade of passenger 
+
+            if($mofa){
+
+                $mofa_info = MofaInformation::with('trade','passenger')->where('passenger_id', $passenger->id)->first();
+                
+                // getting company name
+                 $company_info = Requisition::with('company')->where('id',$mofa_info->trade->requisition_id)->first();
+
+                 $agent_name = '';
+                  
+                 if($passenger->passport_source == 'agent'){
+                     $agent_name = $passenger->agent->agent_name;
+                 }
+                // data collection 
+                $data = array(
+                    'passenger_id'  => $passenger->id,
+                    'passport_no'  => $passenger->passport_no,
+                    'passenger_name'  => $passenger->passenger_name,
+                    'passport_source'  => $passenger->passport_source,
+                    'agent_name'  => $agent_name,
+                    'trade'  => $mofa_info->trade->trade,
+                    'company_name'  => $company_info->company->company_name,
+                );
+            }
+            else {
+                $error_msg = 'Please entry in Mofa-List';
+            }
+        }
+
+
 
         return response()->json([
             'data' => $data,
             'msg' => $msg,
+            'error_msg' => $error_msg,
+            'msg_status' => $msg_status,
+
         ], 200,);
     }
 
@@ -106,7 +118,7 @@ class SMTController extends Controller
         // return $request->passport;
 
         $stm = new Stm();
-        $stm->date = $request->date;
+        $stm->stm_date = $request->date;
         $stm->save();
 
         foreach( $request->passport as $item){
@@ -129,20 +141,20 @@ class SMTController extends Controller
              $stm_total_passports = $request->total_passport;
 
              //getting Complate passports 
-             $passports =  StmPassport::where('status', '1')->get();
+             $passports =  StmPassport::where('stm_passport_status', '1')->get();
              $total_passport = $passports->count();
 
              if($total_passport == $stm_total_passports){
                 $stm =  Stm::findOrfail($request->stm_id);
-                $stm->status = '1';
+                $stm->stm_status = '1';
                 $stm->save();
                  
              }
-
             
             // change single passport status
             $passport =  StmPassport::findOrfail($request->stm_passport_id);
-            $passport->status = 1;
+            $passport->stm_passport_status = 1;
+            $passport->stm_passport_complete_date = $request->date;
             $passport->save();
 
             return response()->json(['msg' => 'Passport Status Changed'], 200);

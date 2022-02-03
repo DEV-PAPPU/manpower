@@ -1,5 +1,53 @@
 <template>
     <div>
+           <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="database__table">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>S/L</th>
+                                        <th>Sector Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="sector in company_sectors" :key="sector.id">
+                                        <td>{{sector.id}}</td>
+                                        <td>{{sector.sector_name}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-between">
+                        <div>
+                            
+                            <form v-if="isChangeStatus" @submit.prevent="changeSTMStatus()">
+
+                                <div class="form-group">
+                                <label for="PassengerName">Complete Date</label>
+                                <input v-model="form.passport_complate_date" required class="form-control" type="date">
+                                </div>
+                                <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                            </form>
+
+                        </div>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
@@ -14,23 +62,25 @@
                             <thead>
                                 <tr>
                                     <th>Ser</th>
+                                    <th>Kafil ID</th>
                                     <th>Company Name</th>
                                     <th>Sector</th>
                                     <th>Requisition Date</th>
-                                    <th>Is Approved</th>
+                                    <!-- <th>Is Approved</th> -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in requisitions" :key="item.id">
                                     <td>{{item.id}}</td>
+                                    <td>{{item.kafil_id}}</td>
                                     <td>{{item.company.company_name}}</td>
-                                    <td>{{item.sector.sector_name}}</td>
+                                    <td> <button @click="companySector(item.company)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-band-aid edit_icon"></i></button></td>
                                     <td>{{item.requisition_date}}</td>
-                                    <td>
+                                    <!-- <td>
                                         <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <router-link :to="{name: 'EditRequisition', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
                                         <a href="#" @click="requisitionDelete(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
@@ -62,6 +112,7 @@ export default {
     data : () =>{
         return {
             requisitions:'',
+            company_sectors: '',
         }
     },
 
@@ -91,6 +142,12 @@ export default {
 
                 let index = this.passengers.indexOf(item);
                 this.passengers.splice(index, 1);
+            })
+        },
+
+        companySector(company){
+            axios.get(`requisition-company-sectors/${company.id}`).then(res =>{
+                this.company_sectors = res.data;
             })
         }
     },

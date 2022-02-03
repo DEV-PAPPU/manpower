@@ -16,7 +16,8 @@
                                     <th>Ser</th>
                                     <th>Agent Name</th>
                                     <th>Address</th>
-                                    <th>Email & Mobile</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
                                     <th>District</th>
                                     <th>Area</th>
                                     <th>Is Approved</th>
@@ -28,7 +29,8 @@
                                     <td>{{item.id}}</td>
                                     <td>{{item.agent_name}}</td>
                                     <td>{{item.agent_address}}</td>
-                                    <td>{{item.agent_email}} <br> {{item.agent_phone}}</td>
+                                    <td>{{item.agent_email}}</td>
+                                    <td>{{item.agent_phone}}</td>
                                     <td>{{item.district.district_name}}</td>
                                     <td>{{item.agent_area}}</td>
                                     <td>

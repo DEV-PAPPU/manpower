@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\MofaInformation;
 use App\Models\RequisitionVisainfo;
 use App\Models\RequisitionTradeInfo;
+use App\Models\PassportStatusManagement;
+use App\Models\Passenger;
 use DB;
 class MofaInformationController extends Controller{
   
@@ -29,6 +31,8 @@ class MofaInformationController extends Controller{
 
     public function store (Request $request){
        
+        // return 'working on it'; 
+        
         $this->validate($request,[
             'passenger_id' => 'required',
             'trade_id' => 'required',
@@ -42,10 +46,20 @@ class MofaInformationController extends Controller{
          $mofa->save();
 
          $trade = RequisitionTradeInfo::findOrfail($request->trade_id);
-
+         
          RequisitionVisainfo::where('visa_no', $trade->trade_visa_no)->increment('booked');
 
          RequisitionTradeInfo::where('id', $request->trade_id)->decrement('available');
+         
+         $passenger = Passenger::findOrfail($request->passenger_id);
+
+         $p_s_m = new PassportStatusManagement();
+         $p_s_m->passenger_id = $request->passenger_id;
+         $p_s_m->company_id = $request->company_id;
+         $p_s_m->trade_id  = $trade->id;
+         $p_s_m->sector_id  = $request->company_sector_id;
+         $p_s_m->passenger_agent_id = $passenger->agent_id;
+         $p_s_m->save();
 
 
         return response()->json(['msg' => 'Mofa Information Created Sucess'], 200);

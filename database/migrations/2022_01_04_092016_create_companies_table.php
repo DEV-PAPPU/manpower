@@ -18,7 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('company_name');
             $table->string('company_address')->nullable();
             $table->string('contact_person')->nullable();
-            $table->string('company_email')->unique();
+            $table->string('company_email')->nullable();
             $table->string('company_phone')->nullable();
             $table->integer('is_approved')->default(0);
             $table->timestamps();

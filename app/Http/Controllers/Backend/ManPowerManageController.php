@@ -11,6 +11,8 @@ use App\Models\RequisitionTradeInfo;
 use App\Models\Passenger;
 use App\Models\ManPower;
 use App\Models\ManPowerPassport;
+use App\Models\Interview;
+use App\Models\StmPassport;
 use DB;
 class ManPowerManageController extends Controller
 {
@@ -28,13 +30,66 @@ class ManPowerManageController extends Controller
         
         $data = '';
         $msg = '';
+        $msg_status = '';
+        $error_msg = '';
+        $passenger_interview = '';
 
-        $old_passport = ManPowerPassport::where('man_power_passport_no',  $request->passport_no)->first();
-       
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
 
+        $old_passport = ManPowerPassport::where('man_power_passport_no',  $request->passport_no)->first();
+
+        $is_stm_done = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
+
+
+        //checking passenger interview done or not
+        if($passenger){
+            
+            $passenger_interview = Interview::where('passenger_id',$passenger->id)->first();
+
+            //checking interview data
+            if($passenger_interview){
+                
+                if($passenger_interview->pc_date == null && $passenger_interview->medical_result == '0'){
+                   
+                    $error_msg = 'Please Complate Passenger Interview';
+                }
+
+                elseif ($passenger_interview->pc_date == null) {
+                    $error_msg = 'Please Complate Passenger Interview';
+                }
+
+                elseif ($passenger_interview->medical_result == '0') {
+                    $error_msg = 'Please Complate Passenger Interview';
+                }
+
+            }
+            else {
+                $error_msg = 'Please Complate Passenger Interview';
+            }
+
+        }
+
+        else {
+            $error_msg = 'Passenger Not Found!';
+        }
+
+
+
+
         if($old_passport){
-            $msg = 'Already added in Man Power list';
+            $error_msg =   'Passenger Already';
+        }
+
+        if($is_stm_done){
+           
+            if($is_stm_done->stm_passport_complete_date == null){
+                $error_msg =   'Please Complate STM';
+            }
+        }
+        
+
+        if($old_passport){
+            $error_msg = 'Already added in Man Power list';
         }
         else{
 
@@ -80,24 +135,18 @@ class ManPowerManageController extends Controller
                 }
     
                 else{
-                    $msg = 'Please entry in Mofa-List';
+                    $error_msg = 'Please entry in Mofa-List';
                 }
             }
     
-            else{
-              
-                $msg = 'Passenger  Not found';
-            } 
 
         }
 
 
-      
-        
-
         return response()->json([
             'data' => $data,
             'msg' => $msg,
+            'error_msg' => $error_msg,
         ], 200,);
     }
 
@@ -105,7 +154,7 @@ class ManPowerManageController extends Controller
          
 
         $manpower = new ManPower();
-        $manpower->date = $request->date;
+        $manpower->man_power_date = $request->date;
         $manpower->save();
 
         foreach( $request->passport as $item){
@@ -127,12 +176,12 @@ class ManPowerManageController extends Controller
              $manpower_total_passports = $request->total_passport;
 
              //getting Complate passports 
-             $passports =  ManPowerPassport::where('status', '1')->get();
+             $passports =  ManPowerPassport::where('man_power_passport_status', '1')->get();
              $total_passport = $passports->count();
 
              if($total_passport == $manpower_total_passports){
                 $manpower =  ManPower::findOrfail($request->manpower_id);
-                $manpower->status = '1';
+                $manpower->man_power_status = '1';
                 $manpower->save();
                  
              }
@@ -140,10 +189,15 @@ class ManPowerManageController extends Controller
             
             // change single passport status
             $passport =  ManPowerPassport::findOrfail($request->manpower_passport_id);
-            $passport->status = 1;
+            $passport->man_power_passport_status = 1;
+            $passport->man_power_passport_complete_date = $request->date;
             $passport->save();
 
             return response()->json(['msg' => 'Passport Status Changed'], 200);
 
     }
+
+
+
+    
 }

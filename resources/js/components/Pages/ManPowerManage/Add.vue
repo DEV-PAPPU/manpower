@@ -3,7 +3,7 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Man Power Enter</h6>
+                <h6 class="m-0 font-weight-bold text-white">Man Power Entry</h6>
                 <router-link :to="{name: 'MPLIST'}" class="btn bg-light btn-sm">Back To List</router-link>
             </div>
             <!-- Card Body -->
@@ -148,14 +148,19 @@ export default {
             axios.post('manpower-search-passport', this.searchFrom).then(res =>{
                 const passenger = res.data.data;
                 
-                if(passenger){
+                this.searchFrom.passport_no = '';
+                
+                if(!res.data.error_msg){
                    this.form = passenger;
                 }
-                if(res.data.msg){
+
+                if(res.data.error_msg){
                     Toast.fire({
                         icon: 'error',
-                        title: res.data.msg
-                });
+                        title: res.data.error_msg
+                   });
+
+                   this.form = '';
                 }
             })
         },
@@ -178,14 +183,6 @@ export default {
              }
              else{
 
-                //  let passport = {
-                //     passenger_name: this.form.passenger_name,
-                //     passport_no: this.form.passport_no,
-                //     trade: this.form.trade,
-                //     company_name: this.form.company_name,
-                //     agent_name: this.form.agent_name,
-                //     passport_source: this.form.passport_source,
-                //  };
                  this.passports.push(this.form);
                  this.form = '';
              }
@@ -204,15 +201,43 @@ export default {
                         title: 'Please Select Date'
                 });
             }
+            else if(!this.form.passport_no){
+                Toast.fire({
+                        icon: 'error',
+                        title: 'Search Passenger'
+                });
+            }
             else{
                 axios.post('add-manpower-passport',{
                     date : this.date,
                     passport : this.passports
                 }).then(res =>{
+                    
+                    if(res.data.msg){
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                        this.$router.push({name:'MPLIST'});
+                   }
+
+                  if(res.data.error_msg){
+                        Toast.fire({
+                            icon: 'error',
+                            title: res.data.error_msg
+                    });
+
+                  }
+                })
+                .catch(e =>{
+
                     Toast.fire({
-                        icon: 'success',
-                        title: 'MP Added'
-                });
+                        icon: 'error',
+                        title: 'Something is wrong!'
+                  });
+
                 })
             }
 

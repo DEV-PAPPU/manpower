@@ -4,7 +4,7 @@
              <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-white">AgentEntry</h6>
+                        <h6 class="m-0 font-weight-bold text-white">Agent Entry</h6>
                         <router-link :to="{name: 'AgentList'}" class="btn bg-light btn-sm">Back To List</router-link>
 
                     </div>
@@ -24,14 +24,14 @@
                                     <div class="col-md-3">
                                          <div class="form-group">
                                             <label for="agent_email">Agent Email</label>
-                                            <input class="form-control" v-model="form.agent_email" required type="agent_email" >
+                                            <input class="form-control" v-model="form.agent_email" type="agent_email" >
                                             <small v-if="errors.agent_email" class="form-text text-danger">{{ errors.agent_email[0] }}</small>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Peragent_address">Phone No (Primary)</label>
-                                            <input class="form-control" v-model="form.agent_phone" required type="text" >
+                                            <input class="form-control" v-model="form.agent_phone" required type="number" >
                                             <small v-if="errors.agent_phone" class="form-text text-danger">{{ errors.agent_phone[0] }}</small>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="UserRole">District</label>
-                                        <select v-model="form.district_id" class="form-control filter-select" id="UserRole">
+                                        <select v-model="form.district_id" class="form-control filter-select" required id="UserRole">
                                             <option value="">-- Select District --</option>
                                             <option v-for="district in districts" :key="district.id" :value="district.id">{{district.district_name}}</option>
                                         </select>
@@ -63,7 +63,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="UserStatus">Is Approved</label>
-                                        <select v-model="form.agent_is_approved" class="form-control filter-select" id="UserStatus">
+                                        <select v-model="form.agent_is_approved" class="form-control filter-select">
                                             <option value="">-- Select Status --</option>
                                             <option value="0">Active</option>
                                             <option value="1">In Active</option>
@@ -111,10 +111,15 @@ import axios from 'axios'
              
               axios.post('add-agent', this.form).then(response =>{
                
-                Toast.fire({
+                if(response.data.msg){
+
+                    Toast.fire({
                         icon: 'success',
                         title: response.data.msg
-                });
+                     });
+
+                      this.$router.push({name:'AgentList'});
+                }
 
                 this.errors = '';
 

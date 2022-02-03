@@ -3,7 +3,7 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Passenger Enter</h6>
+                <h6 class="m-0 font-weight-bold text-white">Passenger Entry</h6>
                  <router-link :to="{name: 'PassengerList'}" class="btn bg-light btn-sm">Back To List</router-link>
             </div>
             <!-- Card Body -->
@@ -27,13 +27,13 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PhoneNo1">Phone No (Primary)</label>
-                                        <input v-model="form.passenger_phone" class="form-control" type="number">
+                                        <input v-model="form.passenger_phone" class="form-control" required type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PerAddress">Gurdian's No </label>
-                                        <input v-model="form.passenger_gurdian_no" class="form-control" required  type="text">
+                                        <input v-model="form.passenger_gurdian_no" class="form-control"  type="number">
                                     </div>
                                 </div>
                                 
@@ -42,7 +42,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="DOB">Date of Birth </label>
-                                        <input v-model="form.passenger_date_of_birth"  class="form-control dtpicker" type="date">
+                                        <input v-model="form.passenger_date_of_birth" required class="form-control dtpicker" type="date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -54,19 +54,19 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportExpireDate">Passport Expire Date </label>
-                                        <input v-model="form.passport_expire_date" class="form-control dtpicker" type="date">
+                                        <input v-model="form.passport_expire_date" class="form-control dtpicker" required type="date">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportNo">Old Passport No </label>
-                                        <input v-model="form.old_passport_no" class="form-control" required type="text">
+                                        <input v-model="form.old_passport_no" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="Gender">Gender </label>
-                                        <select v-model="form.passenger_gender" class="form-control filter-select" required>
+                                        <select v-model="form.passenger_gender" class="form-control filter-select" required >
                                             <option value="">-- Select --</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
@@ -189,11 +189,29 @@ export default {
                 data.append('passenger_photo', document.getElementById('file').files[0])
 
             axios.post('add-passenger', data).then(response =>{
-                
-                Toast.fire({
+
+                if(response.data.error_msg){
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.data.error_msg
+                     });
+                   
+                }
+
+                if(response.data.msg){
+
+                    Toast.fire({
                         icon: 'success',
                         title: response.data.msg
-                });
+                     });
+
+                      this.$router.push({name:'PassengerList'});
+                }
+                
+            })
+            .catch(e =>{
+                alert('Someting is Wrong')
             })
 
         },

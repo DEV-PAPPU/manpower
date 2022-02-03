@@ -25,18 +25,30 @@
                                     <tr v-for="item in passports" :key="item.id">
                                         <td>{{item.passenger.passport_no}}</td>
                                         <td>{{item.passenger.passenger_name}}</td>
-                                        <td v-if="item.status == '0'"  >
+                                        <td v-if="item.stm_passport_status == '0'"  >
                                             <span>Processing</span> 
                                              <button @click="changeStatus(item.id)" class="ml-1 btn btn-success btn-sm">Complate </button>
                                         </td>
-                                        <td v-else >Complate</td>
+                                        <td v-else >{{item.stm_passport_complete_date}}</td>
                                     </tr>
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex justify-between">
+                        <div>
+                            
+                            <form v-if="isChangeStatus" @submit.prevent="changeSTMStatus()">
+
+                                <div class="form-group">
+                                <label for="PassengerName">Complete Date</label>
+                                <input v-model="form.passport_complate_date" required class="form-control" type="date">
+                                </div>
+                                <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                            </form>
+
+                        </div>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -64,10 +76,10 @@
                         <tbody>
                             <tr v-for="item in stms" :key="item.id">
                                 <td>{{item.id}}</td>
-                                <td>{{item.date}}</td>
+                                <td>{{item.stm_date}}</td>
                                 <td id="totalPassport" >{{item.stmpassport.length}}</td>
                                 <td>
-                                    <span v-if="item.status == '0'" >Processing</span>
+                                    <span v-if="item.stm_status == '0'" >Processing</span>
                                     <span v-else >Complate</span>
                                 </td>
                                 <td>
@@ -101,10 +113,13 @@ export default {
     data : () =>{
         return {
             form:{
+                passport_complate_date: '',
+                passport_id: '',
             },
             stms:[],
             passports:[],
-            stm_id:''
+            stm_id:'',
+            isChangeStatus: false
 
         }
     },
@@ -150,17 +165,23 @@ export default {
         },
 
         changeStatus(id){
+             this.form.passport_id = id;
+             this.isChangeStatus = true;
+        },
 
-            let total_passport = $('#totalPassport').text();
+        changeSTMStatus(){
+
+             let total_passport = $('#totalPassport').text();
 
             let data = {
-                stm_passport_id : id,
+                stm_passport_id : this.form.passport_id,
                 stm_id : this.stm_id,
+                date : this.form.passport_complate_date,
                 total_passport: total_passport
             } 
 
             axios.post('change-passport-status', data).then(res =>{
-                
+                this.isChangeStatus = false;
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
@@ -169,6 +190,7 @@ export default {
                 this.shopPassport(this.stm_id);
                 this.recallchangeStatus(data)
             })
+
         },
 
         recallchangeStatus(data){

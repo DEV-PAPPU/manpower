@@ -3,7 +3,7 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Passenger Enter Files</h6>
+                <h6 class="m-0 font-weight-bold text-white">Passenger Entry Files</h6>
                 <router-link :to="{name: 'PassengerList'}" class="btn bg-light btn-sm">Back To List</router-link>
             </div>
             <!-- Card Body -->
@@ -68,10 +68,16 @@ export default {
  
             axios.post('passenger-image', data).then(response =>{
                 this.form.image = ''
-                Toast.fire({
+                
+                if(response.data.msg){
+
+                    Toast.fire({
                         icon: 'success',
                         title: response.data.msg
-                });
+                     });
+
+                    this.$router.push({name:'PassengerList'});
+                }
             })
 
         },

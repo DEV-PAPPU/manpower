@@ -5,7 +5,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">District List</h6>
-                     <router-link :to="{name: 'Adddistrict'}" class="btn bg-light btn-sm">Add District</router-link>
+                     <!-- <router-link :to="{name: 'Adddistrict'}" class="btn bg-light btn-sm">Add District</router-link> -->
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -76,16 +76,16 @@ export default {
         },
 
         deletedistrict(district){
-            axios.post(`delete-districts/${district.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+            // axios.post(`delete-districts/${district.id}`).then(res =>{
+            //     Toast.fire({
+            //             icon: 'success',
+            //             title: res.data.msg
+            //     });
 
                 
-                let index = this.districts.indexOf(district);
-                this.districts.splice(index, 1);
-            })
+            //     let index = this.districts.indexOf(district);
+            //     this.districts.splice(index, 1);
+            // })
         }
 
     },

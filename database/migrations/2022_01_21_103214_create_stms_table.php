@@ -15,8 +15,8 @@ class CreateStmsTable extends Migration
     {
         Schema::create('stms', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
-            $table->integer('status')->default(0)->comment('0 => Processing, 1 => Complete');
+            $table->string('stm_date');
+            $table->integer('stm_status')->default(0)->comment('0 => Processing, 1 => Complete');
             $table->timestamps();
         });
     }

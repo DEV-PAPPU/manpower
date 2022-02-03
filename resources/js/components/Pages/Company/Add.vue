@@ -4,7 +4,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">COMPANY ENTRY</h6>
+                    <h6 class="m-0 font-weight-bold text-white">COMPANY Entry</h6>
                     <router-link :to="{name: 'Companies'}" class="btn btn-success btn-sm">Back To List</router-link>
 
                 </div>
@@ -17,7 +17,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="PerAddress">Company Name</label>
-                                    <input class="form-control" v-model="form.company_name" type="text">
+                                    <input class="form-control" v-model="form.company_name" required type="text">
                                     <small v-if="errors.company_name"
                                         class="form-text text-danger">{{ errors.company_name[0] }}</small>
                                 </div>
@@ -30,7 +30,7 @@
                                         class="form-text text-danger">{{ errors.address[0] }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="PerAddress">Contact Person</label>
                                     <input class="form-control" v-model="form.contact_person" type="text">
@@ -38,15 +38,20 @@
                                         class="form-text text-danger">{{ errors.contact_person[0] }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="PerAddress">Phone No </label>
-                                    <input class="form-control" v-model="form.company_phone" type="text">
+                                    <input class="form-control" v-model="form.company_phone" required type="text">
                                     <small v-if="errors.company_phone"
                                         class="form-text text-danger">{{ errors.company_phone[0] }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input class="form-control" v-model="form.company_email"
@@ -58,12 +63,24 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label for="UserStatus">Is Approved</label>
+                                    <select v-model="form.is_approved" required class="form-control filter-select">
+                                        <option value="">-- Select Status --</option>
+                                        <option value="0">Active</option>
+                                        <option value="1">In Active</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                                    <label for="email">Sectors</label>
+                             <div class="col-md-3">
+                                <div class="form-group">
+
+                                    <label for="sector">Sectors</label>
 
                                     <div class="form-control all_sectors filter-select">
                                          <div  v-for="sector in sectors" :key="sector.id" @click="lelectSector(sector)"
                                         class="list-of-yards">
+                                        
                                         <div class="d-flex flex-row align-items-center gap-2">
                                             <input type="checkbox" :value="sector.id">
                                             <p>{{sector.sector_name}}</p>
@@ -106,6 +123,7 @@ import axios from 'axios'
                 contact_person: '',
                 company_phone: '',
                 company_email: '',
+                is_approved: '',
                 sector_id: [],
                },
                errors: '',
@@ -120,16 +138,22 @@ import axios from 'axios'
              
               axios.post('add-company', this.form).then(response =>{
                
-                Toast.fire({
+                if(response.data.msg){
+
+                    Toast.fire({
                         icon: 'success',
                         title: response.data.msg
-                });
+                     });
+
+                      this.$router.push({name:'Companies'});
+                }
 
                 this.errors = '';
 
               })
                .catch(e => {
-                     this.errors = e.response.data.errors                     
+                     this.errors = e.response.data.errors;
+                     alert('someting is wrong reload page and try again')                     
                 });
             },
 
@@ -165,7 +189,7 @@ import axios from 'axios'
 
 <style scoped>
 .form-control.all_sectors.filter-select {
-    height: 200px;
+    height: 100px;
     overflow-y: scroll;
 }
 </style>

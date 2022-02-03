@@ -119,7 +119,11 @@ export default {
                         title: response.data.msg
                 });
 
-                this.loadSetor();
+                this.form.sector_name = ''
+
+                axios.get("sectors").then(res =>{
+                     this.setors = res.data;
+                })
             })
             .catch(e => {
                      this.errors = e.response.data.errors                     
@@ -144,7 +148,11 @@ export default {
 
                 this.isEdit = false;
                 this.form = '';
-                this.loadSetor();
+                this.form.sector_name = '';
+                
+                axios.get("sectors").then(res =>{
+                     this.setors = res.data;
+                })
             })
 
             .catch(e => {

@@ -15,8 +15,8 @@ class CreateManPowersTable extends Migration
     {
         Schema::create('man_powers', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
-            $table->integer('status')->default(0)->comment('0 => Processing, 1 => Complete');
+            $table->string('man_power_date');
+            $table->integer('man_power_status')->default(0)->comment('0 => Processing, 1 => Complete');
             $table->timestamps();
         });
     }

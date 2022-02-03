@@ -30,7 +30,7 @@
                             </div>
                         </form>
                         <div v-if="visaForm.visaData.length">
-                            <p>Visa List ()</p>
+                            <p>Visa List () {{visaTotalQty}}</p>
                             <div>
                                 <table class="mt-1 table table-hover table-bordered">
                                     <thead>
@@ -243,7 +243,7 @@
         computed:{
 
            visaTotalQty(){
-               return this.visaForm.visaData.reduce((a,b) =>  (b.visa_qty + b.visa_qty), 0)
+               return this.visaForm.visaData.reduce((a, b) => (a.visa_qty + b.visa_qty));
            }
   
         },

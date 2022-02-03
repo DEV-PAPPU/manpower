@@ -127,6 +127,10 @@ import axios from 'axios'
                         title: response.data.msg
                 });
 
+                if(response.data.msg){
+                    this.$router.push({name:'UserManagement'});
+                }
+
                 this.errors = '';
 
               })

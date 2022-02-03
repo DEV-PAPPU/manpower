@@ -1,6 +1,28 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
+import PassportStatusManage from "../components/Pages/PassportManagment/Index.vue";
+import CompanyList from "../components/Pages/Company/Index.vue";
+import AddCompany from "../components/Pages/Company/Add.vue";
+import EditCompany from "../components/Pages/Company/Edit.vue";
+import UserManagement from "../components/Pages/UserManagement/Index.vue";
+import DistrictList from "../components/Pages/District/Index.vue";
+import AddUser from "../components/Pages/UserManagement/Add.vue";
+import UserEdit from "../components/Pages/UserManagement/Edit";
+import SectorList from "../components/Pages/Sector/Index.vue";
+import MofaInformationlist from "../components/Pages/MofaInformation/Index.vue";
+import MofaEntry from "../components/Pages/MofaInformation/Add.vue";
+import STMLIST from "../components/Pages/STM/Index.vue";
+import AddSTM from "../components/Pages/STM/Add.vue";
+
+import PassengerFile from "../components/Pages/Passenger/PassengerInfo/Index.vue";
+import AddPassengerFile from "../components/Pages/Passenger/PassengerInfo/Add.vue";
+
+import ManPowerList from "../components/Pages/ManPowerManage/Index.vue";
+import AddManPower from "../components/Pages/ManPowerManage/Add.vue";
+
+import TKTList from "../components/Pages/TKT/Index.vue";
+import AddTKT from "../components/Pages/TKT/Add.vue";
 
 Vue.use(VueRouter)
 
@@ -28,37 +50,37 @@ const routes = new VueRouter({
                     {
                         path: '/user-management',
                         name: 'UserManagement',
-                        component: () => import("../components/Pages/UserManagement/Index.vue"),
+                        component: UserManagement,
                     },
                     {
                         path: '/district',
                         name: 'District',
-                        component: () => import("../components/Pages/District/Index.vue"),
+                        component: DistrictList,
                     },
                     {
                         path: '/add-user',
                         name: 'AddUser',
-                        component: () => import("../components/Pages/UserManagement/Add.vue"),
+                        component: AddUser,
                     },
                     {
                         path: '/edit-user/:id',
                         name: 'UserEdit',
-                        component: () => import("../components/Pages/UserManagement/Edit"),
+                        component: UserEdit,
                     },
                     {
                         path: '/companies',
                         name: 'Companies',
-                        component: () => import("../components/Pages/Company/Index.vue"),
+                        component: CompanyList,
                     },
                     {
                         path: '/add/company',
                         name: 'AddCompany',
-                        component: () => import("../components/Pages/Company/Add.vue"),
+                        component: AddCompany,
                     },
                     {
                         path: '/company-edit/:id',
                         name: 'company-edit',
-                        component: () => import("../components/Pages/Company/Edit.vue"),
+                        component: EditCompany,
                     },
                     {
                         path: '/Passengers',
@@ -79,12 +101,12 @@ const routes = new VueRouter({
                     {
                         path: '/Passenger/file/:id',
                         name: 'PassengerFile',
-                        component: () => import("../components/Pages/Passenger/PassengerInfo/Index.vue"),
+                        component: PassengerFile,
                     },
                     {
                         path: '/Passenger/file/add/:id',
                         name: 'AddPassengerFile',
-                        component: () => import("../components/Pages/Passenger/PassengerInfo/Add.vue"),
+                        component: AddPassengerFile,
                     },
                     {
                         path: '/Agent',
@@ -104,7 +126,7 @@ const routes = new VueRouter({
                     {
                         path: '/Sector',
                         name: 'Sector',
-                        component: () => import("../components/Pages/Sector/Index.vue"),
+                        component: SectorList,
                     },
                     {
                         path: '/addRequisition',
@@ -129,12 +151,12 @@ const routes = new VueRouter({
                     {
                         path: '/MofaInformation',
                         name: 'MofaInformationlist',
-                        component: () => import("../components/Pages/MofaInformation/Index.vue"),
+                        component: MofaInformationlist,
                     },
                     {
                         path: '/Mofa/Enter',
                         name: 'MofaEntry',
-                        component: () => import("../components/Pages/MofaInformation/Add.vue"),
+                        component: MofaEntry,
                     },
                     {
                         path: '/Mofa/edit/:id',
@@ -145,27 +167,47 @@ const routes = new VueRouter({
                     {
                         path: '/Passports',
                         name: 'PassportList',
-                        component: () => import("../components/Pages/PassportManagment/Index.vue"),
+                        component: PassportStatusManage,
+                    },
+                    {
+                        path: '/Passport/add',
+                        name: 'PassportAdd',
+                        component: () => import("../components/Pages/PassportManagment/Add.vue"),
                     },
                     {
                         path: '/Stms',
                         name: 'STMLIST',
-                        component: () => import("../components/Pages/STM/Index.vue"),
+                        component: STMLIST,
                     },
                     {
                         path: '/Stm/entry',
                         name: 'STMAdd',
-                        component: () => import("../components/Pages/STM/Add.vue"),
+                        component: AddSTM,
                     },
                     {
                         path: '/manpower',
                         name: 'MPLIST',
-                        component: () => import("../components/Pages/ManPowerManage/Index.vue"),
+                        component: ManPowerList,
                     },
                     {
                         path: '/manpower/entry',
                         name: 'MPAdd',
-                        component: () => import("../components/Pages/ManPowerManage/Add.vue"),
+                        component: AddManPower,
+                    },
+                    {
+                        path: '/tkts',
+                        name: 'TKTLists',
+                        component: TKTList,
+                    },
+                    {
+                        path: '/tkt/add',
+                        name: 'TKTAdd',
+                        component: AddTKT,
+                    },
+                    {
+                        path: '/interview/entry',
+                        name: 'InterviewEntry',
+                        component: () => import("../components/Pages/Interview/Add.vue"),
                     },
                  ]
             },

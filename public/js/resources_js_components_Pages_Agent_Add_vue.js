@@ -123,10 +123,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('add-agent', this.form).then(function (response) {
-        Toast.fire({
-          icon: 'success',
-          title: response.data.msg
-        });
+        if (response.data.msg) {
+          Toast.fire({
+            icon: 'success',
+            title: response.data.msg
+          });
+
+          _this.$router.push({
+            name: 'AgentList'
+          });
+        }
+
         _this.errors = '';
       })["catch"](function (e) {
         _this.errors = e.response.data.errors;
@@ -239,7 +246,7 @@ var render = function () {
           },
           [
             _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-              _vm._v("AgentEntry"),
+              _vm._v("Agent Entry"),
             ]),
             _vm._v(" "),
             _c(
@@ -319,7 +326,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { required: "", type: "agent_email" },
+                      attrs: { type: "agent_email" },
                       domProps: { value: _vm.form.agent_email },
                       on: {
                         input: function ($event) {
@@ -355,7 +362,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { required: "", type: "text" },
+                      attrs: { required: "", type: "number" },
                       domProps: { value: _vm.form.agent_phone },
                       on: {
                         input: function ($event) {
@@ -393,7 +400,7 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control filter-select",
-                        attrs: { id: "UserRole" },
+                        attrs: { required: "", id: "UserRole" },
                         on: {
                           change: function ($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -523,7 +530,6 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control filter-select",
-                        attrs: { id: "UserStatus" },
                         on: {
                           change: function ($event) {
                             var $$selectedVal = Array.prototype.filter

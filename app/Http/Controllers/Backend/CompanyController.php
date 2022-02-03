@@ -34,15 +34,10 @@ class CompanyController extends Controller
 
         $sectors = $request->sector_id;
 
-
-       
         $this->validate($request,[
             'company_name' => 'required',
-            'company_address' => 'required',
-            'contact_person' => 'required',
             'company_phone' => 'required',
             'sector_id' => 'required',
-            'company_email' => ['required', 'email', 'unique:companies'],
         ]);
     
          $company = new Company();
@@ -51,6 +46,7 @@ class CompanyController extends Controller
          $company->contact_person = $request->contact_person;
          $company->company_phone = $request->company_phone;
          $company->company_email = $request->company_email;
+         $company->is_approved = $request->is_approved;
          $company->save();
 
  

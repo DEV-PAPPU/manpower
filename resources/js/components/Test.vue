@@ -1,102 +1,72 @@
 <template>
-    <div class="mt-3">
-        <div class="form-group">
-            <div class="form-control">
-            <p v-for="item in selectedNames" :key="item.name" >{{ item.name }}</p>
-            </div>
-        </div>
+  <div class="container">
+    <vue-multi-select
+      v-model="values"
+      search
+      historyButton
+      :filters="filters"
+      :options="options"
+      :selectOptions="data"/>
+      <button
+        @click="reloadFunction" >
+        Change v-model
+      </button>
 
-        <div v-for="veggie in veggies" :key="veggie.name" @click="sent(veggie)" class="list-of-yards">
-            <div class="d-flex gap-2">
-                <input type="checkbox" :value="veggie.name">
-                <p>{{veggie.name}}</p>
-            </div>
-        </div>
-        
-    </div>
+      {{values}}
+  </div>
 </template>
 
-
 <script>
-import axios from 'axios'
-    export default {
-        components: { Multiselect: window.VueMultiselect.default },
-        data: () =>{
-            return {
+import vueMultiSelect from 'vue-multi-select';
+import 'vue-multi-select/dist/lib/vue-multi-select.css';
 
-               visaForm:{
-                 visa_no: '',
-                 visa_qty: '',
-                 trade: '',
-                 salary: '',
-                 price_reference: '',
-                 duty_hours: '',
-               },
-               checked:[],
-               visaFormdata:[],
-               veggies: [
-        { id: 1, name: "a", selected: true },
-        { id: 2, name: "c", selected: false },
-        { id: 3, name: "v", selected: false },
-        { id: 4, name: "f", selected: true }
-      ]
-            }
+export default {
+  data() {
+    return {
+      name: 'first group',
+      values: [],
+      data: [{
+        title: 'part one',
+        elements: [
+          { label: '0', disabled: true },
+          { label: '2' },
+          { label: '3' },
+          { label: '8' },
+          { label: '9' },
+          { label: '11' },
+          { label: '13' },
+          { label: '14' },
+          { label: '15' },
+          { label: '18' },
+        ],
+      }],
+      filters: [{
+        nameAll: 'Select all',
+        nameNotAll: 'Deselect all',
+        func() {
+          return true;
         },
-
-        methods:{
-            formvisa(){
-
-                console.log('hello test',this.visaForm)
-
-                let  newData = {
-                    visa_no: this.visaForm.visa_no,
-                    visa_qty: this.visaForm.visa_qty,
-                    trade: this.visaForm.trade,
-                    salary: this.visaForm.salary,
-                    price_peference: this.visaForm.price_peference,
-                    duty_hours: this.visaForm.duty_hours,
-                };
-
-                this.visaFormdata.push(newData);
-
-            },
-
-
-            sent(data){
-                
-                //checking is item in list  or not
-                let item = this.checked.filter(a => a.id == data.id)
-                if(item.length){
-
-                    let index = this.checked.indexOf(data);
-                    this.checked.splice(index, 1);
-
-                   console.log('new items',this.checked.length)
-                }
-
-                // if item not in list then push this iten in list
-                else{
-                    this.checked.push(data);
-                    console.log('old items',this.checked.length)
-                }
-            }
-
-
-        },
-
-        computed: {
-        selectedNames() {
-            return this.checked;
-        }
+      }],
+      options: {
+        multi: true,
+        groups: true,
+        labelName: 'label',
+        labelList: 'elements',
+        groupName: 'title',
+        cssSelected: option => (option.selected ? { 'background-color': '#5764c6' } : ''),
+      },
+    };
   },
-    }
+  methods: {
+    reloadFunction() {
+      this.values = [
+        { label: '2' },
+        { label: '3' },
+      ];
+    },
+  },
+  components: {
+    vueMultiSelect,
+  },
+};
 </script>
-
-<style scoped>
-
-@media only screen and (max-width: 768px){
-	.container{
-        padding: 20px 20px;
-    }
-}
-</style>

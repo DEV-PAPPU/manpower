@@ -14,7 +14,8 @@ class PassengerController extends Controller
         $passengers = DB::table('passengers')
                     ->leftJoin('agents', 'agents.id', '=', 'passengers.agent_id')
                     ->leftJoin('districts', 'districts.id', '=', 'passengers.district_id')
-                    ->select('passengers.id','passengers.passenger_name', 'passengers.passenger_father_name',
+                    ->select('passengers.id','passengers.passenger_name', 'passengers.passenger_father_name', 
+                    'passengers.passport_expire_date',
                     'passengers.passenger_date_of_birth', 'passengers.passenger_gurdian_no','passengers.passenger_gender',
                     'passengers.passport_source','passengers.passport_no','passengers.is_approved','passengers.old_passport_no',
                     'passengers.passenger_phone','districts.district_name', 'agents.agent_name')
@@ -30,40 +31,57 @@ class PassengerController extends Controller
        
         // $this->validate($request,[
 
-        //     'name' => 'required',
-        //     'address' => 'required',
-        //     'area' => 'required',
-        //     'phone' => 'required',
-        //     'district_id' => 'required',
-        //     'email' => ['required', 'email', 'unique:companies'],
+        //     // 'name' => 'required',
+        //     // 'address' => 'required',
+        //     // 'area' => 'required',
+        //     // 'phone' => 'required',
+        //     // 'district_id' => 'required',
+        //     // 'passport_no' => ['required', 'passport_no', 'unique:passengers'],
         // ]);
+
+         $error_msg = '';
+         $msg = '';
+
+         $old_passenger = Passenger::where('passport_no', $request->passport_no)->first();
+
+         if($old_passenger){
+            $error_msg = 'Passport already added';
+         }
+         else {
+                    
+            $passenger = new Passenger();
+            $passenger->passenger_name = $request->passenger_name;
+            $passenger->passenger_father_name = $request->passenger_father_name;
+            $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
+            $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
+            $passenger->passport_expire_date = $request->passport_expire_date;
+            $passenger->passport_no = $request->passport_no;
+            $passenger->old_passport_no = $request->old_passport_no;
+            $passenger->passport_source = $request->passport_source;
+            $passenger->passenger_gender = $request->passenger_gender;
+            $passenger->passenger_phone = $request->passenger_phone;
+            $passenger->is_approved = $request->is_approved;
+            $passenger->district_id = $request->district_id;
+            $passenger->agent_id = $request->agent_id;
+
+            if($request->hasFile('passenger_photo')){
+
+                $image = $request->passenger_photo;
+                $image_new_name = time() . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/images/', $image_new_name);
+                $passenger->passenger_photo = '/storage/images/' . $image_new_name;
+                $passenger->save();
+
+                $msg = 'Passenger Added Sucess';
+            }
+         }
+
     
-         $passenger = new Passenger();
-         $passenger->passenger_name = $request->passenger_name;
-         $passenger->passenger_father_name = $request->passenger_father_name;
-         $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
-         $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
-         $passenger->passport_expire_date = $request->passport_expire_date;
-         $passenger->passport_no = $request->passport_no;
-         $passenger->old_passport_no = $request->old_passport_no;
-         $passenger->passport_source = $request->passport_source;
-         $passenger->passenger_gender = $request->passenger_gender;
-         $passenger->passenger_phone = $request->passenger_phone;
-         $passenger->is_approved = $request->is_approved;
-         $passenger->district_id = $request->district_id;
-         $passenger->agent_id = $request->agent_id;
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
 
-         if($request->hasFile('passenger_photo')){
-
-            $image = $request->passenger_photo;
-            $image_new_name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('storage/images/', $image_new_name);
-            $passenger->passenger_photo = '/storage/images/' . $image_new_name;
-            $passenger->save();
-        }
-
-    
-        return response()->json(['msg' => 'Passenger Added Sucess'], 200);
+        ], 200);
     }
 
 
