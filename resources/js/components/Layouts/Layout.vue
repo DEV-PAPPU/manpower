@@ -189,7 +189,6 @@ export default {
     },
 
     mounted(){
-        console.log(currentRouteName)
     }
 }
 </script>

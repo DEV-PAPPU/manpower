@@ -86,6 +86,9 @@ class ManPowerManageController extends Controller
                 $error_msg =   'Please Complate STM';
             }
         }
+        else {
+            $error_msg =   'Please Complate STM';
+        }
         
 
         if($old_passport){

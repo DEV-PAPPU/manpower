@@ -5,45 +5,51 @@
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white" id="exampleModalCenterTitle">Interview Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="database__table">
-                            <table class="table table-hover table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Video</th>
-                                        <th>Medical</th>
-                                    </tr>
-                                </thead>
-                                <tbody v-if="passenger">
-                                    <tr v-if="passenger.interview">
-                                        <td>
-                                            <span v-if="passenger.interview.video_passenger == '1'">Yes</span>
-                                            <span v-else>No</span>
-                                        </td>
-                                        <td>
-                                            <span v-if="passenger.interview.medical_result == '1'">Fit</span>
-                                            <span v-else>Gone {{passenger.interview.medical_gone_date}}</span>
-                                        </td>
-                                    </tr>
-
-                                    <span v-else>Interview pending</span>
-
-                                </tbody>
-                            </table>
+                        <div v-if="passenger.interview" class="row">
+                            <div class="col-md-6">
+                                <h3 class="shadow-sm px-8 passenger_name py-3">Name : {{passenger.passenger.passenger_name}}</h3>
+                                <table class="mt-4 table  table-bordered">
+                                        <tr>
+                                            <td>video</td>
+                                            <td>:</td>
+                                            <td>
+                                                <p v-if="passenger.interview.video_passenger == '1'">Yes</p>
+                                                <p v-else>No</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Medical</td>
+                                            <td>:</td>
+                                            <td>
+                                                <p v-if="passenger.interview.medical_result == '1'">Fit</p>
+                                                <p v-else>Gone {{passenger.interview.medical_gone_date}}</p>
+                                            </td>
+                                        </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <img :src="passenger.passenger.passenger_photo"
+                                    alt="" class="passenger__img shadow-sm" srcset="">
+                            </div>
                         </div>
+
+                        <h3 v-else class="text-center ">Interview Pending</h3>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -70,11 +76,12 @@
                                 <th style="width:100px">Fly</th>
                                 <th style="width:90px">Sector</th>
                                 <th style="width:80px">Agent</th>
-                                <th style="width:70px">Actions</th>
+                                <th style="width:90px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in passengers" :key="item.id">
+                            <tr v-for="item in passengers" :key="item.id"
+                                :class="{flyrow: item.interview && item.interview.passenger_fly == '1'}">
                                 <td>{{item.id}}</td>
                                 <td>
                                     <button @click="viewMore(item)" data-toggle="modal"
@@ -129,14 +136,15 @@
 
                                 <td>
                                     <div v-if="item.interview">
-                                       
+
                                         <span v-if="item.interview.passenger_fly == '1'">Fly</span>
 
                                         <div v-if="item.interview.passenger_fly == '0' ">
 
                                             <di class="d-flex gap-2 align-items-center">
                                                 <span>No</span>
-                                                <button @click="FlyStatus(item)" class="btn btn-primary btn-sm">
+                                                <button @click="FlyStatus(item.interview)"
+                                                    class="btn btn-primary btn-sm">
                                                     <i class="fas fa-toggle-on"></i></button>
                                             </di>
 
@@ -158,6 +166,9 @@
                                             class="far edit_icon fa-edit"></i></router-link>
                                     <button @click="deleteAgent(item)"><i
                                             class="fas delete_icon fa-trash-alt"></i></button>
+
+                                    <button @click="paymentOption(item)"><i
+                                            class="fas fa-money-bill edit_icon"></i></button>
                                 </td>
                             </tr>
 
@@ -212,11 +223,16 @@ export default {
 
         viewMore(data){
             this.passenger = data;
+            console.log(data)
+        },
+
+        paymentOption(data){
+            alert('Pending')
         },
 
 
         FlyStatus(item){
-
+           
           Swal.fire({
                 title: 'Change Passenger Fly Status.',
                 showDenyButton: true,
@@ -309,5 +325,24 @@ table.dataTable thead th, table.dataTable thead td {
     overflow-x: scroll;
 }
 } */
+
+tr.flyrow{
+    background: #70b685;
+    color: white;
+}
+
+.passenger_name{
+     background: #4E73DF;
+    color: white;
+}
+
+.passenger__img{
+    border-radius: 5px;
+}
+
+img.passenger__img {
+    height: 193px;
+    object-fit: cover;
+}
 
 </style>

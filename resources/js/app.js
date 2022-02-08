@@ -62,19 +62,6 @@ Vue.mixin
                 return  this.$store.getters.getUser;
             },
 
-            Loading(){
-                return  this.$store.getters.get_Loading;
-            },
-            websiteaddress(){
-                return  'http://ecommerce.test/';
-            },
-            url(){
-                return  'http://ecommerce.test/';
-            },
-
-            // Tost(){
-            //     return  this.$store.getters.Get_TOST;
-            // },
         },
 
     })

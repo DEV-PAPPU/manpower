@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class CountrySector extends Model
 {
     protected  $guarded = [];
 
-    public function country()
+    public function sector()
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->HasMany(Sector::class, 'country_sector_id');
     }
 }

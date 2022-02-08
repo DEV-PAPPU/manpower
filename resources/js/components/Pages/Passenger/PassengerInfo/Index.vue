@@ -37,7 +37,7 @@
                     <table class="table table-hover table-bordered dbtable">
                         <thead>
                             <tr>
-                                <th>Ser</th>
+                                <th>S/L</th>
                                 <th>Date</th>
                                 <th>Title</th>
                                 <th>Image</th>

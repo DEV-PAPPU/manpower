@@ -19,6 +19,7 @@
 <script>
 import vueMultiSelect from 'vue-multi-select';
 import 'vue-multi-select/dist/lib/vue-multi-select.css';
+import axios from 'axios';
 
 export default {
   data() {
@@ -27,18 +28,7 @@ export default {
       values: [],
       data: [{
         title: 'part one',
-        elements: [
-          { label: '0', disabled: true },
-          { label: '2' },
-          { label: '3' },
-          { label: '8' },
-          { label: '9' },
-          { label: '11' },
-          { label: '13' },
-          { label: '14' },
-          { label: '15' },
-          { label: '18' },
-        ],
+        elements: [],
       }],
       filters: [{
         nameAll: 'Select all',
@@ -50,7 +40,7 @@ export default {
       options: {
         multi: true,
         groups: true,
-        labelName: 'label',
+        labelName: 'sector_name',
         labelList: 'elements',
         groupName: 'title',
         cssSelected: option => (option.selected ? { 'background-color': '#5764c6' } : ''),
@@ -68,5 +58,13 @@ export default {
   components: {
     vueMultiSelect,
   },
+
+  mounted(){
+    axios.get("sectors").then(res =>{
+
+                     this.data[elements] = res.data;
+
+            })
+  }
 };
 </script>

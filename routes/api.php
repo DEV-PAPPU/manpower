@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\TKTController;
 use App\Http\Controllers\Backend\InterviewController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DataSearchController;
+use App\Http\Controllers\Backend\CountryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -186,5 +187,17 @@ use App\Http\Controllers\Backend\DataSearchController;
      //------------------------------- PassengerStatusManagement Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('passenger-status', [PassengerStatusManagement::class, 'index']);
+
+
+
+     //------------------------------- Country Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::get('country', [CountryController::class, 'index']);
+    Route::post('add-country', [CountryController::class, 'store']);
+    Route::get('edit-country/{id}', [CountryController::class, 'edit']);
+    Route::post('update-country/{id}', [CountryController::class, 'update']);
+    Route::post('delete-country/{id}', [CountryController::class, 'destroy']);
+    Route::get('country-sectors/{id}', [CountryController::class, 'country_sectors']);
+    Route::post('delete-country-sector/{id}', [CountryController::class, 'destroy_country_sector']);
 
 

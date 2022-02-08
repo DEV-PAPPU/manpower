@@ -66,7 +66,7 @@
                     <table class="table table-hover table-bordered dbtable">
                         <thead>
                             <tr>
-                                <th>Ser</th>
+                                <th>S/L</th>
                                 <th>STM Date</th>
                                 <th>Total Passport</th>
                                 <th>Status</th>

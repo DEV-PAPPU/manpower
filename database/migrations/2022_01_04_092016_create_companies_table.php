@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('company_email')->nullable();
             $table->string('company_phone')->nullable();
             $table->integer('is_approved')->default(0);
+            $table->unsignedInteger('country_id');
             $table->timestamps();
         });
     }

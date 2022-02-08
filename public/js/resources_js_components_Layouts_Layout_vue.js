@@ -210,9 +210,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
-    console.log(currentRouteName);
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -582,8 +580,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -603,14 +599,6 @@ __webpack_require__.r(__webpack_exports__);
       _this.company = res.data.company;
       _this.passport = res.data.passport;
     });
-    var myVar = setInterval(function () {
-      myTimer();
-    }, 1000);
-
-    function myTimer() {
-      var d = new Date();
-      document.getElementById("clock").innerHTML = d.toLocaleTimeString();
-    }
   }
 });
 
@@ -632,7 +620,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Enter and leave animations can use different */\r\n/* durations and timing functions.              */\r\n/* .slide-fade-enter-active {\r\n  transition: all .3s ease;\r\n} */\n.slide-fade-leave-active[data-v-4759768a] {\r\n  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(10px);\n}\n.slide-fade-leave-to[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(-10px);\r\n  opacity: 0;\r\n/* left__sidebar */\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Enter and leave animations can use different */\r\n/* durations and timing functions.              */\r\n/* .slide-fade-enter-active {\r\n  transition: all .3s ease;\r\n} */\n.slide-fade-leave-active[data-v-4759768a] {\r\n  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(10px);\n}\n.slide-fade-leave-to[data-v-4759768a]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(-10px);\r\n  opacity: 0;\r\n/* left__sidebar */\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1717,6 +1705,15 @@ var render = function () {
                   "router-link",
                   {
                     staticClass: "collapse-item",
+                    attrs: { to: { name: "Country" } },
+                  },
+                  [_vm._v("Country Lists")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
                     attrs: { to: { name: "Sector" } },
                   },
                   [_vm._v("Sector Lists")]
@@ -2246,10 +2243,6 @@ var staticRenderFns = [
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("p", [_vm._v("Simple clock script")]),
-            _vm._v(" "),
-            _c("p", { staticClass: "my-3", attrs: { id: "clock" } }),
-            _vm._v(" "),
             _c("p", [
               _vm._v(
                 "SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce\n                        CSS bloat and poor page performance. Custom CSS classes are used to create\n                        custom components and custom utility classes."

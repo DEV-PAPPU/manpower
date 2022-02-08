@@ -59,7 +59,6 @@
                                         class="form-text text-danger">{{ errors.sector_id[0] }}</small>
                                 </div>
 
-
                             </div>
                             
 

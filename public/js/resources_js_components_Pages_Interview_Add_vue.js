@@ -365,7 +365,7 @@ var render = function () {
             _c("div", { staticClass: "col-md-3" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "PassengerName" } }, [
-                  _vm._v("Search Passoort"),
+                  _vm._v("Search Passport"),
                 ]),
                 _vm._v(" "),
                 _c("input", {

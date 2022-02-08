@@ -34,6 +34,7 @@ class InterviewController extends Controller
                     'requisition_trade_infos.trade',
                     'companies.company_name', 'sectors.sector_name', 'agents.agent_name',
                     )
+                    ->orderBy('passengers.passenger_name', 'asc')
                     ->get();     
 
         return response()->json($passengers, 200);
@@ -80,12 +81,29 @@ class InterviewController extends Controller
     }
 
     public function change_fly_status($id){
-
+        
+        $error_msg = '';
+        $msg = '';
         $interview = Interview::findOrfail($id);
-        $interview->passenger_fly = 1;
-        $interview->save();
+        // $interview->passenger_fly = 1;
+        // $interview->save();
+         
+        if($interview){
 
-        return response()->json(['msg' => 'Interview Status Change'], 200);
+            $interview->update([
+                'passenger_fly' => 1,
+                ]);
+                $msg = 'Interview Status Change';
+        }
+        else {
+            $error_msg = 'passenger not found!';
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+        ], 200,);
+        
 
     }
 

@@ -13,7 +13,7 @@
                         <table class="table table-hover table-bordered" id="example">
                             <thead>
                                 <tr>
-                                    <th>Ser</th>
+                                    <th>S/L</th>
                                     <th>District Name</th>
                                     <th>Actions</th>
                                 </tr>

@@ -80,8 +80,8 @@
                     <h6 class="collapse-header">Custom Components:</h6>
                     <router-link :to="{name: 'UserManagement'}" class="collapse-item">User Management</router-link>
                     <router-link :to="{name: 'District'}" class="collapse-item">District</router-link>
+                    <router-link :to="{name: 'Country'}" class="collapse-item">Country Lists</router-link>
                     <router-link :to="{name: 'Sector'}" class="collapse-item">Sector Lists</router-link>
-                    <!-- <a class="collapse-item" href="cards.html">Lookup Data</a> -->
                 </div>
             </div>
         </li>

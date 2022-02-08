@@ -18,6 +18,7 @@ class PassengerStatusManagement extends Controller
 
         $data = PassportStatusManagement::with('passenger','agent','company','trade', 'interview',
                    'sector','stmpassport', 'manpowerpassport',  'tktpassport')
+                //    ->orderBy('passengers.passenger_name', 'asc')
                    ->get();    
 
        return response()->json($data, 200); 

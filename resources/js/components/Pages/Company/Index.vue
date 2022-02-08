@@ -13,12 +13,13 @@
                         <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
-                                    <th>Ser</th>
+                                    <th>S/L</th>
                                     <th>Company Name</th>
                                     <th>Address</th>
                                     <th>Contact Person</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
+                                    <th>Country</th>
                                     <th>Is Approved</th>
                                     <th>Actions</th>
                                 </tr>
@@ -31,6 +32,7 @@
                                     <td>{{item.contact_person}}</td>
                                     <td>{{item.company_email}}</td>
                                     <td>{{item.company_phone}}</td>
+                                    <td>{{item.country_name}}</td>
                                     <td>
                                         <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>

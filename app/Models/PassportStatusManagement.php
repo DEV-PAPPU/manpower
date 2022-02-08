@@ -16,7 +16,7 @@ class PassportStatusManagement extends Model
     
     public function company()
     {
-        return $this->belongsTo(company::class, 'company_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
 
@@ -46,7 +46,7 @@ class PassportStatusManagement extends Model
 
     public function tktpassport()
     {
-        return $this->belongsTo(Tktpassport::class, 'passenger_id', 'passenger_id');
+        return $this->belongsTo(TktPassport::class, 'passenger_id', 'passenger_id');
     }
 
 

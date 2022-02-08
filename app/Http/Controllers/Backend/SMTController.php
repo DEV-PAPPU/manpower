@@ -54,6 +54,18 @@ class SMTController extends Controller
                    
                     $error_msg = 'Please Complate Passenger Interview';
                 }
+
+                elseif ($passenger_interview->pc_date == null) {
+                    $error_msg = 'Please Complate Passenger Interview';
+                }
+
+                elseif ($passenger_interview->medical_result == '0') {
+                    $error_msg = 'Please Complate Passenger Medicam';
+                }
+            }
+
+            else {
+                $error_msg = 'Please Complate Passenger Interview';
             }
 
         }
@@ -64,6 +76,8 @@ class SMTController extends Controller
 
 
 
+
+        // return 'not working';
 
         if($passenger){
 

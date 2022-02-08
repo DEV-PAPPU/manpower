@@ -85,6 +85,9 @@ class TKTController extends Controller
                 $error_msg =   'Please Complate STM';
             }
         }
+        else {
+            $error_msg =   'Please Complate STM';
+        }
 
         if($is_manpower_done){
            

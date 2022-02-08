@@ -19,7 +19,7 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="PassengerName">Search Passoort</label>
+                                <label for="PassengerName">Search Passport</label>
                                 <input v-model="searchFrom.passport_no" class="form-control" type="text">
                             </div>
                         </div>
@@ -201,10 +201,10 @@ export default {
                         title: 'Please Select Date'
                 });
             }
-            else if(!this.form.passport_no){
+            else if(!this.passports.length){
                 Toast.fire({
                         icon: 'error',
-                        title: 'Search Passenger'
+                        title: 'Please Add Passenger'
                 });
             }
             else{

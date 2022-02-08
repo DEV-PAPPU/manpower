@@ -13,7 +13,7 @@
                         <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
-                                    <th>Ser</th>
+                                    <th>S/L</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Mobile</th>

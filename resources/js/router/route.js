@@ -23,6 +23,10 @@ import AddManPower from "../components/Pages/ManPowerManage/Add.vue";
 
 import TKTList from "../components/Pages/TKT/Index.vue";
 import AddTKT from "../components/Pages/TKT/Add.vue";
+import NotFound from "../components/Pages/NotFound/NotFound.vue";
+
+import Country from "../components/Pages/Country/Index.vue";
+
 
 Vue.use(VueRouter)
 
@@ -209,6 +213,11 @@ const routes = new VueRouter({
                         name: 'InterviewEntry',
                         component: () => import("../components/Pages/Interview/Add.vue"),
                     },
+                    {
+                        path: '/Country',
+                        name: 'Country',
+                        component: Country,
+                    },
                  ]
             },
 
@@ -221,6 +230,12 @@ const routes = new VueRouter({
                 path: '/test',
                 name: 'Test',
                 component: () => import("../components/Test.vue"),
+            },
+
+            {
+                path: "/:catchAll(.*)",
+                name: "NotFound",
+                component: NotFound
             },
             
 

@@ -14,6 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multi_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multi-select */ "./node_modules/vue-multi-select/dist/lib/vue-multi-select.common.js");
 /* harmony import */ var vue_multi_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multi_select__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_multi_select_dist_lib_vue_multi_select_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multi-select/dist/lib/vue-multi-select.css */ "./node_modules/vue-multi-select/dist/lib/vue-multi-select.css");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -32,6 +34,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -41,28 +44,7 @@ __webpack_require__.r(__webpack_exports__);
       values: [],
       data: [{
         title: 'part one',
-        elements: [{
-          label: '0',
-          disabled: true
-        }, {
-          label: '2'
-        }, {
-          label: '3'
-        }, {
-          label: '8'
-        }, {
-          label: '9'
-        }, {
-          label: '11'
-        }, {
-          label: '13'
-        }, {
-          label: '14'
-        }, {
-          label: '15'
-        }, {
-          label: '18'
-        }]
+        elements: []
       }],
       filters: [{
         nameAll: 'Select all',
@@ -74,7 +56,7 @@ __webpack_require__.r(__webpack_exports__);
       options: {
         multi: true,
         groups: true,
-        labelName: 'label',
+        labelName: 'sector_name',
         labelList: 'elements',
         groupName: 'title',
         cssSelected: function cssSelected(option) {
@@ -96,6 +78,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     vueMultiSelect: (vue_multi_select__WEBPACK_IMPORTED_MODULE_0___default())
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("sectors").then(function (res) {
+      _this.data[elements] = res.data;
+    });
   }
 });
 

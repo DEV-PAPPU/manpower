@@ -79,7 +79,6 @@
         </div>
 
 
-
         <!-- Content Row -->
         <div class="row">
 
@@ -198,9 +197,8 @@
                         <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                     </div>
                     <div class="card-body">
-                        <p>Simple clock script</p>
+                        
 
-                        <p class="my-3" id="clock"></p>
                         <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
                             CSS bloat and poor page performance. Custom CSS classes are used to create
                             custom components and custom utility classes.</p>
@@ -238,14 +236,6 @@ export default {
                this.passport = res.data.passport;
            });
 
-           var myVar = setInterval(function() {
-            myTimer();
-            }, 1000);
-
-            function myTimer() {
-            var d = new Date();
-            document.getElementById("clock").innerHTML = d.toLocaleTimeString();
-            }
         }
 
 }

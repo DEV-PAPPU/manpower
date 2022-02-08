@@ -12,7 +12,7 @@
                         <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
-                                    <th>Ser</th>
+                                    <th>S/L</th>
                                     <th>Sector Name</th>
                                     <th>Actions</th>
                                 </tr>
@@ -55,7 +55,7 @@
                             <div class="d-flex gap-3" style="clear:both;">
                                 <button v-if="isEdit" class="btn btn-success" @click="update">Update</button>
                                 <button v-else class="btn btn-success" @click.prevent="addSector">Save Changes</button>
-                                <button class="btn btn-danger" type="reset">Cancel</button>
+                                <button class="btn btn-danger" @click.prevent="Cancel" type="reset">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -162,17 +162,37 @@ export default {
 
         deletesetor(sector){
             let id = sector.id
-            axios.post(`delete-sector/${id}`).then(res =>{
+
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+             
+              let index = this.setors.indexOf(sector);
+              this.setors.splice(index, 1);
+
+                axios.post(`delete-sector/${id}`).then(res =>{
                 Toast.fire({
                         icon: 'success',
                         title: res.data.msg
                 });
 
-            });
+              });
+              }
+            })
+            
+        },
 
-            let index = this.setors.indexOf(sector);
-            this.setors.splice(index, 1);
-        }
+        Cancel(){
+           this.isEdit = false;
+           this.form.sector_name = '';
+        },
     },
 
     mounted() {

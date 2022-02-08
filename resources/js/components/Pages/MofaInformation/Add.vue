@@ -14,7 +14,7 @@
                     <div class="form-group row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="PassengerName">Search Passoort</label>
+                                <label for="PassengerName">Search Passport</label>
                                 <input v-model="searchFrom.passport_no" class="form-control" type="text">
                             </div>
                         </div>

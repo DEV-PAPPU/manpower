@@ -61,7 +61,7 @@
                         <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
-                                    <th>Ser</th>
+                                    <th>S/L</th>
                                     <th>Kafil ID</th>
                                     <th>Company Name</th>
                                     <th>Sector</th>

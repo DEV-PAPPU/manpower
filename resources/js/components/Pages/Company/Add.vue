@@ -46,8 +46,6 @@
                                         class="form-text text-danger">{{ errors.company_phone[0] }}</small>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="form-group row">
@@ -55,17 +53,16 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input class="form-control" v-model="form.company_email"
-                                        placeholder="Please enter email " type="email">
+                                         type="email">
                                     <small v-if="errors.company_email"
                                         class="form-text text-danger">{{ errors.company_email[0] }}</small>
-
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="UserStatus">Is Approved</label>
+                                    <label for="UserStatus">Currrent Status</label>
                                     <select v-model="form.is_approved" required class="form-control filter-select">
-                                        <option value="">-- Select Status --</option>
+                                        <option value="">-- Select --</option>
                                         <option value="0">Active</option>
                                         <option value="1">In Active</option>
                                     </select>
@@ -74,15 +71,24 @@
 
                              <div class="col-md-3">
                                 <div class="form-group">
+                                    <label for="UserStatus">Country</label>
+                                    <select v-model="form.country_id" @change="changecountry" required class="form-control filter-select">
+                                        <option value="">-- Select --</option>
+                                        <option v-for="country in country" :key="country.id" :value="country.id">{{country.country_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                                    <label for="sector">Sectors</label>
+                             <div class="col-md-3">
+                                <div class="form-group">
+
+                                    <label for="sector">Country Sectors</label>
 
                                     <div class="form-control all_sectors filter-select">
-                                         <div  v-for="sector in sectors" :key="sector.id" @click="lelectSector(sector)"
+                                         <div  v-for="sector in sectors" :key="sector.id"
                                         class="list-of-yards">
                                         
                                         <div class="d-flex flex-row align-items-center gap-2">
-                                            <input type="checkbox" :value="sector.id">
                                             <p>{{sector.sector_name}}</p>
                                         </div>
                                     </div>
@@ -90,7 +96,6 @@
                                     </div>
                                     <small v-if="errors.sector_id"
                                         class="form-text text-danger">{{ errors.sector_id[0] }}</small>
-
                                 </div>
                             </div>
                         </div>
@@ -125,14 +130,23 @@ import axios from 'axios'
                 company_email: '',
                 is_approved: '',
                 sector_id: [],
+                country_id: ''
                },
                errors: '',
                value: '',
-               sectors:[]
+               sectors:'',
+               country: ''
             }
         },
 
         methods:{
+          
+            changecountry(){
+                let id = this.form.country_id;
+                axios.get(`country-sectors/${id}`).then(res =>{
+                  this.sectors = res.data;
+                })
+            },
 
             addCompany(){
              
@@ -156,32 +170,22 @@ import axios from 'axios'
                      alert('someting is wrong reload page and try again')                     
                 });
             },
-
-            lelectSector(sector){
-
-                //checking is item in list  or not
-                let item = this.form.sector_id.filter(a => a.id == sector.id)
-                if(item.length){
-
-                    let index = this.form.sector_id.indexOf(sector);
-                    this.form.sector_id.splice(index, 1);
-
-                   console.log('new items',this.form.sector_id.length)
-                }
-
-                // if item not in list then push this iten in list
-                else{
-                    this.form.sector_id.push(sector);
-                    console.log('old items',this.form.sector_id.length)
-                }
-
-            }
+            
 
         },
 
+    //      watch: { 
+    //      'form.country_id': {
+    //         handler(newVal, oldVal) {
+    //             this.country();
+    //          },
+    //         deep: true
+    //         }
+    //    },
+
         mounted() {
-            axios.get("sectors").then(res =>{
-                this.sectors = res.data
+            axios.get("country").then(res =>{
+                     this.country = res.data;
             })
         }
     }

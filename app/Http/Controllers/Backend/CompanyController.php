@@ -13,16 +13,14 @@ class CompanyController extends Controller
 
     public function index(){
         
-        $companies = Company::latest()->get();
 
-        $companysector = DB::table('company_sectors')
-                    ->leftJoin('sectors', 'sectors.id', '=', 'company_sectors.sector_id')
-                    ->select('company_sectors.company_id', 'sectors.sector_name', 'sectors.id')
+        $companies = DB::table('companies')
+                    ->leftJoin('countries', 'countries.id', 'companies.country_id')
+                    ->select('companies.id','companies.company_name','companies.company_address', 'companies.contact_person',           'companies.company_email', 'companies.company_phone' ,'companies.is_approved', 'countries.country_name')
                     ->get();
 
         return response()->json([
             'companies' => $companies,
-            'companysector' => $companysector
         ], 200);
     }
 
@@ -32,12 +30,10 @@ class CompanyController extends Controller
        
         // dd($request->all());
 
-        $sectors = $request->sector_id;
-
         $this->validate($request,[
             'company_name' => 'required',
             'company_phone' => 'required',
-            'sector_id' => 'required',
+            'country_id' => 'required',
         ]);
     
          $company = new Company();
@@ -46,18 +42,19 @@ class CompanyController extends Controller
          $company->contact_person = $request->contact_person;
          $company->company_phone = $request->company_phone;
          $company->company_email = $request->company_email;
+         $company->country_id = $request->country_id;
          $company->is_approved = $request->is_approved;
          $company->save();
 
  
-         foreach($sectors as $sector){
+        //  foreach($sectors as $sector){
 
-            // return $sector;
-            $companysector = new CompanySector();
-            $companysector->company_id = $company->id;
-            $companysector->sector_id = $sector['id'];
-            $companysector->save();
-         }
+        //     // return $sector;
+        //     $companysector = new CompanySector();
+        //     $companysector->company_id = $company->id;
+        //     $companysector->sector_id = $sector['id'];
+        //     $companysector->save();
+        //  }
 
     
         return response()->json(['msg' => 'Company Created Sucess'], 200);
@@ -82,11 +79,13 @@ class CompanyController extends Controller
     {
 
          $company = Company::findOrfail($id);
-         $company->company_name = $request->name;
-         $company->company_address = $request->address;
-         $company->company_contact_person = $request->contact_person;
-         $company->company_phone = $request->phone;
-         $company->company_email = $request->email;
+         $company->company_name = $request->company_name;
+         $company->company_address = $request->company_address;
+         $company->contact_person = $request->contact_person;
+         $company->company_phone = $request->company_phone;
+         $company->company_email = $request->company_email;
+         $company->country_id = $request->country_id;
+         $company->is_approved = $request->is_approved;
          $company->save();
 
          return response()->json(['msg' => 'Company Updated Sucess'], 200);
