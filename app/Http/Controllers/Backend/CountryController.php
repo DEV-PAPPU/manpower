@@ -49,31 +49,17 @@ class CountryController extends Controller
          $country->country_name = $request->country_name;
          $country->save();
 
-         $error_msg = '';
-
          foreach( $request->sector as $sector){
-
-                // $old_country_sector = CountrySector::where('country_sector_id', $sector['id'])->first();
               
                 $Country_sector = new CountrySector();
                 $Country_sector->country_id = $country->id;
                 $Country_sector->country_sector_id = $sector['id'];
                 $Country_sector->save();
-               
-            //  if(!$old_country_sector){
-
-            //     $Country_sector = new CountrySector();
-            //     $Country_sector->country_id = $country->id;
-            //     $Country_sector->country_sector_id = $sector['id'];
-            //     $Country_sector->save();
-
-            //  }
+    
         }
-         
 
          return response()->json([
              'msg' => 'Country Updated Sucess',
-             'error_msg' =>  $error_msg
             ], 200);
 
     }

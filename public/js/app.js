@@ -5945,6 +5945,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Bootstrap and jQuery libraries
  //Datatable Modules
 
@@ -5960,12 +5987,14 @@ __webpack_require__.r(__webpack_exports__);
         sector: []
       },
       country: [],
-      setors: '',
+      setors: [],
       errors: '',
       isEdit: false,
       country_id: '',
       country_sectors: '',
-      old_sector: ''
+      newsectors: [],
+      searchSector: '',
+      showSectors: ''
     };
   },
   methods: {
@@ -6009,37 +6038,38 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     edit: function edit(country) {
+      var _this3 = this;
+
       this.isEdit = true;
       this.country_id = country.id;
       this.form.country_name = country.country_name;
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("country-sectors/".concat(country.id)).then(function (res) {
+        _this3.form.sector = res.data;
+      });
     },
     update: function update() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var id = this.country_id; // let new_sector = this.form.sector;
-      // let old_sector = '';
-      // axios.get(`country-sectors/${id}`).then(res =>{
-      //     old_sector = res.data
-      // })
-      // console.log(old_sector)
-
+      var id = this.country_id;
+      this.form.sector = this.newsectors;
       axios__WEBPACK_IMPORTED_MODULE_4___default().post("update-country/".concat(id), this.form).then(function (response) {
+        window.location.reload();
         Toast.fire({
           icon: 'success',
           title: response.data.msg
         });
-        _this3.isEdit = false;
-        _this3.form.country_name = '';
-        _this3.form.sector = [];
+        _this4.isEdit = false;
+        _this4.form.country_name = '';
+        _this4.form.sector = [];
         axios__WEBPACK_IMPORTED_MODULE_4___default().get("country").then(function (res) {
-          _this3.country = res.data;
+          _this4.country = res.data;
         });
       })["catch"](function (e) {
-        _this3.errors = e.response.data.errors;
+        _this4.errors = e.response.data.errors;
       });
     },
     deleteCountry: function deleteCountry(country) {
-      var _this4 = this;
+      var _this5 = this;
 
       var id = country.id;
       Swal.fire({
@@ -6052,9 +6082,9 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          var index = _this4.country.indexOf(country);
+          var index = _this5.country.indexOf(country);
 
-          _this4.country.splice(index, 1);
+          _this5.country.splice(index, 1);
 
           axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-country/".concat(id)).then(function (res) {
             Toast.fire({
@@ -6066,30 +6096,73 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     countrysector: function countrysector(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("country-sectors/".concat(id)).then(function (res) {
-        _this5.country_sectors = res.data;
+        _this6.showSectors = res.data;
       });
     },
     Cancel: function Cancel() {
+      var _this7 = this;
+
       this.isEdit = false;
       this.form.country_name = '';
+      this.form.sector = [];
+      this.country_sectors = '';
+      this.errors = '';
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("sectors").then(function (res) {
+        _this7.setors = res.data;
+      });
     },
-    deleteSector: function deleteSector(sector) {
+    sectorSearch: function sectorSearch() {
+      var _this8 = this;
+
+      var name = this.searchSector;
+
+      if (!name) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default().get("sectors").then(function (res) {
+          _this8.setors = res.data;
+        });
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("search-sector/".concat(name)).then(function (res) {
+        _this8.setors = res.data;
+      });
+    },
+    addSector: function addSector(sector) {
+      var item = this.form.sector.find(function (item) {
+        return item.id == sector.id;
+      });
+
+      if (item) {
+        alert('Already Added');
+      } else {
+        this.form.sector.push(sector);
+        this.newsectors.push(sector);
+      }
+    },
+    removeSector: function removeSector(sector) {
       if (window.confirm("Do you really want to delete?")) {
-        var index = this.country_sectors.indexOf(sector);
-        this.country_sectors.splice(index, 1);
+        var index = this.form.sector.indexOf(sector);
+        this.form.sector.splice(index, 1);
         axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-country-sector/".concat(sector.id));
       }
     }
   },
+  watch: {
+    'searchSector': {
+      handler: function handler(newVal, oldVal) {
+        this.sectorSearch(newVal);
+      },
+      deep: true
+    }
+  },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this9 = this;
 
     this.loadCountry();
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("sectors").then(function (res) {
-      _this6.setors = res.data;
+      _this9.setors = res.data;
     });
   }
 });
@@ -14861,7 +14934,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-83b45e9a], table.dataTable thead td[data-v-83b45e9a] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-83b45e9a], .table th[data-v-83b45e9a] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-83b45e9a], .delete_icon[data-v-83b45e9a]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-83b45e9a]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-83b45e9a]{\r\n    overflow-x: scroll;\n}\n}\n.card[data-v-83b45e9a]{\r\n    padding: 0px;\n}\n.filter-select[data-v-83b45e9a] {\r\n    height: 200px;\r\n    overflow-y: scroll;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    color: rgb(37, 102, 223);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-83b45e9a], table.dataTable thead td[data-v-83b45e9a] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-83b45e9a], .table th[data-v-83b45e9a] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-83b45e9a], .delete_icon[data-v-83b45e9a]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-83b45e9a]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-83b45e9a]{\r\n    overflow-x: scroll;\n}\n}\n.card[data-v-83b45e9a]{\r\n    padding: 0px;\n}\n.filter-select[data-v-83b45e9a] {\r\n    height: 120px;\r\n    overflow-y: scroll;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-83b45e9a]{\r\n    color: rgb(37, 102, 223);\n}\n.sector_del[data-v-83b45e9a]{\r\n    font-size: 12px !important;\r\n    color: rgb(238, 12, 12);\n}\n.old_sector[data-v-83b45e9a] {\r\n    background: #f6f6f6;\r\n    border: dotted;\r\n    border-radius: 5px;\r\n    padding: 10px;\n}\n.addsector[data-v-83b45e9a]{\r\n    cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -87729,30 +87802,11 @@ var render = function () {
                       _vm._v(" "),
                       _c(
                         "tbody",
-                        _vm._l(_vm.country_sectors, function (sector) {
+                        _vm._l(_vm.showSectors, function (sector) {
                           return _c("tr", { key: sector.id }, [
                             _c("td", [_vm._v(_vm._s(sector.id))]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(sector.sector_name))]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  attrs: { href: "#" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.deleteSector(sector)
-                                    },
-                                  },
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fas delete_icon fa-trash-alt",
-                                  }),
-                                ]
-                              ),
-                            ]),
                           ])
                         }),
                         0
@@ -87889,61 +87943,112 @@ var render = function () {
                   : _vm._e(),
               ]),
               _vm._v(" "),
+              _c("div", { staticClass: "sectors" }, [
+                _vm.form.sector.length > 0
+                  ? _c("div", [
+                      _c("h3", [_vm._v("Sectors")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mt-1 old_sector" }, [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex gap-1 flex-wrap " },
+                          _vm._l(_vm.form.sector, function (sector) {
+                            return _c("div", { key: sector.id }, [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "d-flex gap-2 align-items-center mr-2",
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(sector.sector_name) +
+                                      "\n                                                "
+                                  ),
+                                  _c("span", [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: { href: "#" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.removeSector(sector)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass:
+                                            "fas sector_del fa-trash-alt",
+                                        }),
+                                      ]
+                                    ),
+                                  ]),
+                                ]
+                              ),
+                            ])
+                          }),
+                          0
+                        ),
+                      ]),
+                    ])
+                  : _vm._e(),
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "UserRole" } }, [
                   _vm._v("Select Sector"),
                 ]),
                 _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.sector,
-                        expression: "form.sector",
-                      },
-                    ],
-                    staticClass: "form-control filter-select",
-                    attrs: { multiple: "true" },
-                    on: {
-                      change: [
-                        function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "sector",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        function ($event) {
-                          return _vm.sector()
-                        },
-                      ],
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchSector,
+                      expression: "searchSector",
+                    },
+                  ],
+                  staticClass: "form-control mb-2",
+                  attrs: { type: "text", placeholder: "Search sector..." },
+                  domProps: { value: _vm.searchSector },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.searchSector = $event.target.value
                     },
                   },
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-control filter-select" },
                   _vm._l(_vm.setors, function (sector) {
                     return _c(
-                      "option",
+                      "div",
                       {
                         key: sector.id,
-                        attrs: { required: "" },
-                        domProps: { value: sector },
+                        attrs: { value: sector, required: "" },
                       },
                       [
-                        _vm._v(
-                          "\n                                        " +
-                            _vm._s(sector.sector_name)
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "d-flex gap-2 addsector align-items-center mr-2",
+                            on: {
+                              click: function ($event) {
+                                return _vm.addSector(sector)
+                              },
+                            },
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-plus-circle" }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v(_vm._s(sector.sector_name))]),
+                          ]
                         ),
                       ]
                     )
@@ -87969,12 +88074,7 @@ var render = function () {
                         "button",
                         {
                           staticClass: "btn btn-success",
-                          on: {
-                            click: function ($event) {
-                              $event.preventDefault()
-                              return _vm.update.apply(null, arguments)
-                            },
-                          },
+                          on: { click: _vm.update },
                         },
                         [_vm._v("Update")]
                       )
@@ -88027,7 +88127,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "exampleModalCenterTitle" },
         },
-        [_vm._v("Modal title")]
+        [_vm._v("All Sectors")]
       ),
       _vm._v(" "),
       _c(
@@ -88053,8 +88153,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("S/L")]),
         _vm._v(" "),
         _c("th", [_vm._v("Sector Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Delete")]),
       ]),
     ])
   },
@@ -88103,7 +88201,7 @@ var staticRenderFns = [
       },
       [
         _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-          _vm._v("Country List"),
+          _vm._v("Country Form"),
         ]),
       ]
     )

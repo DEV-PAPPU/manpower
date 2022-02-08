@@ -103,6 +103,7 @@ use App\Http\Controllers\Backend\CountryController;
     Route::get('edit-Sector/{id}', [SectorController::class, 'edit']);
     Route::post('update-sector/{id}', [SectorController::class, 'update']);
     Route::post('delete-sector/{id}', [SectorController::class, 'destroy']);
+    Route::get('search-sector/{name}', [SectorController::class, 'search_sector']);
 
 
     //------------------------------- Requisitions Api Routes --------------------------\\

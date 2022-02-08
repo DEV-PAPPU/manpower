@@ -52,4 +52,14 @@ class SectorController extends Controller
             return response()->json('failed', 404);
         }
     }
+
+
+
+    public function search_sector($name)
+    {
+
+        $sector = Sector::where('sector_name', 'LIKE', "%{$name}%")->get();
+
+        return response()->json($sector, 200);
+    }
 }
