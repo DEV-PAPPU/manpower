@@ -155,7 +155,7 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(function () {
           jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            pageLength: 5,
+            pageLength: 10,
             "scrollX": true
           });
         });

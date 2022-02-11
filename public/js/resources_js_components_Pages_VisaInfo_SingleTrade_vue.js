@@ -140,6 +140,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
+    //   window.location.reload();
     var id = this.$route.params.id;
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("requisition/visa-info/".concat(id)).then(function (res) {
       _this2.alldata = res.data;

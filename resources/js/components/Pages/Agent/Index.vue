@@ -14,27 +14,29 @@
                             <thead>
                                 <tr>
                                     <th>S/L</th>
-                                    <th>Agent Name</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    <th>District</th>
-                                    <th>Area</th>
-                                    <th>Is Approved</th>
-                                    <th>Actions</th>
+                                    <th style="width:100px">Agent Name</th>
+                                    <th style="width:100px">Phone</th>
+                                    <th style="width:100px">Wp Number</th>
+                                    <th style="width:100px">Ref Name</th>
+                                    <th style="width:100px">Ref Phone</th>
+                                    <th style="width:100px">Ref Wp</th>
+                                    <th style="width:100px">Ref Imo</th>
+                                    <th style="width:50px">Status</th>
+                                    <th style="width:80px">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in agents" :key="item.id">
                                     <td>{{item.id}}</td>
                                     <td>{{item.agent_name}}</td>
-                                    <td>{{item.agent_address}}</td>
-                                    <td>{{item.agent_email}}</td>
                                     <td>{{item.agent_phone}}</td>
-                                    <td>{{item.district.district_name}}</td>
-                                    <td>{{item.agent_area}}</td>
+                                    <td>{{item.agent_wp_number}}</td>
+                                    <td class="ref_td">{{item.agent_ref_1_name}}</td>
+                                    <td class="ref_td">{{item.agent_ref_1_phone}}</td>
+                                    <td class="ref_td">{{item.agent_ref_1_imo_number}}</td>
+                                    <td class="ref_td">{{item.agent_ref_1_wp_number}}</td>
                                     <td>
-                                        <i v-if="item.agent_is_approved == 0" class="fa fa-check Yes"></i>
+                                        <i v-if="item.agent_status == 1" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
                                     <td>
@@ -83,7 +85,8 @@ export default {
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
-                        pageLength: 5,
+                        pageLength: 10,
+                        // "scrollX": true
                     });
                     });
               })
@@ -135,6 +138,11 @@ table.dataTable thead th, table.dataTable thead td {
 
 .delete_icon{
     color: rgb(238, 12, 12);
+}
+
+.ref_td{
+    background: #d3d2d2;
+    color: #000;
 }
 
 @media only screen and (max-width: 1000px){

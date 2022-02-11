@@ -51,14 +51,14 @@ import axios from 'axios';
                         return f != file;
                     });
 
-                   this.$emit('new_images',this.filelist); 
+                   this.$emit('single_image',this.filelist); 
 
                 },
                 onChange() {
                     this.filelist = this.$refs.file.files;
                     // this.filelist = [...this.$refs.file.files];
                     // console.log(this.filelist);
-                    this.$emit('new_images',this.filelist);
+                    this.$emit('single_image',this.filelist);
 
                    },
                     remove(i) {

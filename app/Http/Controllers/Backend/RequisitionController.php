@@ -10,7 +10,7 @@ use App\Models\RequisitionTradeInfo;
 use App\Models\Company;
 use App\Models\Sector;
 use App\Models\CompanySector;
-use App\Models\RequisitionCompanySector;
+use App\Models\RequisitionSector;
 use DB;
 class RequisitionController extends Controller
 {
@@ -35,25 +35,25 @@ class RequisitionController extends Controller
             'kafil_id' => 'required',
             'requisition_date' => 'required',
             'company_id' => 'required',
-            // 'sector_id' => 'required',
+            'sector_id' => 'required',
         ]);
     
          $requisition = new Requisition();
          $requisition->kafil_id = $request->kafil_id;
          $requisition->requisition_date = $request->requisition_date;
          $requisition->company_id = $request->company_id;
-        //  $requisition->sector_id = $request->sector_id;
          $requisition->save();
 
 
          $company_sectors = $request->sector_id;
 
          foreach($company_sectors as $item){
-            //  return $item;
-            $r_c_sector = new RequisitionCompanySector();
-            $r_c_sector->requisition_company_id = $request->company_id;
-            $r_c_sector->requisition_company_sector_id = $item['id'];
+
+            $r_c_sector = new RequisitionSector();
+            $r_c_sector->requisition_id = $requisition->id;
+            $r_c_sector->requisition_sector_id = $item['id'];
             $r_c_sector->save();
+
          }
 
 
@@ -95,12 +95,11 @@ class RequisitionController extends Controller
     }
 
 
-    public function requisition_company_sectors($id)
+    public function requisition_sectors($id)
     {
-         $data = DB::table('companies')
-                    ->leftJoin('company_sectors', 'company_sectors.company_id', 'companies.id')
-                    ->join('sectors', 'sectors.id', '=', 'company_sectors.sector_id')
-                    ->where('companies.id', $id)
+         $data = DB::table('requisition_sectors')
+                    ->leftJoin('sectors', 'sectors.id', 'requisition_sectors.requisition_sector_id')
+                    ->where('requisition_sectors.requisition_id', $id)
                     ->select('sectors.sector_name', 'sectors.id')
                     ->get();
 
@@ -108,35 +107,6 @@ class RequisitionController extends Controller
 
     }
 
-
-    public function search_sector_by_company($id)
-    {
-        $data = DB::table('companies')
-                    ->leftJoin('company_sectors', 'company_sectors.company_id', 'companies.id')
-                    ->join('sectors', 'sectors.id', '=', 'company_sectors.sector_id')
-                    ->where('companies.id', $id)
-                    ->select('sectors.id', 'sectors.sector_name')
-                    ->get();
-
-        $companysectors = '';
-        $msg = '';
-
-        if($data->count()){
-            $companysectors = RequisitionCompanySector::with('sector')->where('requisition_company_id', $id)->get();
-            
-        }
-        else{
-            $msg = 'There is no sector in this company';
-        }
-
-          return response()->json([
-            'msg' => $msg,
-            'data' => $data,
-            'companysectors' => $companysectors
-        ], 200);
-           
-
-    }
 
 
     public function update(Request $request, $id)
@@ -195,6 +165,15 @@ class RequisitionController extends Controller
         $visa =  RequisitionVisainfo::findOrfail($id);
 
         $data = RequisitionTradeInfo::where('trade_visa_no', $visa->visa_no)->get();
+
+        return response()->json($data, 200);
+
+    }
+
+
+    public function requisition_list_by_company_id($id){
+
+        $data = Requisition::where('company_id', $id)->get();
 
         return response()->json($data, 200);
 

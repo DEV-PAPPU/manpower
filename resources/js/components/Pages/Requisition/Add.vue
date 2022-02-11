@@ -119,7 +119,8 @@ import axios from 'axios'
                         title: response.data.msg
                      });
 
-                    this.$router.push({name:'RequisitionList'});
+                    // this.$router.push({name:'RequisitionList'});
+                    this.$router.push({name:'Companies'});
                 }
 
                 this.errors = '';

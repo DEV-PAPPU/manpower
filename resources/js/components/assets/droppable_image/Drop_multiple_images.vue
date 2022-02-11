@@ -59,19 +59,6 @@ import axios from 'axios';
                     this.filelist = [...this.$refs.file.files];
                     // console.log(this.filelist);
                     this.$emit('new_images',this.filelist);
-
-                    //     let data = [];
-
-                    //     let fdata = new FormData();
-                    //    fdata.append('passenger_name', data);
-
-                    //     this.filelist.forEach(f =>{
-                    //         data.push(f);
-                    //     })
-
-                        // console.log('working onChange', data);
-
-
                    },
                     remove(i) {
                     this.filelist.splice(i, 1);

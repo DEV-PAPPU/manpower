@@ -74,6 +74,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //Bootstrap and jQuery libraries
 // import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
@@ -99,7 +101,8 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(function () {
           jquery__WEBPACK_IMPORTED_MODULE_3___default()(".dbtable").DataTable({
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            pageLength: 5
+            pageLength: 10 // "scrollX": true
+
           });
         });
       });
@@ -139,7 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-614b043c], table.dataTable thead td[data-v-614b043c] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-614b043c], .table th[data-v-614b043c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-614b043c], .delete_icon[data-v-614b043c]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-614b043c]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-614b043c]{\r\n    color: rgb(238, 12, 12);\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-614b043c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-614b043c], table.dataTable thead td[data-v-614b043c] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-614b043c], .table th[data-v-614b043c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-614b043c], .delete_icon[data-v-614b043c]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-614b043c]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-614b043c]{\r\n    color: rgb(238, 12, 12);\n}\n.ref_td[data-v-614b043c]{\r\n    background: #d3d2d2;\r\n    color: #000;\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-614b043c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -315,18 +318,28 @@ var render = function () {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.agent_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_address))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_email))]),
-                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.agent_phone))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.district.district_name))]),
+                      _c("td", [_vm._v(_vm._s(item.agent_wp_number))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.agent_area))]),
+                      _c("td", { staticClass: "ref_td" }, [
+                        _vm._v(_vm._s(item.agent_ref_1_name)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ref_td" }, [
+                        _vm._v(_vm._s(item.agent_ref_1_phone)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ref_td" }, [
+                        _vm._v(_vm._s(item.agent_ref_1_imo_number)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "ref_td" }, [
+                        _vm._v(_vm._s(item.agent_ref_1_wp_number)),
+                      ]),
                       _vm._v(" "),
                       _c("td", [
-                        item.agent_is_approved == 0
+                        item.agent_status == 1
                           ? _c("i", { staticClass: "fa fa-check Yes" })
                           : _c("i", { staticClass: "fas fa-times" }),
                       ]),
@@ -387,21 +400,23 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("S/L")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Agent Name")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Agent Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Address")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Phone")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Email")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Wp Number")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Mobile")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Ref Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("District")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Ref Phone")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Area")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Ref Wp")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Is Approved")]),
+        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Ref Imo")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Actions")]),
+        _c("th", { staticStyle: { width: "50px" } }, [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "80px" } }, [_vm._v("Actions")]),
       ]),
     ])
   },

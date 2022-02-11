@@ -5,7 +5,8 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Company List</h6>
-                     <router-link :to="{name: 'AddCompany'}" class="btn bg-light btn-sm">Add Company</router-link>
+                    <router-link :to="{name: 'AddCompany'}" class="btn bg-light btn-sm">Add Company</router-link>
+
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -32,15 +33,23 @@
                                     <td>{{item.contact_person}}</td>
                                     <td>{{item.company_email}}</td>
                                     <td>{{item.company_phone}}</td>
-                                    <td>{{item.country_name}}</td>
+                                    <td style="width:90px">{{item.country_name}}</td>
                                     <td>
                                         <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
-                                   
+
                                     <td>
-                                        <router-link :to="{name: 'company-edit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deleteCompany(item)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                        <router-link :to="{name: 'company-edit', params: {id: item.id}}"><i
+                                                class="far edit_icon fa-edit"></i></router-link>
+
+                                        
+
+                                        <a href="#" @click="deleteCompany(item)"><i
+                                                class="fas delete_icon fa-trash-alt"></i></a>
+
+                                        <router-link :to="{name: 'CompanyRequisitions', params: {id: item.id}}"><i
+                                                class="fa fa-list action_icon"></i></router-link>
                                     </td>
                                 </tr>
 
@@ -66,7 +75,8 @@ import axios from 'axios';
 export default {
     data : () =>{
         return {
-            companies:[]
+            companies:[],
+            requisitions:''
         }
     },
 
@@ -78,13 +88,15 @@ export default {
             .then((res)=>
             {
                 this.companies = res.data.companies;
+                this.requisitions = res.data.companies;
                 setTimeout(() => {
                     $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
-                        pageLength: 5,
+                        pageLength: 10,
+                        // "scrollX": true
                         // "bDestroy": true,                        
                     });
                     });
@@ -101,7 +113,7 @@ export default {
                 let index = this.companies.indexOf(company);
                this.companies.splice(index, 1);
             })
-        }
+        },
 
     },
 
@@ -125,9 +137,16 @@ table.dataTable thead th, table.dataTable thead td {
     font-size: 14;
 }
 
-.edit_icon, .delete_icon{
+.edit_icon,  .delete_icon{
     font-size: 18px;
     padding: 0px 3px;
+}
+
+.action_icon{
+    font-size: 18px;
+    padding: 0px 3px;
+    color: rgb(37, 102, 223);
+    cursor: pointer;
 }
 
 .edit_icon{

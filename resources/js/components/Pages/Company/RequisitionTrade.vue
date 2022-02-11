@@ -51,7 +51,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Visa Trade</h6>
-                    <router-link :to="{name: 'RequisitionList'}" class="btn bg-light btn-sm">Back To List</router-link>
+                     <router-link :to="{name: 'Companies'}" class="btn bg-light btn-sm">Back To Company</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">

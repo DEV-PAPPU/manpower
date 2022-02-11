@@ -128,10 +128,10 @@ __webpack_require__.r(__webpack_exports__);
           Toast.fire({
             icon: 'success',
             title: response.data.msg
-          });
+          }); // this.$router.push({name:'RequisitionList'});
 
           _this.$router.push({
-            name: 'RequisitionList'
+            name: 'Companies'
           });
         }
 

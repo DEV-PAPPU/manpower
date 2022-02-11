@@ -6,7 +6,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">All Sectors</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -52,8 +52,8 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Requisition List</h6>
-                    <router-link :to="{name: 'addRequisition'}" class="btn bg-light btn-sm">Add Requisition</router-link>
+                    <h6 class="m-0 font-weight-bold text-white">Company Requisition List</h6>
+                    <router-link :to="{name: 'Companies'}" class="btn bg-light btn-sm">Back To Company</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -63,7 +63,7 @@
                                 <tr>
                                     <th>S/L</th>
                                     <th>Kafil ID</th>
-                                    <th>Company Name</th>
+                                    <!-- <th>Company Name</th> -->
                                     <th>Sector</th>
                                     <th>Requisition Date</th>
                                     <th>Actions</th>
@@ -73,7 +73,7 @@
                                 <tr v-for="item in requisitions" :key="item.id">
                                     <td>{{item.id}}</td>
                                     <td>{{item.kafil_id}}</td>
-                                    <td>{{item.company.company_name}}</td>
+                                    <!-- <td>{{item.company.company_name}}</td> -->
                                     <td> <button @click="requisitionSector(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-band-aid edit_icon"></i></button></td>
                                     <td>{{item.requisition_date}}</td>
                                     <!-- <td>
@@ -84,7 +84,7 @@
                                         <router-link :to="{name: 'EditRequisition', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
                                         <a href="#" @click="requisitionDelete(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
 
-                                        <router-link :to="{name: 'RequisitionVisa', params: {id: item.id}}" class="edit_icon"> <i class="fa fa-list act-btn-txt"></i></router-link>
+                                        <router-link :to="{name: 'RequisitionTrade', params: {id: item.id}}" class="edit_icon"> <i class="fa fa-list act-btn-txt"></i></router-link>
                                        
                                     </td>
                                 </tr>
@@ -116,21 +116,6 @@ export default {
     },
 
     methods:{
-        loadagents(){
-            //API Call
-            axios.get("requisitions").then(res=>{
-                this.requisitions = res.data;
-                setTimeout(() => {
-                    $(".dbtable").DataTable({
-                        lengthMenu: [
-                        [5,10, 25, 50, -1],
-                        [5,10, 25, 50, "All"],
-                        ],
-                        pageLength: 5,
-                    });
-                    });
-              })
-        },
 
         requisitionDelete(id){
             axios.post(`delete-requisition/${id}`).then(res =>{
@@ -154,8 +139,25 @@ export default {
     
 
     mounted() {
-        this.loadagents();
-        }
+        
+        let id = this.$route.params.id;
+
+        //API Call
+        axios.get(`requisitions-list-by-company/${id}`).then(res=>{
+            this.requisitions = res.data;
+            console.log(res.data)
+            setTimeout(() => {
+                $(".dbtable").DataTable({
+                    lengthMenu: [
+                    [5,10, 25, 50, -1],
+                    [5,10, 25, 50, "All"],
+                    ],
+                    pageLength: 5,
+                });
+                });
+        })
+
+    }
 
 }
 </script>

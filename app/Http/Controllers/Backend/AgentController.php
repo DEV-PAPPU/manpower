@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Agent;
+use App\Models\AgentImage;
 class AgentController extends Controller
 {
 
@@ -23,32 +24,79 @@ class AgentController extends Controller
 
     public function store (Request $request){
        
-       
+    //    dd($request->all());
+
+
         $this->validate($request,[
 
             'agent_name' => 'required',
-            'agent_phone' => 'required',
+            'agent_phone' =>'required',
             'district_id' => 'required',
         ]);
     
          $agent = new Agent();
          $agent->agent_name = $request->agent_name;
-         $agent->agent_address = $request->agent_address;
-         $agent->agent_area = $request->agent_area;
-         $agent->agent_phone = $request->agent_phone;
+         $agent->agent_address_area = $request->agent_address_area;
+         $agent->agent_address_office = $request->agent_address_office;
          $agent->agent_email = $request->agent_email;
-         $agent->agent_is_approved = $request->agent_is_approved;
          $agent->district_id = $request->district_id;
-         $agent->save();
+         $agent->agent_phone = $request->agent_phone;
+         $agent->agent_status = $request->agent_status;
+         $agent->agent_imo_number = $request->agent_imo_number;
+         $agent->agent_wp_number = $request->agent_wp_number;
+         $agent->agent_ref_1_name =  $request->agent_ref_1_name;
+         $agent->agent_ref_1_phone =  $request->agent_ref_1_phone;
+         $agent->agent_ref_1_imo_number =  $request->agent_ref_1_imo_number;
+         $agent->agent_ref_1_wp_number =  $request->agent_ref_1_wp_number;
+         $agent->agent_ref_2_name = $request->agent_ref_2_name;
+         $agent->agent_ref_2_phone = $request->agent_ref_2_phone;
+         $agent->agent_ref_2_imo_number = $request->agent_ref_2_imo_number;
+         $agent->agent_ref_2_wp_number = $request->agent_ref_2_wp_number;
+         $agent->agent_ref_3_name = $request->agent_ref_3_name;
+         $agent->agent_ref_3_phone = $request->agent_ref_3_phone;
+         $agent->agent_ref_3_imo_number = $request->agent_ref_3_imo_number;
+         $agent->agent_ref_3_wp_number = $request->agent_ref_3_wp_number;
+
+         if($request->hasFile('image')){
+            $image = $request->image;
+            $image_new_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/images/', $image_new_name);
+            $agent->agent_image = '/storage/images/' . $image_new_name;
+            $agent->save();
+        }
+
+           //Inserting  images
+        if($request->hasFile('files')){
+
+            foreach($request->file('files') as  $image){
+
+                // $name = $image->getClientOriginalName();
+                $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
+                $image->move('storage/images/', $name);
+                $last_img = '/storage/images/' . $name;
+
+                //Inserting agent images to {ProductGallery} table
+                $agentimg = new AgentImage();
+                $agentimg->agent_id = $agent->id;
+                $agentimg->image = $last_img;
+                $agentimg->save();
+            }
+        }
         
-        return response()->json(['msg' => 'Agent Added Sucess'], 200);
+       return response()->json(['msg' =>'Agent Added Sucess'], 200);
+
     }
 
 
     public function edit($id)
     {
-        $agent = agent::find($id);
-        return response()->json($agent, 200);
+        $agent = Agent::find($id);
+        $agent_images =  AgentImage::where('agent_id', $id)->get();
+
+        return response()->json([
+            'agent' => $agent,
+            'images' => $agent_images,
+        ], 200);
 
     }
 
@@ -62,17 +110,91 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
 
-         $agent = Agent::findOrfail($id);
-         $agent->agent_name = $request->agent_name;
-         $agent->agent_address = $request->agent_address;
-         $agent->agent_area = $request->agent_area;
-         $agent->agent_phone = $request->agent_phone;
-         $agent->agent_email = $request->agent_email;
-         $agent->agent_is_approved = $request->agent_is_approved;
-         $agent->district_id = $request->district_id;
-         $agent->save();
+           $agent = Agent::findOrfail($id);
 
-         return response()->json(['msg' => 'Agent Updated Sucess'], 200);
+         if($request->image){
+
+            $imagePath = public_path($agent->agent_image);
+            unlink($imagePath);
+            
+            $agent->agent_name = $request->agent_name;
+            $agent->agent_address_area = $request->agent_address_area;
+            $agent->agent_address_office = $request->agent_address_office;
+            $agent->agent_email = $request->agent_email;
+            $agent->district_id = $request->district_id;
+            $agent->agent_phone = $request->agent_phone;
+            $agent->agent_status = $request->agent_status;
+            $agent->agent_imo_number = $request->agent_imo_number;
+            $agent->agent_wp_number = $request->agent_wp_number;
+            $agent->agent_ref_1_name =  $request->agent_ref_1_name;
+            $agent->agent_ref_1_phone =  $request->agent_ref_1_phone;
+            $agent->agent_ref_1_imo_number =  $request->agent_ref_1_imo_number;
+            $agent->agent_ref_1_wp_number =  $request->agent_ref_1_wp_number;
+            $agent->agent_ref_2_name = $request->agent_ref_2_name;
+            $agent->agent_ref_2_phone = $request->agent_ref_2_phone;
+            $agent->agent_ref_2_imo_number = $request->agent_ref_2_imo_number;
+            $agent->agent_ref_2_wp_number = $request->agent_ref_2_wp_number;
+            $agent->agent_ref_3_name = $request->agent_ref_3_name;
+            $agent->agent_ref_3_phone = $request->agent_ref_3_phone;
+            $agent->agent_ref_3_imo_number = $request->agent_ref_3_imo_number;
+            $agent->agent_ref_3_wp_number = $request->agent_ref_3_wp_number;
+
+            $image = $request->image;
+            $image_new_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/images/', $image_new_name);
+            $agent->agent_image = '/storage/images/' . $image_new_name;
+            $agent->save();
+
+            
+    
+        }
+        else{
+        
+         $agent->agent_name = $request->agent_name;
+         $agent->agent_address_area = $request->agent_address_area;
+         $agent->agent_address_office = $request->agent_address_office;
+         $agent->agent_email = $request->agent_email;
+         $agent->district_id = $request->district_id;
+         $agent->agent_phone = $request->agent_phone;
+         $agent->agent_status = $request->agent_status;
+         $agent->agent_imo_number = $request->agent_imo_number;
+         $agent->agent_wp_number = $request->agent_wp_number;
+         $agent->agent_ref_1_name =  $request->agent_ref_1_name;
+         $agent->agent_ref_1_phone =  $request->agent_ref_1_phone;
+         $agent->agent_ref_1_imo_number =  $request->agent_ref_1_imo_number;
+         $agent->agent_ref_1_wp_number =  $request->agent_ref_1_wp_number;
+         $agent->agent_ref_2_name = $request->agent_ref_2_name;
+         $agent->agent_ref_2_phone = $request->agent_ref_2_phone;
+         $agent->agent_ref_2_imo_number = $request->agent_ref_2_imo_number;
+         $agent->agent_ref_2_wp_number = $request->agent_ref_2_wp_number;
+         $agent->agent_ref_3_name = $request->agent_ref_3_name;
+         $agent->agent_ref_3_phone = $request->agent_ref_3_phone;
+         $agent->agent_ref_3_imo_number = $request->agent_ref_3_imo_number;
+         $agent->agent_ref_3_wp_number = $request->agent_ref_3_wp_number;
+         $agent->save();
+        }
+
+           //  Inserting  images
+        if($request->hasFile('files')){
+
+            foreach($request->file('files') as  $image){
+
+                // $name = $image->getClientOriginalName();
+                $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
+                $image->move('storage/images/', $name);
+                $last_img = '/storage/images/' . $name;
+
+                //Inserting agent images to {ProductGallery} table
+                $agentimg = new AgentImage();
+                $agentimg->agent_id = $agent->id;
+                $agentimg->image = $last_img;
+                $agentimg->save();
+            }
+        }
+
+        return response()->json([
+            'msg' => 'Agent Updated Sucess'
+        ], 200);
 
     }
 
@@ -82,17 +204,60 @@ class AgentController extends Controller
      * @param  \App\Models\agent  $agent
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
+
         $agent = Agent::findOrfail($id);
 
-        if($agent){
+         $agent_images =  AgentImage::where('agent_id', $id)->get();
+
+        if ($agent) {
+             
+            // delete agent images
+            if ($agent_images) {
+
+                foreach($agent_images as $img){
+    
+                    $imagePath = public_path($img->image);
+    
+                    unlink($imagePath);
+    
+                    AgentImage::where('agent_id', $id)->delete();
+                }
+            }
+
             $agent->delete();
 
             return response()->json(['msg' => 'Delete Sucess'], 200);
-        }else {
+        }
+        else {
             return response()->json('failed', 404);
         }
+
+        
+    }
+
+
+    public function agent_image_destroy($id)
+    {
+         $agent_images =  AgentImage::where('agent_id', $id)->first();
+
+        if ($agent_images) {
+             
+            $imagePath = public_path($agent_images->image);
+
+            unlink($imagePath);
+
+            $agent_images->delete();
+
+            return response()->json(['msg' => 'Delete Sucess'], 200);
+        }
+        else {
+            return response()->json('failed', 404);
+        }
+
+        
     }
 
 

@@ -120,7 +120,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
  //Datatable Modules
 
 
@@ -163,10 +162,10 @@ __webpack_require__.r(__webpack_exports__);
         _this2.passengers.splice(index, 1);
       });
     },
-    companySector: function companySector(company) {
+    requisitionSector: function requisitionSector(id) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default().get("requisition-company-sectors/".concat(company.id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("requisition-company-sectors/".concat(id)).then(function (res) {
         _this3.company_sectors = res.data;
       });
     }
@@ -509,7 +508,7 @@ var render = function () {
                             },
                             on: {
                               click: function ($event) {
-                                return _vm.companySector(item.company)
+                                return _vm.requisitionSector(item.id)
                               },
                             },
                           },

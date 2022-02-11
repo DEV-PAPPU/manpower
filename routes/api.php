@@ -80,10 +80,11 @@ use App\Http\Controllers\Backend\CountryController;
     //------------------------------- Agent Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('agents', [AgentController::class, 'index']);
-    Route::post('add-agent', [AgentController::class, 'store']);
+    Route::post('/add-agent', [AgentController::class, 'store']);
     Route::get('edit-agent/{id}', [AgentController::class, 'edit']);
     Route::post('update-agent/{id}', [AgentController::class, 'update']);
     Route::post('delete-agent/{id}', [AgentController::class, 'destroy']);
+    Route::post('delete-agent-image/{id}', [AgentController::class, 'agent_image_destroy']);
 
 
 
@@ -115,8 +116,8 @@ use App\Http\Controllers\Backend\CountryController;
     Route::post('delete-requisition/{id}', [RequisitionController::class, 'destroy']);
     Route::get('requisition/visa-info/{id}', [RequisitionController::class, 'requisition_visa_info']);
     Route::get('requisition/visa-trade/{id}', [RequisitionController::class, 'requisition_visa_trade']);
-    Route::get('search-sector-by-company/{id}', [RequisitionController::class, 'search_sector_by_company']);
-    Route::get('requisition-company-sectors/{id}', [RequisitionController::class, 'requisition_company_sectors']);
+    Route::get('requisition-company-sectors/{id}', [RequisitionController::class, 'requisition_sectors']);
+    Route::get('requisitions-list-by-company/{id}', [RequisitionController::class, 'requisition_list_by_company_id']);
 
 
     //------------------------------- MofaInformation Api Routes --------------------------\\
@@ -183,6 +184,8 @@ use App\Http\Controllers\Backend\CountryController;
     //------------------------------------------------------------------\\
     Route::post('trade-search-by-company', [DataSearchController::class, 'search_trade_by_company']);
     Route::post('/search-passenger', [DataSearchController::class, 'search_passenger']);
+    Route::get('search-sector-by-company/{id}', [DataSearchController::class, 'search_sector_by_company']);
+
     
     
      //------------------------------- PassengerStatusManagement Api Routes --------------------------\\

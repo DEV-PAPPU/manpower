@@ -8,6 +8,7 @@ use App\Models\Passenger;
 use App\Models\PassportStatusManagement;
 use App\Models\Requisition;
 use App\Models\RequisitionTradeInfo;
+use App\Models\Country;
 use App\Models\RequisitionCompanySector;
 use DB;
 class DataSearchController extends Controller
@@ -37,6 +38,32 @@ class DataSearchController extends Controller
             'error_msg' => $error_msg,
             'passenger' => $passenger,
         ], 200);
+
+    }
+
+
+    public function search_sector_by_company($id)
+    {
+
+        $data = DB::table('companies')
+                    ->leftJoin('countries', 'countries.id', 'companies.country_id')
+                    ->join('country_sectors', 'country_sectors.country_id', '=', 'countries.id')
+                    ->join('sectors', 'sectors.id', '=', 'country_sectors.country_sector_id')
+                    ->where('companies.id', $id)
+                    ->select('sectors.id', 'sectors.sector_name')
+                    ->get();
+
+        $msg = '';
+
+        if(!$data){
+            $msg = 'Sector Not Found!';
+            
+        }
+          return response()->json([
+            'data' => $data,
+            'msg' => $msg,
+        ], 200);
+           
 
     }
 

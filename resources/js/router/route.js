@@ -2,7 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
 import PassportStatusManage from "../components/Pages/PassportManagment/Index.vue";
+
 import CompanyList from "../components/Pages/Company/Index.vue";
+import CompanyRequisitions from "../components/Pages/Company/CompanyRequisitions.vue";
+import RequisitionTrade from "../components/Pages/Company/RequisitionTrade.vue";
+
 import AddCompany from "../components/Pages/Company/Add.vue";
 import EditCompany from "../components/Pages/Company/Edit.vue";
 import UserManagement from "../components/Pages/UserManagement/Index.vue";
@@ -85,6 +89,16 @@ const routes = new VueRouter({
                         path: '/company-edit/:id',
                         name: 'company-edit',
                         component: EditCompany,
+                    },
+                    {
+                        path: '/company/rquisitions/:id',
+                        name: 'CompanyRequisitions',
+                        component: CompanyRequisitions,
+                    },
+                    {
+                        path: '/company/rquisitions/trade/:id',
+                        name: 'RequisitionTrade',
+                        component: RequisitionTrade,
                     },
                     {
                         path: '/Passengers',

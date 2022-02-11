@@ -1562,9 +1562,9 @@ var render = function () {
                   "router-link",
                   {
                     staticClass: "collapse-item",
-                    attrs: { to: { name: "RequisitionList" } },
+                    attrs: { to: { name: "addRequisition" } },
                   },
-                  [_vm._v("Requisition")]
+                  [_vm._v("Add Requisition")]
                 ),
                 _vm._v(" "),
                 _c(

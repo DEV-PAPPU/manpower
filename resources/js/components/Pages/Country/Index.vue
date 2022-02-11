@@ -65,6 +65,9 @@
                                         <button @click="edit(country)"><i class="far edit_icon fa-edit"></i></button>
                                         <a href="#" @click="deleteCountry(country)"><i
                                                 class="fas delete_icon fa-trash-alt"></i></a>
+
+
+
                                     </td>
                                 </tr>
 
@@ -98,7 +101,7 @@
                                             <div v-for="sector in form.sector" :key="sector.id">
                                                 <p class="d-flex gap-2 align-items-center mr-2">{{sector.sector_name}}
                                                     <span><a href="#" @click="removeSector(sector)"><i
-                                                            class="fas sector_del fa-trash-alt"></i></a></span> </p>
+                                                            class="fas sector_del fas fa-times"></i></a></span> </p>
                                             </div>
                                         </div>
                                     </div>
@@ -297,6 +300,7 @@ export default {
            this.isEdit = false;
            this.form.country_name = '';
            this.form.sector = [];
+           this.newsectors = [];
            this.country_sectors = '';
            this.errors = '';
 
