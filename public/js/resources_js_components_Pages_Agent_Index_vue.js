@@ -108,14 +108,43 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     deleteAgent: function deleteAgent(agent) {
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-agent/".concat(agent.id)).then(function (res) {
-        Toast.fire({
-          icon: 'success',
-          title: res.data.msg
-        });
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-agent/".concat(agent.id)).then(function (res) {
+            if (res.data.msg) {
+              Toast.fire({
+                icon: 'success',
+                title: res.data.msg
+              });
+
+              var index = _this2.agents.indexOf(agent);
+
+              _this2.agents.splice(index, 1);
+
+              axios__WEBPACK_IMPORTED_MODULE_4___default().get("agents").then(function (res) {
+                _this2.agents = res.data;
+              });
+            }
+
+            if (res.data.error_msg) {
+              Toast.fire({
+                icon: 'error',
+                title: res.data.error_msg
+              });
+            }
+          });
+        }
       });
-      var index = this.agents.indexOf(agent);
-      this.agents.splice(index, 1);
     }
   },
   mounted: function mounted() {
@@ -142,7 +171,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-614b043c], table.dataTable thead td[data-v-614b043c] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-614b043c], .table th[data-v-614b043c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-614b043c], .delete_icon[data-v-614b043c]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-614b043c]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-614b043c]{\r\n    color: rgb(238, 12, 12);\n}\n.ref_td[data-v-614b043c]{\r\n    background: #d3d2d2;\r\n    color: #000;\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-614b043c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.dataTable thead th[data-v-614b043c], table.dataTable thead td[data-v-614b043c] {\r\n    font-size: 14px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-614b043c], .table th[data-v-614b043c] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 14;\n}\n.edit_icon[data-v-614b043c], .delete_icon[data-v-614b043c]{\r\n    font-size: 18px;\r\n    padding: 0px 3px;\n}\n.edit_icon[data-v-614b043c]{\r\n    color: rgb(37, 102, 223);\n}\n.delete_icon[data-v-614b043c]{\r\n    color: rgb(238, 12, 12);\n}\n.ref_td[data-v-614b043c]{\r\n    background: #e7e9e650;\r\n    color: #000;\n}\n@media only screen and (max-width: 1000px){\n.database__table[data-v-614b043c]{\r\n    overflow-x: scroll;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -339,7 +368,7 @@ var render = function () {
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        item.agent_status == 1
+                        item.agent_status == "0"
                           ? _c("i", { staticClass: "fa fa-check Yes" })
                           : _c("i", { staticClass: "fas fa-times" }),
                       ]),

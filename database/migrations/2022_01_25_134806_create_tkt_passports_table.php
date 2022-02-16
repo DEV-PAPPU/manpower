@@ -15,11 +15,9 @@ class CreateTktPassportsTable extends Migration
     {
         Schema::create('tkt_passports', function (Blueprint $table) {
             $table->id();
-            $table->string('tkt_passport_no');
             $table->string('tkt_passport_booking_date')->nullable();
             $table->integer('tkt_passport_status')->default(0)->comment('0 => Processing, 1 => Complete');
-            $table->unsignedBigInteger('passenger_id');
-            $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');
+            $table->unsignedInteger('passenger_id');
             $table->unsignedBigInteger('tkt_id');
             $table->foreign('tkt_id')->references('id')->on('tkts')->onDelete('CasCade');
             $table->timestamps();

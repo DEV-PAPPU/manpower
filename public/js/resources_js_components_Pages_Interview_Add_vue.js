@@ -147,8 +147,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('interview/search-passenger', this.searchFrom).then(function (response) {
-        _this.passenger = response.data.passenger;
-        _this.form.passenger_id = response.data.passenger.id;
+        if (!response.data.error_msg) {
+          _this.passenger = response.data.passenger;
+          _this.form.passenger_id = response.data.passenger.id;
+        }
 
         if (response.data.error_msg) {
           Toast.fire({

@@ -36,7 +36,7 @@
                                     <td class="ref_td">{{item.agent_ref_1_imo_number}}</td>
                                     <td class="ref_td">{{item.agent_ref_1_wp_number}}</td>
                                     <td>
-                                        <i v-if="item.agent_status == 1" class="fa fa-check Yes"></i>
+                                        <i v-if="item.agent_status == '0'" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
                                     <td>
@@ -93,16 +93,48 @@ export default {
         },
 
         deleteAgent(agent){
-            axios.post(`delete-agent/${agent.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+            
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+             
+                axios.post(`delete-agent/${agent.id}`).then(res =>{
+               
+                    if(res.data.msg){
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                    });
 
-            });
+                    let index = this.agents.indexOf(agent);
+                    this.agents.splice(index, 1);
 
-            let index = this.agents.indexOf(agent);
-            this.agents.splice(index, 1);
+                    axios.get("agents").then((res)=>{
+                       this.agents = res.data;
+                    });
+                    
+                    }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+                })
+
+              }
+            })
+
+            
         }
     },
 
@@ -141,7 +173,7 @@ table.dataTable thead th, table.dataTable thead td {
 }
 
 .ref_td{
-    background: #d3d2d2;
+    background: #e7e9e650;
     color: #000;
 }
 

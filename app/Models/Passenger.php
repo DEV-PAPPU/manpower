@@ -9,21 +9,30 @@ class Passenger extends Model
 {
     protected  $guarded = [];
 
+
     public function agent()
     {
         return $this->belongsTo(Agent::class, 'agent_id');
     }
 
+    public function interview()
+    {
+        return $this->belongsTo(Interview::class, 'id', 'passenger_id');
+    }
+
+
     public function stmpassport()
     {
-        // return $this->hasMany(StmPassport::class, 'passenger_id');
-        return $this->hasMany(StmPassport::class, 'passenger_id')->select(['stm_passport_status']);
+        return $this->hasMany(StmPassport::class, 'passenger_id');
+        // return $this->hasMany(StmPassport::class, 'passenger_id')->select(['stm_passport_status']);
     }
+
 
     public function manpowerpassport()
     {
         return $this->hasMany(ManPowerPassport::class, 'passenger_id');
     }
+
 
     public function tktpassport()
     {
@@ -31,8 +40,18 @@ class Passenger extends Model
     }
 
 
-    public function mofainformation()
+    public function trade()
     {
-        return $this->hasMany(MofaInformation::class, 'passenger_id');
+        return $this->belongsTo(RequisitionTradeInfo::class, 'passenger_trade_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'passenger_company_id');
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'passenger_sector_id');
     }
 }

@@ -13,11 +13,13 @@ import UserManagement from "../components/Pages/UserManagement/Index.vue";
 import DistrictList from "../components/Pages/District/Index.vue";
 import AddUser from "../components/Pages/UserManagement/Add.vue";
 import UserEdit from "../components/Pages/UserManagement/Edit";
+
 import SectorList from "../components/Pages/Sector/Index.vue";
-import MofaInformationlist from "../components/Pages/MofaInformation/Index.vue";
-import MofaEntry from "../components/Pages/MofaInformation/Add.vue";
+
+
 import STMLIST from "../components/Pages/STM/Index.vue";
 import AddSTM from "../components/Pages/STM/Add.vue";
+import EditSTM from "../components/Pages/STM/Edit.vue";
 
 import PassengerFile from "../components/Pages/Passenger/PassengerInfo/Index.vue";
 import AddPassengerFile from "../components/Pages/Passenger/PassengerInfo/Add.vue";
@@ -30,6 +32,12 @@ import AddTKT from "../components/Pages/TKT/Add.vue";
 import NotFound from "../components/Pages/NotFound/NotFound.vue";
 
 import Country from "../components/Pages/Country/Index.vue";
+
+import EditInterview from "../components/Pages/Interview/Edit.vue";
+
+import Account from "../components/Pages/Account/Index.vue";
+import Bank from "../components/Pages/Bank/Index.vue";
+import Branch from "../components/Pages/Branch/Index.vue";
 
 
 Vue.use(VueRouter)
@@ -71,7 +79,7 @@ const routes = new VueRouter({
                         component: AddUser,
                     },
                     {
-                        path: '/edit-user/:id',
+                        path: '/edit/user/:id',
                         name: 'UserEdit',
                         component: UserEdit,
                     },
@@ -86,7 +94,7 @@ const routes = new VueRouter({
                         component: AddCompany,
                     },
                     {
-                        path: '/company-edit/:id',
+                        path: '/company/edit/:id',
                         name: 'company-edit',
                         component: EditCompany,
                     },
@@ -112,7 +120,7 @@ const routes = new VueRouter({
                     },
 
                     {
-                        path: '/passenger-edit/:id',
+                        path: '/passenger/edit/:id',
                         name: 'PassengerEdit',
                         component: () => import("../components/Pages/Passenger/Edit.vue"),
                     },
@@ -132,7 +140,7 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/Agent/Index.vue"),
                     },
                     {
-                        path: '/Agent-edit/:id',
+                        path: '/Agent/edit/:id',
                         name: 'AgentEdit',
                         component: () => import("../components/Pages/Agent/Edit.vue"),
                     },
@@ -167,30 +175,15 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/VisaInfo/SingleTrade.vue"),
                     },
                     {
-                        path: '/MofaInformation',
-                        name: 'MofaInformationlist',
-                        component: MofaInformationlist,
-                    },
-                    {
-                        path: '/Mofa/Enter',
-                        name: 'MofaEntry',
-                        component: MofaEntry,
-                    },
-                    {
-                        path: '/Mofa/edit/:id',
-                        name: 'MofaEdit',
-                        component: () => import("../components/Pages/MofaInformation/Edit.vue"),
+                        path: '/interview/edit/:id',
+                        name: 'EditInterview',
+                        component: EditInterview,
                     },
 
                     {
                         path: '/Passports',
                         name: 'PassportList',
                         component: PassportStatusManage,
-                    },
-                    {
-                        path: '/Passport/add',
-                        name: 'PassportAdd',
-                        component: () => import("../components/Pages/PassportManagment/Add.vue"),
                     },
                     {
                         path: '/Stms',
@@ -201,6 +194,11 @@ const routes = new VueRouter({
                         path: '/Stm/entry',
                         name: 'STMAdd',
                         component: AddSTM,
+                    },
+                    {
+                        path: '/Stm/edit/:id',
+                        name: 'EditSTM',
+                        component: EditSTM,
                     },
                     {
                         path: '/manpower',
@@ -232,6 +230,21 @@ const routes = new VueRouter({
                         name: 'Country',
                         component: Country,
                     },
+                    {
+                        path: '/Branch',
+                        name: 'Branch',
+                        component: Branch,
+                    },
+                    {
+                        path: '/Bank',
+                        name: 'Bank',
+                        component: Bank,
+                    },
+                    {
+                        path: '/Account',
+                        name: 'Account',
+                        component: Account,
+                    },
                  ]
             },
 
@@ -243,7 +256,7 @@ const routes = new VueRouter({
             {
                 path: '/test',
                 name: 'Test',
-                component: () => import("../components/Test.vue"),
+                component: () => import("../components/p.vue"),
             },
 
             {

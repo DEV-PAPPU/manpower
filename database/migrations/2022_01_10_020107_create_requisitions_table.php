@@ -19,6 +19,7 @@ class CreateRequisitionsTable extends Migration
             $table->string('requisition_date');
             $table->integer('is_approved')->nullable();
             $table->unsignedBigInteger('company_id');
+            $table->string('requisition_note')->nullable();
             $table->timestamps();
         });
     }

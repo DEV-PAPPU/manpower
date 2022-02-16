@@ -15,11 +15,9 @@ class CreateStmPassportsTable extends Migration
     {
         Schema::create('stm_passports', function (Blueprint $table) {
             $table->id();
-            $table->string('stm_passport_no');
             $table->string('stm_passport_complete_date')->nullable();
             $table->integer('stm_passport_status')->default(0)->comment('0 => Processing, 1 => Complete');
-            $table->unsignedBigInteger('passenger_id');
-            $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');
+            $table->unsignedInteger('passenger_id');
             $table->unsignedBigInteger('stm_id');
             $table->foreign('stm_id')->references('id')->on('stms')->onDelete('CasCade');
             $table->timestamps();

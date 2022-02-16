@@ -325,6 +325,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -1566,15 +1592,6 @@ var render = function () {
                   },
                   [_vm._v("Add Requisition")]
                 ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "collapse-item",
-                    attrs: { to: { name: "MofaInformationlist" } },
-                  },
-                  [_vm._v("Mofa-VISA")]
-                ),
               ],
               1
             ),
@@ -1655,6 +1672,23 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "nav-item active" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: { name: "Account" } } },
+            [
+              _c("i", { staticClass: "fas fa-fw fa-folder" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Account")]),
+            ]
+          ),
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider" }),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-heading" }, [
@@ -1717,6 +1751,24 @@ var render = function () {
                     attrs: { to: { name: "Sector" } },
                   },
                   [_vm._v("Sector Lists")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "Bank" } },
+                  },
+                  [_vm._v("Bank Lists")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "Branch" } },
+                  },
+                  [_vm._v("Branch Lists")]
                 ),
               ],
               1

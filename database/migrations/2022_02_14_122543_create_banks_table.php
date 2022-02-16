@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanySectorsTable extends Migration
+class CreateBanksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCompanySectorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_sectors', function (Blueprint $table) {
+        Schema::create('banks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('sector_id');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('CasCade');
+            $table->string('bank_name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateCompanySectorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_sectors');
+        Schema::dropIfExists('banks');
     }
 }

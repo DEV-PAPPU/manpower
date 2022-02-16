@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Requisition;
-use App\Models\MofaInformation;
-use App\Models\RequisitionVisainfo;
-use App\Models\RequisitionTradeInfo;
 use App\Models\Passenger;
 use App\Models\Tkt;
 use App\Models\TktPassport;
@@ -35,14 +31,9 @@ class TKTController extends Controller
         $error_msg = '';
         $passenger_interview = '';
 
-        $old_passport = TktPassport::where('tkt_passport_no',  $request->passport_no)->first();
+        
        
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
-
-
-        $is_stm_done = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
-
-        $is_manpower_done = ManPowerPassport::where('man_power_passport_no',  $request->passport_no)->first();
 
 
         //checking passenger interview done or not
@@ -59,11 +50,11 @@ class TKTController extends Controller
                 }
 
                 elseif ($passenger_interview->pc_date == null) {
-                    $error_msg = 'Please Complate Passenger Interview';
+                    $error_msg = 'Please Complate Passenger Pc Date';
                 }
 
                 elseif ($passenger_interview->medical_result == '0') {
-                    $error_msg = 'Please Complate Passenger Interview';
+                    $error_msg = 'Please Complate Passenger Medical';
                 }
 
             }
@@ -77,78 +68,92 @@ class TKTController extends Controller
             $error_msg = 'Passenger Not Found!';
         }
 
+        if($passenger){
 
+            $old_passport = TktPassport::where('passenger_id',  $passenger->id)->first();
 
-        if($is_stm_done){
-           
-            if($is_stm_done->stm_passport_complete_date == null){
-                $error_msg =   'Please Complate STM';
-            }
-        }
-        else {
-            $error_msg =   'Please Complate STM';
-        }
+            if($old_passport){
 
-        if($is_manpower_done){
-           
-            if($is_manpower_done->man_power_passport_complete_date == null){
-                $error_msg =   'Please Complate Manpower';
-            }
+                $error_msg =   'Already added in TKT list';
+            }           
         }
 
 
-        if($old_passport){
-            $error_msg = 'Already added in TKT list';
-        }
 
-        else{
+        // checking passenger STM & MP data
+        if($passenger){
 
-            if($passenger){
+            $is_stm_done = StmPassport::where('passenger_id', $passenger->id)->first();
 
-                if($passenger->passport_source == 'agent'){
-                    $passenger = Passenger::with('agent')->where('passport_no',  $request->passport_no)->first();
+            $is_manpower_done = ManPowerPassport::where('passenger_id', $passenger->id)->first();
+
+            if($is_manpower_done){
+
+                if($is_manpower_done->man_power_passport_status == '0'){
+                    $error_msg = 'Please Complate Man Power';
                 }
-    
-            }
-    
-            // checking passenger of request passport_no
-            if($passenger){
-    
-                $mofa = MofaInformation::with('trade')->where('passenger_id', $passenger->id)->first();
                 
-                // checking trade of passenger 
-                if($mofa){
-    
-                    $mofa_info = MofaInformation::with('trade','passenger')->where('passenger_id', $passenger->id)->first();
-                    
-                    // getting company name
-                     $company_info = Requisition::with('company')->where('id',$mofa_info->trade->requisition_id)->first();
-                    
-            
-                     $agent_name = '';
-                      
-                     if($passenger->passport_source == 'agent'){
-                         $agent_name = $passenger->agent->agent_name;
-                     }
-    
-                    // data collection 
-                    $data = array(
-                        'passenger_id'  => $passenger->id,
-                        'passport_no'  => $passenger->passport_no,
-                        'passenger_name'  => $passenger->passenger_name,
-                        'passport_source'  => $passenger->passport_source,
-                        'agent_name'  => $agent_name,
-                        'trade'  => $mofa_info->trade->trade,
-                        'company_name'  => $company_info->company->company_name,
-                    );
-                    
-                }
-    
-                else{
-                    $error_msg = 'Please entry in Mofa-List';
-                }
             }
-    
+            else{
+                $error_msg = 'Please Complate Man Power';
+            }
+            
+
+            if($is_stm_done){
+                
+                 if($is_stm_done->stm_passport_status == '0'){
+                    $error_msg = 'Please Complate  STM';
+                }
+
+            }else{
+                $error_msg = 'Please Complate  STM';
+            }            
+            
+        }
+
+        
+        // data collection
+        if($passenger){
+
+            if($passenger->passport_source == 'agent'){
+
+                $data = DB::table('passengers')
+                    ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                    ->leftJoin('agents', 'agents.id', 'passengers.agent_id')
+                   
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                              'passengers.passenger_trade_id')
+
+                    ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                             'passengers.passport_source', 'agents.agent_name',
+                             'companies.company_name', 'requisition_trade_infos.trade',
+                            )
+                     ->where('passengers.id', $passenger->id)    
+                    ->get();
+            }
+
+            else{
+
+                $data = DB::table('passengers')
+                ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
+                ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                         'passengers.passport_source','companies.company_name', 'requisition_trade_infos.trade',
+                        )
+                ->where('passengers.id', $passenger->id)   
+                ->get();
+
+            }
+            
+        }
+
+
+        // Getting object from data array
+        if($data){
+
+            foreach ($data as $item) {
+                $data = $item;
+             }
         }
 
 
@@ -169,8 +174,7 @@ class TKTController extends Controller
         foreach( $request->passport as $item){
             $passport = new TktPassport();
             $passport->tkt_id = $tkt->id;
-            $passport->passenger_id = $item['passenger_id'];
-            $passport->tkt_passport_no = $item['passport_no'];
+            $passport->passenger_id = $item['id'];
             $passport->save();
         }
 

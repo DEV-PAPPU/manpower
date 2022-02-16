@@ -30,7 +30,7 @@
                             </div>
                         </form>
                         <div v-if="visaForm.visaData.length">
-                            <p>Visa List () {{visaTotalQty}}</p>
+                            <p>Visa List</p>
                             <div>
                                 <table class="mt-1 table table-hover table-bordered">
                                     <thead>
@@ -65,7 +65,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="UserRole">Visa No</label>
-                                    <select v-model="tradeForm.trade_visa_no" required class="form-control text-sm">
+                                    <select @change="changeVisaNo" v-model="tradeForm.trade_visa_no" required class="form-control text-sm">
                                         <option value="">-- Select --</option>
                                         <option v-for="item in visaForm.visaData" :key="item.visa_no" :value="item.visa_no">{{item.visa_no}}</option>
                                     </select>
@@ -236,15 +236,49 @@
                    let index = this.visaForm.visaData.indexOf(visa);
                    this.visaForm.visaData.splice(index, 1);                     
 
+                },
+
+
+                changeVisaNo(){
+                   
+                   let visa_no =  this.tradeForm.trade_visa_no;
+ 
+
+                   if(this.formData.length){
+
+                       //visaForm -> visaData
+                        let visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no === visa_no);
+
+                        //total visa in formData array 
+                        let total_Visa_store =  this.formData.filter(item => item.trade_visa_no === visa_no);
+                        
+                        let all_qty = [];
+
+                        let number = parseInt(all_qty);
+                        
+                        total_Visa_store.forEach( item =>{
+                                all_qty.push(item.trade_qty)
+                        })
+
+                        // let qty = number.reduce( (a, b) => b + b);
+
+
+                        console.log('main visa qty.', visa_form_visa_no.visa_qty)
+
+                        // console.log('form data total checking .', qty)
+
+                        console.log('final qty num', number)
+                   }
+                   
                 }
 
         },
 
         computed:{
 
-           visaTotalQty(){
-               return this.visaForm.visaData.reduce((a, b) => (a.visa_qty + b.visa_qty));
-           }
+        //    visaTotalQty(){
+        //        return this.visaForm.visaData.reduce((a, b) => (a.trade_qty + b.trade_qty));
+        //    }
   
         },
 

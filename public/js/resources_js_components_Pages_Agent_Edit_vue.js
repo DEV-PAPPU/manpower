@@ -13,7 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _assets_droppable_image_Drop_multiple_images_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/droppable_image/Drop_multiple_images.vue */ "./resources/js/components/assets/droppable_image/Drop_multiple_images.vue");
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
+/* harmony import */ var _assets_droppable_image_Drop_multiple_images_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../assets/droppable_image/Drop_multiple_images.vue */ "./resources/js/components/assets/droppable_image/Drop_multiple_images.vue");
 //
 //
 //
@@ -239,11 +240,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    DropMultiImages: _assets_droppable_image_Drop_multiple_images_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    DropMultiImages: _assets_droppable_image_Drop_multiple_images_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -287,7 +293,7 @@ __webpack_require__.r(__webpack_exports__);
       data.append('agent_address_area', this.form.agent_address_area);
       data.append('agent_address_office', this.form.agent_address_office);
       data.append('agent_email', this.form.agent_email);
-      data.append('district_id', this.form.district_id);
+      data.append('district_id', this.form.district_id.id);
       data.append('agent_status', this.form.agent_status);
       data.append('agent_phone', this.form.agent_phone);
       data.append('agent_imo_number', this.form.agent_imo_number);
@@ -366,6 +372,12 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    changeImg: function changeImg(e) {
+      var image = document.getElementById('file');
+      var form_img = image.files[0];
+      var output = document.getElementById('uploadPreview');
+      output.src = URL.createObjectURL(form_img);
     }
   },
   mounted: function mounted() {
@@ -374,6 +386,7 @@ __webpack_require__.r(__webpack_exports__);
     var id = this.$route.params.id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().get("edit-agent/".concat(id)).then(function (res) {
       _this3.form = res.data.agent;
+      _this3.form.district_id = res.data.district;
       _this3.images = res.data.images;
     });
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('districts').then(function (response) {
@@ -408,6 +421,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+//
 //
 //
 //
@@ -513,7 +527,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.agent_images[data-v-38ed3dac]{\r\n    width: 100px;\r\n    height: 70px;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\r\n    border-radius: 10px;\r\n    border: solid rgb(44, 44, 180) 2px;\n}\n.agentimg[data-v-38ed3dac]{\r\n    position: relative;\n}\n.del-icon[data-v-38ed3dac]{\r\n    color: red;\r\n    cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.agent_images[data-v-38ed3dac]{\r\n    width: 100px;\r\n    height: 70px;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\r\n    border-radius: 10px;\r\n    border: solid rgb(44, 44, 180) 2px;\n}\n.agentimg[data-v-38ed3dac]{\r\n    position: relative;\n}\n.del-icon[data-v-38ed3dac]{\r\n    color: red;\r\n    cursor: pointer;\n}\n.agentImage[data-v-38ed3dac]{\r\n    width: 250px;\r\n    height: 165px;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -536,7 +550,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.imgdelete[data-v-b5359cc0] {\n    position: absolute;\n    top: -7px !important;\n    left: -4px !important;\n    background: red;\n    color: white;\n    border-radius: 70px !important;\n    width: 20px !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.imgdelete[data-v-b5359cc0] {\n    position: absolute;\n    top: -7px !important;\n    left: -4px !important;\n    background: red;\n    color: white;\n    border-radius: 70px !important;\n    width: 20px !important;\n}\n.image_drop[data-v-b5359cc0]{\n    border-radius: 8px;\n    border: dotted rgb(97, 207, 83) 2px;\n    padding: 40px 20px;\n}\n.cursor_pointer[data-v-b5359cc0]{\n    cursor: pointer;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -793,7 +807,7 @@ var render = function () {
           },
           [
             _c("h6", { staticClass: "m-0 font-weight-bold text-white" }, [
-              _vm._v("Agent Edit"),
+              _vm._v("Agent Entry"),
             ]),
             _vm._v(" "),
             _c(
@@ -821,852 +835,816 @@ var render = function () {
               },
             },
             [
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Username" } }, [
-                      _vm._v("Agent Name"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_name,
-                          expression: "form.agent_name",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_name },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "agent_name", $event.target.value)
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.agent_name
-                      ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.agent_name[0])),
-                        ])
-                      : _vm._e(),
-                  ]),
-                ]),
+              _c("fieldset", [
+                _c("legend", [_vm._v("Agent Information")]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "agent_email" } }, [
-                      _vm._v("Agent Email"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_email,
-                          expression: "form.agent_email",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "agent_email" },
-                      domProps: { value: _vm.form.agent_email },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "agent_email", $event.target.value)
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Phone No (Primary)"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_phone,
-                          expression: "form.agent_phone",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_phone },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "agent_phone", $event.target.value)
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Whatsapp Number"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_wp_number,
-                          expression: "form.agent_wp_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_wp_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_wp_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Imo Number"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_imo_number,
-                          expression: "form.agent_imo_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_imo_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_imo_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "UserRole" } }, [
-                      _vm._v("District"),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.district_id,
-                            expression: "form.district_id",
-                          },
-                        ],
-                        staticClass: "form-control filter-select",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "district_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("-- Select District --"),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.districts, function (district) {
-                          return _c(
-                            "option",
-                            {
-                              key: district.id,
-                              domProps: { value: district.id },
-                            },
-                            [
-                              _vm._v(
-                                "\n                                        " +
-                                  _vm._s(district.district_name)
-                              ),
-                            ]
-                          )
-                        }),
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _vm.errors.district_id
-                      ? _c("small", { staticClass: "form-text text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.district_id[0])),
-                        ])
-                      : _vm._e(),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-5" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Agent Address (Area)"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_address_area,
-                          expression: "form.agent_address_area",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_address_area },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_address_area",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-7" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Agent Address (Office)"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_address_office,
-                          expression: "form.agent_address_office",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_address_office },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_address_office",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "UserStatus" } }, [
-                      _vm._v("Current Status"),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.agent_status,
-                            expression: "form.agent_status",
-                          },
-                        ],
-                        staticClass: "form-control filter-select",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "agent_status",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("-- Select --"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Active"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "0" } }, [
-                          _vm._v("In-Active"),
-                        ]),
-                      ]
-                    ),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("h3", { staticClass: "mb-3" }, [
-                  _vm._v("Reference information"),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Username" } }, [
-                      _vm._v("Name"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_1_name,
-                          expression: "form.agent_ref_1_name",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_ref_1_name },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_1_name",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Phone"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_1_phone,
-                          expression: "form.agent_ref_1_phone",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_1_phone },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_1_phone",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Whatsapp Number"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_1_wp_number,
-                          expression: "form.agent_ref_1_wp_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_1_wp_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_1_wp_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "Peragent_address" } }, [
-                      _vm._v("Imo Number"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_1_imo_number,
-                          expression: "form.agent_ref_1_imo_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_1_imo_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_1_imo_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_2_name,
-                          expression: "form.agent_ref_2_name",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_ref_2_name },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_2_name",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_2_phone,
-                          expression: "form.agent_ref_2_phone",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_2_phone },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_2_phone",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_2_wp_number,
-                          expression: "form.agent_ref_2_wp_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_2_wp_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_2_wp_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_2_imo_number,
-                          expression: "form.agent_ref_2_imo_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_2_imo_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_2_imo_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_3_name,
-                          expression: "form.agent_ref_3_name",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.form.agent_ref_3_name },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_3_name",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_3_phone,
-                          expression: "form.agent_ref_3_phone",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_3_phone },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_3_phone",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_3_wp_number,
-                          expression: "form.agent_ref_3_wp_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_3_wp_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_3_wp_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.agent_ref_3_imo_number,
-                          expression: "form.agent_ref_3_imo_number",
-                        },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.form.agent_ref_3_imo_number },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "agent_ref_3_imo_number",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "row" },
-                [
-                  _c("dic", { staticClass: "col-md-4" }, [
-                    _c("h3", { staticClass: "my-3" }, [
-                      _vm._v("Agent Profile image"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      attrs: { type: "file", id: "file" },
-                      on: { change: _vm.img },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "dic",
-                    { staticClass: "col-md-4" },
-                    [
-                      _c("h3", { staticClass: "my-3" }, [
-                        _vm._v("Agent images"),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Username" } }, [
+                        _vm._v("Agent Name"),
                       ]),
                       _vm._v(" "),
-                      _c("DropMultiImages", {
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_name,
+                            expression: "form.agent_name",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_name },
                         on: {
-                          new_images: function ($event) {
-                            return _vm.new_images($event)
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_name",
+                              $event.target.value
+                            )
                           },
                         },
                       }),
-                    ],
-                    1
-                  ),
+                      _vm._v(" "),
+                      _vm.errors.agent_name
+                        ? _c(
+                            "small",
+                            { staticClass: "form-text text-danger" },
+                            [_vm._v(_vm._s(_vm.errors.agent_name[0]))]
+                          )
+                        : _vm._e(),
+                    ]),
+                  ]),
                   _vm._v(" "),
-                  _vm.images
-                    ? _c("dic", { staticClass: "col-md-4" }, [
-                        _c(
-                          "div",
-                          { staticClass: "d-flex flex-wrap" },
-                          _vm._l(_vm.images, function (image) {
-                            return _c(
-                              "div",
-                              { key: image.id, staticClass: "agentimg" },
-                              [
-                                _c("div", { staticClass: "m-2" }, [
-                                  _c("i", {
-                                    staticClass: "del-icon fas fa-times",
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.deleteImage(image)
-                                      },
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("img", {
-                                    staticClass: "agent_images",
-                                    attrs: {
-                                      src: image.image,
-                                      alt: "",
-                                      srcset: "",
-                                    },
-                                  }),
-                                ]),
-                              ]
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "agent_email" } }, [
+                        _vm._v("Agent Email"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_email,
+                            expression: "form.agent_email",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "agent_email" },
+                        domProps: { value: _vm.form.agent_email },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_email",
+                              $event.target.value
                             )
-                          }),
-                          0
-                        ),
-                      ])
-                    : _vm._e(),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "mt-5 form-group row" }, [
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Phone No (Primary)"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_phone,
+                            expression: "form.agent_phone",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_phone },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_phone",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Whatsapp Number"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_wp_number,
+                            expression: "form.agent_wp_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_wp_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_wp_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Imo Number"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_imo_number,
+                            expression: "form.agent_imo_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_imo_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_imo_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "UserRole" } }, [
+                          _vm._v("District"),
+                        ]),
+                        _vm._v(" "),
+                        _c("v-select", {
+                          attrs: {
+                            label: "district_name",
+                            placeholder: "Select District",
+                            options: _vm.districts,
+                          },
+                          model: {
+                            value: _vm.form.district_id,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.form, "district_id", $$v)
+                            },
+                            expression: "form.district_id",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-5" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Agent Address (Area)"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_address_area,
+                            expression: "form.agent_address_area",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_address_area },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_address_area",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-5" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Agent Address (Office)"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_address_office,
+                            expression: "form.agent_address_office",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_address_office },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_address_office",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "UserStatus" } }, [
+                        _vm._v("Current Status"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.agent_status,
+                              expression: "form.agent_status",
+                            },
+                          ],
+                          staticClass: "form-control filter-select",
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "agent_status",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("-- Select --"),
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Active"),
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("In-Active"),
+                          ]),
+                        ]
+                      ),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("h5", { staticClass: "mb-3" }, [
+                    _vm._v("Reference information"),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Username" } }, [
+                        _vm._v("Name"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_1_name,
+                            expression: "form.agent_ref_1_name",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_ref_1_name },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_1_name",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Phone"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_1_phone,
+                            expression: "form.agent_ref_1_phone",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_1_phone },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_1_phone",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Whatsapp Number"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_1_wp_number,
+                            expression: "form.agent_ref_1_wp_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_1_wp_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_1_wp_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "Peragent_address" } }, [
+                        _vm._v("Imo Number"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_1_imo_number,
+                            expression: "form.agent_ref_1_imo_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_1_imo_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_1_imo_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_2_name,
+                            expression: "form.agent_ref_2_name",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_ref_2_name },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_2_name",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_2_phone,
+                            expression: "form.agent_ref_2_phone",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_2_phone },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_2_phone",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_2_wp_number,
+                            expression: "form.agent_ref_2_wp_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_2_wp_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_2_wp_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_2_imo_number,
+                            expression: "form.agent_ref_2_imo_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_2_imo_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_2_imo_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_3_name,
+                            expression: "form.agent_ref_3_name",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.form.agent_ref_3_name },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_3_name",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_3_phone,
+                            expression: "form.agent_ref_3_phone",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_3_phone },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_3_phone",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_3_wp_number,
+                            expression: "form.agent_ref_3_wp_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_3_wp_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_3_wp_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.agent_ref_3_imo_number,
+                            expression: "form.agent_ref_3_imo_number",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.form.agent_ref_3_imo_number },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "agent_ref_3_imo_number",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "col-md-4", staticStyle: { clear: "both" } },
+                  { staticClass: "row" },
                   [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success",
-                        attrs: { type: "submit" },
-                      },
-                      [_vm._v("Save Changes")]
-                    ),
+                    _c("dic", { staticClass: "col-md-3" }, [
+                      _c("h5", { staticClass: "mt-3" }, [
+                        _vm._v("Agent Profile image"),
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { type: "file", id: "file" },
+                        on: { change: _vm.changeImg },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("dic", { staticClass: "col-md-4" }, [
+                      _c("h5", { staticClass: "mt-3" }, [
+                        _vm._v("Image Preview"),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "my-2 Preview" }, [
+                        _c("img", {
+                          staticClass: "agentImage",
+                          attrs: { src: "", id: "uploadPreview", alt: "" },
+                        }),
+                      ]),
+                    ]),
                     _vm._v(" "),
                     _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "reset" },
-                        on: { click: _vm.resetbtn },
-                      },
-                      [_vm._v("Cancel")]
+                      "dic",
+                      { staticClass: "col-md-5" },
+                      [
+                        _c("h5", { staticClass: "my-3" }, [
+                          _vm._v("Agent images"),
+                        ]),
+                        _vm._v(" "),
+                        _c("DropMultiImages", {
+                          on: {
+                            new_images: function ($event) {
+                              return _vm.new_images($event)
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _vm.images
+                          ? _c("dic", { staticClass: "col-md-4" }, [
+                              _c(
+                                "div",
+                                { staticClass: "d-flex flex-wrap" },
+                                _vm._l(_vm.images, function (image) {
+                                  return _c(
+                                    "div",
+                                    { key: image.id, staticClass: "agentimg" },
+                                    [
+                                      _c("div", { staticClass: "m-2" }, [
+                                        _c("i", {
+                                          staticClass: "del-icon fas fa-times",
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.deleteImage(image)
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("img", {
+                                          staticClass: "agent_images",
+                                          attrs: {
+                                            src: image.image,
+                                            alt: "",
+                                            srcset: "",
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  )
+                                }),
+                                0
+                              ),
+                            ])
+                          : _vm._e(),
+                      ],
+                      1
                     ),
-                  ]
+                  ],
+                  1
                 ),
+                _vm._v(" "),
+                _vm._m(0),
               ]),
             ]
           ),
@@ -1675,7 +1653,28 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mt-8 form-group row" }, [
+      _c("div", { staticClass: "col-md-4", staticStyle: { clear: "both" } }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "submit" } },
+          [_vm._v("Save Changes")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-danger", attrs: { type: "reset" } },
+          [_vm._v("Cancel")]
+        ),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -1699,13 +1698,12 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex items-center justify-center text-center mt-2" },
+    { staticClass: "flex items-center justify-center  text-center mt-2" },
     [
       _c(
         "div",
         {
-          staticClass:
-            "p-6 bg-gray-100 rounded-lg border-dotted border-4  border-blue-500 py-16 w-full",
+          staticClass: "p-6 bg-gray-100 image_drop  ",
           on: {
             dragover: _vm.dragover,
             dragleave: _vm.dragleave,
@@ -1739,7 +1737,7 @@ var render = function () {
                     [
                       _vm._v("\n\n                " + _vm._s(file.name)),
                       _c(
-                        "button",
+                        "span",
                         {
                           staticClass: "ml-2",
                           attrs: { type: "button", title: "Remove file" },
@@ -1770,11 +1768,11 @@ var staticRenderFns = [
     return _c(
       "label",
       {
-        staticClass: "block cursor-pointer",
+        staticClass: "mb-2 block cursor_pointer",
         attrs: { for: "assetsFieldHandle" },
       },
       [
-        _c("div", [
+        _c("p", { staticClass: "text-center" }, [
           _vm._v("\n                Drop your file\n                or "),
           _c("span", { staticClass: "underline" }, [_vm._v("click here ")]),
         ]),

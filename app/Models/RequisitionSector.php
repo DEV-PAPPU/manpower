@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class RequisitionSector extends Model
 {
     protected  $guarded = [];
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'requisition_sector_id');
+    }
+
 }

@@ -35,7 +35,6 @@ class RequisitionController extends Controller
             'kafil_id' => 'required',
             'requisition_date' => 'required',
             'company_id' => 'required',
-            'sector_id' => 'required',
         ]);
     
          $requisition = new Requisition();
@@ -45,7 +44,7 @@ class RequisitionController extends Controller
          $requisition->save();
 
 
-         $company_sectors = $request->sector_id;
+         $company_sectors = $request->sectors;
 
          foreach($company_sectors as $item){
 

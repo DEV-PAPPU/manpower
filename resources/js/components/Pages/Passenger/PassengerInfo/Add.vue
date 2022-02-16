@@ -100,20 +100,6 @@ export default {
             let form_img  = image.files[0];
             var output = document.getElementById('uploadPreview');
             output.src = URL.createObjectURL(form_img);
-
-            let file = e.target.files[0];
-                let reader = new FileReader();  
-
-                if(file['size'] < 2111775)
-                {
-                    reader.onloadend = (file) => {
-                    //console.log('RESULT', reader.result)
-                     this.form.passenger_photo = reader.result;
-                    }              
-                     reader.readAsDataURL(file);
-                }else{
-                    alert('File size can not be bigger than 2 MB')
-                }
         }
 
     },

@@ -5,6 +5,14 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Passenger;
+use App\Models\RequisitionTradeInfo;
+use App\Models\RequisitionVisainfo;
+use App\Models\District;
+use App\Models\Agent;
+use App\Models\Company;
+use App\Models\Sector;
+use App\Models\Interview;
+use App\Models\PassengerImage;
 use DB;
 class PassengerController extends Controller
 {
@@ -17,7 +25,7 @@ class PassengerController extends Controller
                     ->select('passengers.id','passengers.passenger_name', 'passengers.passenger_father_name', 
                     'passengers.passport_expire_date',
                     'passengers.passenger_date_of_birth', 'passengers.passenger_gurdian_no','passengers.passenger_gender',
-                    'passengers.passport_source','passengers.passport_no','passengers.is_approved','passengers.old_passport_no',
+                    'passengers.passport_source','passengers.passport_no','passengers.old_passport_no',
                     'passengers.passenger_phone','districts.district_name', 'agents.agent_name')
                     ->get();
 
@@ -60,9 +68,18 @@ class PassengerController extends Controller
             $passenger->passport_source = $request->passport_source;
             $passenger->passenger_gender = $request->passenger_gender;
             $passenger->passenger_phone = $request->passenger_phone;
-            $passenger->is_approved = $request->is_approved;
             $passenger->district_id = $request->district_id;
-            $passenger->agent_id = $request->agent_id;
+            
+            if($passenger->agent_id){
+
+                $passenger->agent_id = $request->agent_id;
+            }
+
+            $passenger->passenger_discount = $request->discount;
+            $passenger->passenger_trade_id = $request->trade_id;
+            $passenger->passenger_sector_id = $request->sector_id;
+            $passenger->passenger_company_id = $request->company_id;
+            $passenger->passenger_note = $request->note;
 
             if($request->hasFile('passenger_photo')){
 
@@ -76,6 +93,13 @@ class PassengerController extends Controller
             }
          }
 
+
+         $trade = RequisitionTradeInfo::findOrfail($request->trade_id);
+         
+         RequisitionVisainfo::where('visa_no', $trade->trade_visa_no)->increment('booked');
+
+         RequisitionTradeInfo::where('id', $request->trade_id)->decrement('available');
+
     
         return response()->json([
             'msg' => $msg,
@@ -87,8 +111,27 @@ class PassengerController extends Controller
 
     public function edit($id)
     {
-        $passenger = Passenger::find($id);
-        return response()->json($passenger, 200);
+        $passenger = Passenger::findOrfail($id);
+        $district = District::where('id', $passenger->district_id)->first();
+       
+        $agent = '';
+
+        if($passenger->passport_source == 'agent'){
+            $agent =  Agent::where('id', $passenger->agent_id)->first();
+        }
+
+        $sector = Sector::where('id', $passenger->passenger_sector_id)->first();
+        $company = Company::where('id', $passenger->passenger_company_id)->first();
+        $trade = RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->first();
+
+        return response()->json([
+           'passenger' => $passenger,
+           'district' => $district,
+           'agent' => $agent,
+           'sector' => $sector,
+           'company' => $company,
+           'trade' => $trade,
+        ], 200);
 
     }
 
@@ -100,23 +143,31 @@ class PassengerController extends Controller
 
          $passenger = Passenger::findOrfail($id);
          $passenger->passenger_name = $request->passenger_name;
-         $passenger->passenger_father_name = $request->passenger_father_name;
-         $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
-         $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
-         $passenger->passport_expire_date = $request->passport_expire_date;
-         $passenger->passport_no = $request->passport_no;
-         $passenger->old_passport_no = $request->old_passport_no;
-         $passenger->passport_source = $request->passport_source;
-         $passenger->passenger_gender = $request->passenger_gender;
-         $passenger->passenger_phone = $request->passenger_phone;
-         $passenger->is_approved = $request->is_approved;
-         $passenger->district_id = $request->district_id;
-         $passenger->agent_id = $request->agent_id;
-         $passenger->save();
+        $passenger->passenger_father_name = $request->passenger_father_name;
+        $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
+        $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
+        $passenger->passport_expire_date = $request->passport_expire_date;
+        $passenger->passport_no = $request->passport_no;
+        $passenger->old_passport_no = $request->old_passport_no;
+        $passenger->passport_source = $request->passport_source;
+        $passenger->passenger_gender = $request->passenger_gender;
+        $passenger->passenger_phone = $request->passenger_phone;
+        $passenger->district_id = $request->district_id;
+        
+        if($passenger->agent_id){
+
+            $passenger->agent_id = $request->agent_id;
+        }
+
+        $passenger->passenger_discount = $request->discount;
+        $passenger->passenger_trade_id = $request->trade_id;
+        $passenger->passenger_sector_id = $request->sector_id;
+        $passenger->passenger_company_id = $request->company_id;
+        $passenger->passenger_note = $request->note;
 
          if($request->hasFile('passenger_photo')){
 
-            $passengerImage = $passenger->image;
+            $passengerImage = $passenger->passenger_photo;
             $imagePath = public_path($passengerImage);
 
             if ($passengerImage && file_exists($imagePath)) {
@@ -127,6 +178,9 @@ class PassengerController extends Controller
             $image_new_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('storage/images/', $image_new_name);
             $passenger->passenger_photo = '/storage/images/' . $image_new_name;
+            $passenger->save();
+        }
+        else{
             $passenger->save();
         }
 
@@ -142,14 +196,51 @@ class PassengerController extends Controller
      */
     public function destroy($id)
     {
-        $passenger = passenger::findOrfail($id);
+        $passenger = Passenger::findOrfail($id);
 
-        if($passenger){
-            $passenger->delete();
+        $passenger_images =  PassengerImage::where('passenger_id', $passenger->id)->get();
+     
+        $interview =  Interview::where('passenger_id', $passenger->id)->first();
 
-            return response()->json(['msg' => 'Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
+        $error_msg = '';
+        $msg = '';
+
+        if ($passenger_images) {
+
+            $images = $passenger_images;
+
+            foreach($images as $gallery){
+
+                $imagePath = public_path($gallery->image);
+                unlink($imagePath);
+
+                PassengerImage::where('passenger_id', $passenger->id)->delete();
+            }
         }
+
+
+        if($interview){
+            $error_msg = 'Passenger Already Interview So Can`t Delete';
+        }
+        else {
+            $passengerImage = $passenger->passenger_photo;
+            $imagePath = public_path($passengerImage);
+
+            if ($passengerImage && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $passenger->delete();
+           
+            $msg = 'Delete Sucess';
+        }
+
+
+        return response()->json([
+            'msg' =>  $msg,
+            'error_msg' => $error_msg
+        ], 200);
+
+        
     }
 }

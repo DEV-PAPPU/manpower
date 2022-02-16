@@ -129,7 +129,7 @@ export default {
             },
             date : '',
             form:{
-                passenger_id: '',
+                id: '',
                 passenger_name: '',
                 passport_no: '',
                 trade: '',

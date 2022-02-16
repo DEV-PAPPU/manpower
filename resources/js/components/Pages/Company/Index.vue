@@ -14,15 +14,15 @@
                         <table class="table table-hover table-bordered dbtable">
                             <thead>
                                 <tr>
-                                    <th>S/L</th>
-                                    <th>Company Name</th>
+                                    <th style="width:60px">S/L</th>
+                                    <th style="width:130px">Company Name</th>
                                     <th>Address</th>
-                                    <th>Contact Person</th>
+                                    <th style="width:130px">Contact Person</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Country</th>
-                                    <th>Is Approved</th>
-                                    <th>Actions</th>
+                                    <th style="width:70px">Status</th>
+                                    <th style="width:100px">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,7 +35,7 @@
                                     <td>{{item.company_phone}}</td>
                                     <td style="width:90px">{{item.country_name}}</td>
                                     <td>
-                                        <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
+                                        <i v-if="item.company_status == '0'" class="fa fa-check Yes"></i>
                                         <i v-else class="fas fa-times"></i>
                                     </td>
 
@@ -96,7 +96,7 @@ export default {
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 10,
-                        // "scrollX": true
+                        "scrollX": true
                         // "bDestroy": true,                        
                     });
                     });
@@ -104,15 +104,42 @@ export default {
         },
 
         deleteCompany(company){
-            axios.post(`delete-company/${company.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
 
-                let index = this.companies.indexOf(company);
-               this.companies.splice(index, 1);
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+             
+                axios.post(`delete-company/${company.id}`).then(res =>{
+               
+                    if(res.data.msg){
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+                        
+                       window.location.reload();
+                    }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+                })
+
+              }
             })
+
         },
 
     },
@@ -155,6 +182,14 @@ table.dataTable thead th, table.dataTable thead td {
 
 .delete_icon{
     color: rgb(238, 12, 12);
+}
+
+.company_logo{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 80px;
+    border: dotted black 2px
 }
 
 @media only screen and (max-width: 1000px){

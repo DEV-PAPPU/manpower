@@ -4,7 +4,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">COMPANY Entry</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Company/Delegate</h6>
                     <router-link :to="{name: 'Companies'}" class="btn btn-success btn-sm">Back To List</router-link>
 
                 </div>
@@ -22,14 +22,7 @@
                                         class="form-text text-danger">{{ errors.company_name[0] }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="PerAddress">Company Address</label>
-                                    <input class="form-control" v-model="form.company_address" type="text">
-                                    <small v-if="errors.company_address"
-                                        class="form-text text-danger">{{ errors.address[0] }}</small>
-                                </div>
-                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="PerAddress">Contact Person</label>
@@ -46,56 +39,78 @@
                                         class="form-text text-danger">{{ errors.company_phone[0] }}</small>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input class="form-control" v-model="form.company_email"
-                                         type="email">
+                                    <input class="form-control" v-model="form.company_email" type="email">
                                     <small v-if="errors.company_email"
                                         class="form-text text-danger">{{ errors.company_email[0] }}</small>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PerAddress">Company Address</label>
+                                    <input class="form-control" v-model="form.company_address" type="text">
+                                    <small v-if="errors.company_address"
+                                        class="form-text text-danger">{{ errors.address[0] }}</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="UserStatus">Country</label>
+                                    <v-select  label="country_name" v-model="form.country_id" placeholder="Select" :options="country" />
+                                </div>
+                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserStatus">Currrent Status</label>
-                                    <select v-model="form.is_approved" required class="form-control filter-select">
+                                    <select v-model="form.status" required class="form-control filter-select">
                                         <option value="">-- Select --</option>
                                         <option value="0">Active</option>
                                         <option value="1">In Active</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
 
-                             <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="UserStatus">Country</label>
-                                    <select v-model="form.country_id" @change="changecountry" required class="form-control filter-select">
-                                        <option value="">-- Select --</option>
-                                        <option v-for="country in country" :key="country.id" :value="country.id">{{country.country_name}}</option>
-                                    </select>
+                                    <label for="sector">Country Sectors</label>
+                                    <div class="form-control all_sectors filter-select">
+                                        <div v-for="sector in sectors" :key="sector.id" class="list-of-yards">
+                                            <span>{{sector.sector_name}}</span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
 
-                             <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="sector">Note</label>
+                                    <textarea name="" v-model="form.note" class="form-control" id="" cols="30"
+                                        rows="8"></textarea>
+                                </div>
+                            </div>
 
-                                    <label for="sector">Country Sectors</label>
-
-                                    <div class="form-control all_sectors filter-select">
-                                         <div  v-for="sector in sectors" :key="sector.id"
-                                        class="list-of-yards">
-                                        
-                                        <div class="d-flex flex-row align-items-center gap-2">
-                                            <p>{{sector.sector_name}}</p>
-                                        </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label id="PhotoPathLabel" for="PhotoPath">Brand Logo</label><br>
+                                        <input style="width: 103px" @change="changeImg" required type="file" id="file">
                                     </div>
+                                </div>
 
-                                    </div>
-                                    <small v-if="errors.sector_id"
-                                        class="form-text text-danger">{{ errors.sector_id[0] }}</small>
+                                <div class="Preview">
+                                    <img src="" id="uploadPreview" class="companyimage" required alt="">
                                 </div>
                             </div>
                         </div>
@@ -114,12 +129,10 @@
     </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect'
+import 'vue-select/dist/vue-select.css';
 
 import axios from 'axios'
     export default {
-        components:{Multiselect},
-        // components: { Multiselect: window.VueMultiselect.default },
         data: () =>{
             return {
                 form:{
@@ -128,9 +141,9 @@ import axios from 'axios'
                 contact_person: '',
                 company_phone: '',
                 company_email: '',
-                is_approved: '',
-                sector_id: [],
-                country_id: ''
+                status: '',
+                country_id: '',
+                note: '',
                },
                errors: '',
                value: '',
@@ -142,15 +155,28 @@ import axios from 'axios'
         methods:{
           
             changecountry(){
-                let id = this.form.country_id;
+                let id = this.form.country_id.id;
                 axios.get(`country-sectors/${id}`).then(res =>{
                   this.sectors = res.data;
                 })
             },
 
             addCompany(){
+
+
+                 let data = new FormData();
+                data.append('company_name', this.form.company_name);
+                data.append('company_address', this.form.company_address);
+                data.append('contact_person', this.form.contact_person);
+                data.append('company_phone', this.form.company_phone);
+                data.append('company_email', this.form.company_email);
+                data.append('status', this.form.status);
+                data.append('country_id', this.form.country_id.id);
+                data.append('note', this.form.note);
+                data.append('image', document.getElementById('file').files[0])
+
              
-              axios.post('add-company', this.form).then(response =>{
+              axios.post('add-company', data).then(response =>{
                
                 if(response.data.msg){
 
@@ -167,21 +193,27 @@ import axios from 'axios'
               })
                .catch(e => {
                      this.errors = e.response.data.errors;
-                     alert('someting is wrong reload page and try again')                     
+                      alert('Please check all fields')                     
                 });
             },
-            
+
+            changeImg(e){
+            var image = document.getElementById('file');
+            let form_img  = image.files[0];
+            var output = document.getElementById('uploadPreview');
+            output.src = URL.createObjectURL(form_img);
+            },
 
         },
 
-    //      watch: { 
-    //      'form.country_id': {
-    //         handler(newVal, oldVal) {
-    //             this.country();
-    //          },
-    //         deep: true
-    //         }
-    //    },
+         watch: { 
+         'form.country_id.id': {
+            handler(newVal, oldVal) {
+                this.changecountry();
+             },
+            deep: true
+            }
+       },
 
         mounted() {
             axios.get("country").then(res =>{
@@ -193,7 +225,13 @@ import axios from 'axios'
 
 <style scoped>
 .form-control.all_sectors.filter-select {
-    height: 100px;
+    height: 200px;
     overflow-y: scroll;
+}
+
+.companyimage{
+    width: 250px;
+    height: 165px;
+    object-fit: cover;
 }
 </style>

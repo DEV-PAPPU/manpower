@@ -39,31 +39,33 @@
                                 
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="DOB">Date of Birth </label>
                                         <input v-model="form.passenger_date_of_birth" required class="form-control dtpicker" type="date">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PassportNo">Passport No </label>
                                         <input v-model="form.passport_no" class="form-control" required type="text">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PassportExpireDate">Passport Expire Date </label>
                                         <input v-model="form.passport_expire_date" class="form-control dtpicker" required type="date">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PassportNo">Old Passport No </label>
                                         <input v-model="form.old_passport_no" class="form-control" type="text">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Gender">Gender </label>
                                         <select v-model="form.passenger_gender" class="form-control filter-select" required >
@@ -75,19 +77,14 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="PerDistrictId">District </label>
-                                        <select v-model="form.district_id" class="form-control filter-select" required>
-                                            <option value="">-- Select --</option>
-                                            <option v-for="district in districts" :value="district.id"
-                                                :key="district.id">{{district.district_name}}</option>
-                                        </select>
+                                         <v-select  label="district_name" v-model="form.district_id" placeholder="Select" :options="districts" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-3">
+
+                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassportSource">Passport Source</label>
 
@@ -99,15 +96,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div v-if="form.passport_source == 'agent'" class="col-md-3">
+                                <div v-if="form.passport_source == 'agent'" class="col-md-2">
                                     <div class="form-group">
                                         <label for="AgentId">Agent Name</label>
-
-                                        <select v-model="form.agent_id"  class="form-control">
-                                            <option value="">-- Select --</option>
-                                            <option value="null">None</option>
-                                            <option v-for="item in agents" :key="item.id" :value="item.id">{{item.agent_name}}</option>
-                                        </select>
+                                         <v-select  label="agent_name" v-model="form.agent_id" placeholder="Select" :options="agents" />
                                     </div>
                                 </div>
 
@@ -115,15 +107,73 @@
                                     <div class="form-group">
                                         <label id="PhotoPathLabel" for="PhotoPath">Photo</label><br>
                                         <input style="width: 103px" @change="changeImg" required type="file" id="file">
-                                        
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="sector">Image Preview</label>
                                     <div class="Preview">
-                                            <img src="" id="uploadPreview" class="image" alt="">
+                                            <img src="" id="uploadPreview" class="passengerimage" alt="">
                                     </div>
+                                </div>
+
+                                 <div class="col-md-9">
+                                <div class="form-group">
+                                    <label for="sector">Note</label>
+                                    <textarea name="" v-model="form.note" class="form-control" id="" cols="30" rows="7"></textarea>
                                 </div>
                             </div>
+
+                            </div>
+
+                             <div class="form-group row">
+                                 <h5 class="my-3">Mofa Info</h5>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="Company">Company</label>
+                                    <v-select label="company_name" v-model="form.company_id" placeholder="-- Select company --" :options="companies" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sector">Sector</label>
+                                    <v-select label="sector_name" v-model="form.sector_id" placeholder="Select" :options="sectors" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="UserRole">Visa & Trade</label>
+                                        <select v-model="form.trade_id" class="form-control filter-select" required>
+                                            <option value="">-- Select trade --</option>
+                                            <option v-for="item in trades" :key="item.id" :value="item.id">
+                                                <p>Visa No: {{item.trade_visa_no}} - Trade: {{item.trade}}
+                                                    - Ref: {{item.price_reference}}
+                                                </p>
+                                                <!-- <p>Visa No: {{item.trade_visa_no}} > Trade: {{item.trade}} > Salary:
+                                                    {{item.salary}}
+                                                    > Price: {{item.price_reference}}
+                                                </p> -->
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">Discount</label>
+                                    <input class="form-control" v-model="form.discount" type="number">
+
+                                </div>
+                            </div>
+
+                        </div>
 
                             <div class="form-group row">
                                 <div class="col-md-4" style="clear:both;">
@@ -141,6 +191,8 @@
 </template>
 
 <script>
+import 'vue-select/dist/vue-select.css';
+
 import axios from 'axios';
 export default {
     data : () =>{
@@ -159,12 +211,18 @@ export default {
                 district_id: '',
                 agent_id: '',
                 passenger_photo: '',
+                company_id: '',
+                sector_id: '',
+                trade_id: '',
+                note: '',
+                discount: 0,
             },
-            agents: [],
-            districts:[
-                
-            ]
-
+            agents: '',
+            companies: '',
+            districts:[],
+            sectors: [],
+            trades: [],
+            image: false,
 
         }
     },
@@ -184,8 +242,13 @@ export default {
                 data.append('passport_expire_date', this.form.passport_expire_date);
                 data.append('old_passport_no', this.form.old_passport_no);
                 data.append('passenger_gender', this.form.passenger_gender);
-                data.append('district_id', this.form.district_id);
-                data.append('agent_id', this.form.agent_id);
+                data.append('district_id', this.form.district_id.id);
+                data.append('agent_id', this.form.agent_id.id);
+                data.append('discount', this.form.discount);
+                data.append('sector_id', this.form.sector_id.id);
+                data.append('trade_id', this.form.trade_id);
+                data.append('company_id', this.form.company_id.id);
+                data.append('note', this.form.note);
                 data.append('passenger_photo', document.getElementById('file').files[0])
 
             axios.post('add-passenger', data).then(response =>{
@@ -211,7 +274,7 @@ export default {
                 
             })
             .catch(e =>{
-                alert('Someting is Wrong')
+                alert('Please check all fields')
             })
 
         },
@@ -222,21 +285,24 @@ export default {
             let form_img  = image.files[0];
             var output = document.getElementById('uploadPreview');
             output.src = URL.createObjectURL(form_img);
+        },
 
-            let file = e.target.files[0];
-                let reader = new FileReader();  
+        changeCompany(){
+               
+               let id = this.form.company_id.id
 
-                if(file['size'] < 2111775)
-                {
-                    reader.onloadend = (file) => {
-                    //console.log('RESULT', reader.result)
-                     this.form.passenger_photo = reader.result;
-                    }              
-                     reader.readAsDataURL(file);
-                }else{
-                    alert('File size can not be bigger than 2 MB')
-                }
-        }
+                axios.get(`search-sector-trade-by-company/${id}`).then(res =>{
+                   this.trades = res.data.trade;
+                   this.sectors = res.data.sectors;
+                   if(res.data.msg){
+
+                        Toast.fire({
+                        icon: 'error',
+                        title: res.data.msg
+                        });
+                    }
+                })
+            }
         // changeImg(e){
         //     var image = document.getElementById('file');
         //     this.form.passenger_photo = image.files[0];
@@ -247,6 +313,15 @@ export default {
 
     },
 
+        watch: { 
+         'form.company_id.id': {
+            handler(newVal, oldVal) {
+                this.changeCompany();
+             },
+            deep: true
+            }
+       },
+
     mounted(){
         axios.get("agents").then(res =>{
            this.agents = res.data
@@ -254,6 +329,18 @@ export default {
         axios.get("districts").then(res =>{
            this.districts = res.data
         });
+
+        axios.get("companies").then(res =>{
+                this.companies = res.data.companies;
+        });
     }
 }
 </script>
+
+<style scoped>
+.passengerimage{
+    width: 230px;
+    height: 170px;
+    object-fit: cover;
+}
+</style>

@@ -15,14 +15,14 @@ window.axios = require('axios');
 window.axios.defaults.baseURL = '/api/';
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('main-component', require('./App.vue').default);
 
-import Multiselect from 'vue-multiselect'
 import moment from 'moment';
   // register globally
-  Vue.component('multiselect', Multiselect)
   
 //Import Sweetalert2
 import Swal from 'sweetalert2'

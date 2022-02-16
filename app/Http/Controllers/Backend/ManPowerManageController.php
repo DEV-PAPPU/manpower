@@ -36,10 +36,7 @@ class ManPowerManageController extends Controller
 
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
 
-        $old_passport = ManPowerPassport::where('man_power_passport_no',  $request->passport_no)->first();
-
-        $is_stm_done = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
-
+        
 
         //checking passenger interview done or not
         if($passenger){
@@ -55,11 +52,11 @@ class ManPowerManageController extends Controller
                 }
 
                 elseif ($passenger_interview->pc_date == null) {
-                    $error_msg = 'Please Complate Passenger Interview';
+                    $error_msg = 'Please Complate Passenger Pc Date';
                 }
 
                 elseif ($passenger_interview->medical_result == '0') {
-                    $error_msg = 'Please Complate Passenger Interview';
+                    $error_msg = 'Please Complate Passenger Medical';
                 }
 
             }
@@ -76,73 +73,76 @@ class ManPowerManageController extends Controller
 
 
 
-        if($old_passport){
-            $error_msg =   'Passenger Already';
+        if($passenger){
+
+            $old_passport = ManPowerPassport::where('passenger_id',  $passenger->id)->first();
+
+            if($old_passport){
+
+                $error_msg =   'Already added in Man Power list';
+            }           
         }
 
-        if($is_stm_done){
+
+        // checking passenger STM data
+        if($passenger){
            
-            if($is_stm_done->stm_passport_complete_date == null){
+            $is_stm_done = StmPassport::where('passenger_id',  $passenger->id)->first();
+            
+            if($is_stm_done){
+                
+                if($is_stm_done->stm_passport_status == '0'){
+                    $error_msg =   'Please Complate STM';
+                }
+            }
+            else{
                 $error_msg =   'Please Complate STM';
             }
         }
-        else {
-            $error_msg =   'Please Complate STM';
-        }
+
         
+        // data collection
+        if($passenger){
 
-        if($old_passport){
-            $error_msg = 'Already added in Man Power list';
-        }
-        else{
+            if($passenger->passport_source == 'agent'){
 
-            if($passenger){
+                $data = DB::table('passengers')
+                    ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                    ->leftJoin('agents', 'agents.id', 'passengers.agent_id')
+                   
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                              'passengers.passenger_trade_id')
 
-                if($passenger->passport_source == 'agent'){
-                    $passenger = Passenger::with('agent')->where('passport_no',  $request->passport_no)->first();
-                }
-    
+                    ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                             'passengers.passport_source', 'agents.agent_name',
+                             'companies.company_name', 'requisition_trade_infos.trade',
+                            )
+                     ->where('passengers.id', $passenger->id)    
+                    ->get();
             }
-    
-            // checking passenger of request passport_no
-            if($passenger){
-    
-                $mofa = MofaInformation::with('trade')->where('passenger_id', $passenger->id)->first();
-                
-                // checking trade of passenger 
-                if($mofa){
-    
-                    $mofa_info = MofaInformation::with('trade','passenger')->where('passenger_id', $passenger->id)->first();
-                    
-                    // getting company name
-                     $company_info = Requisition::with('company')->where('id',$mofa_info->trade->requisition_id)->first();
-                    
+
+            else{
+
+                $data = DB::table('passengers')
+                ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
+                ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                         'passengers.passport_source','companies.company_name', 'requisition_trade_infos.trade',
+                        )
+                ->where('passengers.id', $passenger->id)   
+                ->get();
+
+            }
             
-                     $agent_name = '';
-                      
-                     if($passenger->passport_source == 'agent'){
-                         $agent_name = $passenger->agent->agent_name;
-                     }
-    
-                    // data collection 
-                    $data = array(
-                        'passenger_id'  => $passenger->id,
-                        'passport_no'  => $passenger->passport_no,
-                        'passenger_name'  => $passenger->passenger_name,
-                        'passport_source'  => $passenger->passport_source,
-                        'agent_name'  => $agent_name,
-                        'trade'  => $mofa_info->trade->trade,
-                        'company_name'  => $company_info->company->company_name,
-                    );
-                    
-                }
-    
-                else{
-                    $error_msg = 'Please entry in Mofa-List';
-                }
-            }
-    
+        }
 
+
+        // Getting object from data array
+        if($data){
+
+            foreach ($data as $item) {
+                $data = $item;
+             }
         }
 
 
@@ -163,8 +163,7 @@ class ManPowerManageController extends Controller
         foreach( $request->passport as $item){
             $passport = new ManPowerPassport();
             $passport->man_power_id = $manpower->id;
-            $passport->passenger_id = $item['passenger_id'];
-            $passport->man_power_passport_no = $item['passport_no'];
+            $passport->passenger_id = $item['id'];
             $passport->save();
         }
 

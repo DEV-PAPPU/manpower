@@ -6,7 +6,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">All Passports</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -45,7 +45,10 @@
                                 <label for="PassengerName">Complete Date</label>
                                 <input v-model="form.passport_complate_date" required class="form-control" type="date">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                <div class="d-flex gap-4">
+                                  <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                  <button @click="clrDate" class="btn btn-info btn-sm">Reset</button>
+                                </div>
                             </form>
 
                         </div>
@@ -86,7 +89,7 @@
                                     <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
                                     <button ><i class="fas delete_icon fa-trash-alt"></i></button>
-                                    <button @click="shopPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+                                    <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
                                 </td>
                             </tr>
 
@@ -144,7 +147,7 @@ export default {
               })
         },
 
-        shopPassport(id){
+        showPassport(id){
             this.manpower_id = id;
             axios.get(`manpower-passports/${id}`).then(res =>{
                 this.passports = res.data;
@@ -175,8 +178,8 @@ export default {
                         icon: 'success',
                         title: res.data.msg
                 });
-
-                this.shopPassport(this.manpower_id);
+                this.form.passport_complate_date = '';
+                this.showPassport(this.manpower_id);
                 this.recallchangeStatus(data);
             })
 
@@ -188,6 +191,11 @@ export default {
             axios.get("manpower-lists").then((res)=>{
                 this.manpowerdata = res.data;
             }); 
+        },
+
+        clrDate(){
+            this.isChangeStatus = false;
+            this.form.passport_complate_date = '';
         }
     },
 

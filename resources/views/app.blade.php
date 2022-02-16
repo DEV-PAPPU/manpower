@@ -17,23 +17,12 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" href="{{ asset('backend/css/sb-admin-2.min.css') }}">
 
-
-    <!-- <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
-   <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"> -->
-    <!-- Jquery-cdn-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     
-<!-- 
-    <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
-    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"> -->
-
     <!-- Sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 </head>
 
 <style>
@@ -45,6 +34,15 @@
     background: #4E73DF !important;
 }
 
+.cursor{
+    cursor: pointer;
+}
+
+button {
+    background: none;
+    border: 0px;
+}
+
 </style>
 
 <body id="page-top" class="body">
@@ -54,7 +52,6 @@
                 <main-component></main-component>
             </div>
 
-               
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -85,7 +82,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('backend/js/sb-admin-2.min.js') }}"></script>
-
 
 </body>
 

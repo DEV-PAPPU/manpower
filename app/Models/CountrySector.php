@@ -11,6 +11,7 @@ class CountrySector extends Model
 
     public function sector()
     {
-        return $this->HasMany(Sector::class, 'country_sector_id');
+        return $this->belongsTo(Sector::class, 'sector_id');
     }
+
 }

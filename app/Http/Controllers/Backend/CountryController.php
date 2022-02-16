@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Models\Sector;
 use App\Models\CountrySector;
+use App\Models\Company;
+use App\Models\Passenger;
 use DB;
 class CountryController extends Controller
 {
@@ -19,7 +21,6 @@ class CountryController extends Controller
 
     public function store (Request $request){
        
-        // return $request ;
         $this->validate($request,[
 
             'country_name' => 'required',
@@ -66,30 +67,44 @@ class CountryController extends Controller
 
     public function destroy($id)
     {
-        $sector = Country::findOrfail($id);
+        $country = Country::findOrfail($id);
+       
+        $company =  Company::where('country_id', $country->id)->first();
 
-        if($sector){
-            $sector->delete();
+        $error_msg = '';
+        $msg = '';
 
-            return response()->json(['msg' => 'Country Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
-        }
+        if($company){
+           $error_msg = 'Country Has Some Companies So Can`t Delete';
+       }
+       else {
+
+           $country->delete();
+           $msg = 'Delete Sucess';
+           
+       }
+
+       return response()->json([
+           'msg' =>  $msg,
+           'error_msg' => $error_msg
+       ], 200);
+
     }
-
 
     public function destroy_country_sector($id)
     {
 
+        $msg = '';
+
         $sector = CountrySector::where('country_sector_id', $id);
+      
+        $sector->delete();
 
-        if($sector){
-            $sector->delete();
+        $msg = 'Country Sector Delete Sucess ';
 
-            return response()->json(['msg' => 'Country Sector  Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
-        }
+        return response()->json([
+            'msg' =>  $msg,
+        ], 200);
     }
 
 

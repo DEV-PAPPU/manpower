@@ -20,6 +20,9 @@ use App\Http\Controllers\Backend\InterviewController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DataSearchController;
 use App\Http\Controllers\Backend\CountryController;
+use App\Http\Controllers\Account\BranchController;
+use App\Http\Controllers\Account\BankController;
+use App\Http\Controllers\Account\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,16 +123,6 @@ use App\Http\Controllers\Backend\CountryController;
     Route::get('requisitions-list-by-company/{id}', [RequisitionController::class, 'requisition_list_by_company_id']);
 
 
-    //------------------------------- MofaInformation Api Routes --------------------------\\
-    //------------------------------------------------------------------\\
-    Route::get('mofaInformations', [MofaInformationController::class, 'index']);
-    Route::post('add-mofaInformation', [MofaInformationController::class, 'store']);
-    Route::get('edit-mofaInformation/{id}', [MofaInformationController::class, 'edit']);
-    Route::post('update-mofaInformation/{id}', [MofaInformationController::class, 'update']);
-    Route::post('delete-mofaInformation/{id}', [MofaInformationController::class, 'destroy']);
-    Route::get('visa-trades', [MofaInformationController::class, 'trade_data']);
-
-
     //------------------------------- SMT Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('passenger-image/{id}', [PasssengerFileController::class, 'images']);
@@ -144,6 +137,11 @@ use App\Http\Controllers\Backend\CountryController;
     Route::get('stm-passports/{id}', [SMTController::class, 'stm_passports']);
     Route::post('change-passport-status', [SMTController::class, 'change_passport_status']);
 
+    Route::prefix('stm')->group(function () {
+        Route::get('/edit/{id}', [SMTController::class, 'edit']);
+        Route::get('/update/{id}', [SMTController::class, 'update']);
+        Route::get('/passport/delete/{id}', [SMTController::class, 'stm_passport_delete']);
+    });
 
 
      //------------------------------- ManPowerManage Api Routes --------------------------\\
@@ -172,9 +170,8 @@ use App\Http\Controllers\Backend\CountryController;
     //------------------------------------------------------------------\\
     Route::prefix('interview')->group(function () {
         Route::post('/search-passenger', [InterviewController::class, 'search_passenger']);
-        Route::get('/lists', [InterviewController::class, 'index']);
-        Route::post('/edit', [InterviewController::class, 'edit']);
-        Route::post('/update', [InterviewController::class, 'update']);
+        Route::get('/edit/{id}', [InterviewController::class, 'edit']);
+        Route::post('/update/{id}', [InterviewController::class, 'update']);
         Route::post('/add', [InterviewController::class, 'store']);
         Route::post('/change-fly-status/{id}', [InterviewController::class, 'change_fly_status']);
     });
@@ -184,7 +181,8 @@ use App\Http\Controllers\Backend\CountryController;
     //------------------------------------------------------------------\\
     Route::post('trade-search-by-company', [DataSearchController::class, 'search_trade_by_company']);
     Route::post('/search-passenger', [DataSearchController::class, 'search_passenger']);
-    Route::get('search-sector-by-company/{id}', [DataSearchController::class, 'search_sector_by_company']);
+    Route::get('search-sector-trade-by-company/{id}', [DataSearchController::class, 'search_sector_trade_by_company_id']);
+    Route::get('search-sector-by-company/{id}', [DataSearchController::class, 'search_sector_by_company_id']);
 
     
     
@@ -203,5 +201,40 @@ use App\Http\Controllers\Backend\CountryController;
     Route::post('delete-country/{id}', [CountryController::class, 'destroy']);
     Route::get('country-sectors/{id}', [CountryController::class, 'country_sectors']);
     Route::post('delete-country-sector/{id}', [CountryController::class, 'destroy_country_sector']);
+
+
+    //------------------------------- Interview Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('branch')->group(function () {
+        Route::get('/lists', [BranchController::class, 'index']);
+        Route::post('/store', [BranchController::class, 'store']);
+        Route::get('/edit/{id}', [BranchController::class, 'edit']);
+        Route::post('/update/{id}', [BranchController::class, 'update']);
+        Route::post('/delete/{id}', [BranchController::class, 'destroy']);
+    });
+
+
+    //------------------------------- Interview Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('bank')->group(function () {
+        Route::get('/lists', [BankController::class, 'index']);
+        Route::post('/add', [BankController::class, 'store']);
+        Route::get('/edit/{id}', [BankController::class, 'edit']);
+        Route::post('/update/{id}', [BankController::class, 'update']);
+        Route::post('/delete/{id}', [BankController::class, 'destroy']);
+    });
+
+
+
+    //------------------------------- PaymentController Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('payment')->group(function () {
+        Route::get('/lists', [PaymentController::class, 'index']);
+        Route::post('/passenger', [PaymentController::class, 'passenger_payment']);
+        Route::get('/edit/{id}', [PaymentController::class, 'edit']);
+        Route::post('/update/{id}', [PaymentController::class, 'update']);
+        Route::post('/search/passenger', [PaymentController::class, 'search_passenger']);
+        Route::post('/delete/{id}', [PaymentController::class, 'destroy']);
+    });
 
 

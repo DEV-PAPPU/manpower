@@ -518,14 +518,34 @@ __webpack_require__.r(__webpack_exports__);
     removeVisa: function removeVisa(visa) {
       var index = this.visaForm.visaData.indexOf(visa);
       this.visaForm.visaData.splice(index, 1);
+    },
+    changeVisaNo: function changeVisaNo() {
+      var visa_no = this.tradeForm.trade_visa_no;
+
+      if (this.formData.length) {
+        //visaForm -> visaData
+        var visa_form_visa_no = this.visaForm.visaData.find(function (item) {
+          return item.visa_no === visa_no;
+        }); //total visa in formData array 
+
+        var total_Visa_store = this.formData.filter(function (item) {
+          return item.trade_visa_no === visa_no;
+        });
+        var all_qty = [];
+        var number = parseInt(all_qty);
+        total_Visa_store.forEach(function (item) {
+          all_qty.push(item.trade_qty);
+        }); // let qty = number.reduce( (a, b) => b + b);
+
+        console.log('main visa qty.', visa_form_visa_no.visa_qty); // console.log('form data total checking .', qty)
+
+        console.log('final qty num', number);
+      }
     }
   },
-  computed: {
-    visaTotalQty: function visaTotalQty() {
-      return this.visaForm.visaData.reduce(function (a, b) {
-        return a.visa_qty + b.visa_qty;
-      });
-    }
+  computed: {//    visaTotalQty(){
+    //        return this.visaForm.visaData.reduce((a, b) => (a.trade_qty + b.trade_qty));
+    //    }
   },
   mounted: function mounted() {}
 });
@@ -1649,9 +1669,7 @@ var render = function () {
               _vm._v(" "),
               _vm.visaForm.visaData.length
                 ? _c("div", [
-                    _c("p", [
-                      _vm._v("Visa List () " + _vm._s(_vm.visaTotalQty)),
-                    ]),
+                    _c("p", [_vm._v("Visa List")]),
                     _vm._v(" "),
                     _c("div", [
                       _c(
@@ -1726,23 +1744,26 @@ var render = function () {
                         staticClass: "form-control text-sm",
                         attrs: { required: "" },
                         on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.tradeForm,
-                              "trade_visa_no",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
+                          change: [
+                            function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tradeForm,
+                                "trade_visa_no",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.changeVisaNo,
+                          ],
                         },
                       },
                       [

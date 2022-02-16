@@ -161,14 +161,44 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    deleteAgent: function deleteAgent(item) {// axios.post(`delete-passenger/${item.id}`).then(res =>{
-      //     Toast.fire({
-      //             icon: 'success',
-      //             title: res.data.msg
-      //     });
-      //     let index = this.passengers.indexOf(item);
-      //     this.passengers.splice(index, 1);
-      // })
+    deletePassenger: function deletePassenger(item) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios__WEBPACK_IMPORTED_MODULE_4___default().post("delete-passenger/".concat(item.id)).then(function (res) {
+            if (res.data.msg) {
+              Toast.fire({
+                icon: 'success',
+                title: res.data.msg
+              });
+
+              var index = _this2.passengers.indexOf(item);
+
+              _this2.passengers.splice(index, 1);
+
+              axios__WEBPACK_IMPORTED_MODULE_4___default().get("passengers").then(function (res) {
+                _this2.passengers = res.data;
+              });
+            }
+
+            if (res.data.error_msg) {
+              Toast.fire({
+                icon: 'error',
+                title: res.data.error_msg
+              });
+            }
+          });
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -412,7 +442,7 @@ var render = function () {
                           {
                             on: {
                               click: function ($event) {
-                                return _vm.deleteAgent(item)
+                                return _vm.deletePassenger(item)
                               },
                             },
                           },

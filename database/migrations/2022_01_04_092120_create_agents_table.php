@@ -35,7 +35,8 @@ class CreateAgentsTable extends Migration
             $table->string('agent_ref_3_phone')->nullable();
             $table->string('agent_ref_3_imo_number')->nullable();
             $table->string('agent_ref_3_wp_number')->nullable();
-            $table->integer('agent_status')->default(0)->comment('0 => inactive, 1 => Active');
+            $table->integer('agent_status')->default(1)->comment('1 => In-active, 0 => Active');
+            $table->string('agent_note')->nullable();
             $table->unsignedInteger('district_id');
             $table->timestamps();
         });

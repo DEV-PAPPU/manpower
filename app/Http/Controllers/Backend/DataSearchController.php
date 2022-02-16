@@ -9,7 +9,7 @@ use App\Models\PassportStatusManagement;
 use App\Models\Requisition;
 use App\Models\RequisitionTradeInfo;
 use App\Models\Country;
-use App\Models\RequisitionCompanySector;
+use App\Models\RequisitionSector;
 use DB;
 class DataSearchController extends Controller
 {
@@ -42,7 +42,7 @@ class DataSearchController extends Controller
     }
 
 
-    public function search_sector_by_company($id)
+    public function search_sector_by_company_id($id)
     {
 
         $data = DB::table('companies')
@@ -68,29 +68,45 @@ class DataSearchController extends Controller
     }
 
     
-    public function search_trade_by_company(Request $request){
-               
+    public function search_sector_trade_by_company_id($id){
+
         $msg = '';
         $trade = '';
-        $companysectors = '';
+        $sectors = '';
         
-        $requisition = Requisition::where('company_id', $request->company_id)->first();
+        $requisition = Requisition::where('company_id', $id)->first();
+
 
         // checking and getting  Requisition data by company id
         if($requisition){
 
-            $trade = RequisitionTradeInfo::where('requisition_id', $requisition->id)
-                    ->where([['available', '>', 0]])
+
+            $trade = DB::table('requisitions')
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.requisition_id', 'requisitions.id')
+                    ->where('requisitions.company_id', $id)
+                    ->where([['requisition_trade_infos.available', '>', 0]])
+                    ->select('requisition_trade_infos.id', 'requisition_trade_infos.trade', 
+                             'requisition_trade_infos.price_reference', 'requisition_trade_infos.trade_visa_no',
+                             'requisition_trade_infos.salary')
                     ->get();
+
+            // $trade = RequisitionTradeInfo::where('requisition_id', $requisition->id)
+            //         ->where([['available', '>', 0]])
+            //         // ->select('id','trade')
+            //         ->get();
             
-            // checking and getting  Requisition Company Sectors
-            $companysectors = RequisitionCompanySector::with('sector')->where('requisition_company_id', $request->company_id)->first();
-            if($companysectors){
-             $companysectors = RequisitionCompanySector::with('sector')->where('requisition_company_id', $request->company_id)->get();
-            }
-            else{
+
+            // checking and getting  Requisition Company -> country -> Sectors
+            $sectors = DB::table('requisition_sectors')
+                    ->leftJoin('sectors', 'sectors.id', 'requisition_sectors.requisition_sector_id')
+                    ->where('requisition_sectors.requisition_id', $requisition->id)
+                    ->select('sectors.id', 'sectors.sector_name')
+                    ->get();
+          
+            if(!$sectors){
                 $msg = 'Sector not found in this company';
             }
+ 
 
         }
         else{
@@ -100,7 +116,7 @@ class DataSearchController extends Controller
         return response()->json([
             'msg' => $msg,
             'trade' => $trade,
-            'companysectors' => $companysectors,
+            'sectors' => $sectors,
         ], 200);
     }
 }

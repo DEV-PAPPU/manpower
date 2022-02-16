@@ -1,60 +1,9 @@
 <template>
     <div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h5 class="modal-title text-white" id="exampleModalCenterTitle">Interview Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div v-if="passenger.interview" class="row">
-                            <div class="col-md-6">
-                                <h3 class="shadow-sm px-8 passenger_name py-3">Name : {{passenger.passenger.passenger_name}}</h3>
-                                <table class="mt-4 table  table-bordered">
-                                        <tr>
-                                            <td>video</td>
-                                            <td>:</td>
-                                            <td>
-                                                <p v-if="passenger.interview.video_passenger == '1'">Yes</p>
-                                                <p v-else>No</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Medical</td>
-                                            <td>:</td>
-                                            <td>
-                                                <p v-if="passenger.interview.medical_result == '1'">Fit</p>
-                                                <p v-else>Gone {{passenger.interview.medical_gone_date}}</p>
-                                            </td>
-                                        </tr>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <img :src="passenger.passenger.passenger_photo"
-                                    alt="" class="passenger__img shadow-sm" srcset="">
-                            </div>
-                        </div>
-
-                        <h3 v-else class="text-center ">Interview Pending</h3>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">Passengers Status</h6>
-                <!-- <router-link :to="{name: 'PassportAdd'}" class="btn bg-light btn-sm">Add Passenger</router-link> -->
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -63,14 +12,15 @@
                         <thead>
                             <tr>
                                 <th>S/L</th>
-                                <th style="width:60px">Interview</th>
                                 <th style="width:110px">Name</th>
                                 <th style="width:110px">Passport</th>
                                 <th style="width:60px">Trade</th>
                                 <th style="width:120px">Company</th>
                                 <th style="width:90px">Pc Date</th>
-                                <th style="width:90px">STM Date</th>
                                 <th style="width:90px">TC RCV Date</th>
+                                <th style="width:90px">Video</th>
+                                <th style="width:90px">Medical</th>
+                                <th style="width:90px">STM Date</th>
                                 <th style="width:90px">MP RCV Date</th>
                                 <th style="width:90px">TKT Date</th>
                                 <th style="width:100px">Fly</th>
@@ -83,17 +33,33 @@
                             <tr v-for="item in passengers" :key="item.id"
                                 :class="{flyrow: item.interview && item.interview.passenger_fly == '1'}">
                                 <td>{{item.id}}</td>
-                                <td>
-                                    <button @click="viewMore(item)" data-toggle="modal"
-                                        data-target="#exampleModalCenter">
-                                        <i class="fas fa-user-plus edit_icon"></i> </button>
-                                </td>
-                                <td>{{item.passenger.passenger_name}}</td>
-                                <td>{{item.passenger.passport_no}}</td>
+                                <td>{{item.passenger_name}}</td>
+                                <td>{{item.passport_no}}</td>
                                 <td>{{item.trade.trade}}</td>
                                 <td>{{item.company.company_name}}</td>
                                 <td>
                                     <span v-if="item.interview">{{item.interview.pc_date}}</span>
+                                    <span v-else v-html="pending_icon"></span>
+                                </td>
+
+                                <td>
+                                    <span v-if="item.interview">{{item.interview.tc_rcv_date}}</span>
+                                    <span v-else v-html="pending_icon"></span>
+                                </td>
+
+                                <td>
+                                    <div v-if="item.interview">
+                                        <p v-if="item.interview.video_passenger == '1'">Yes</p>
+                                        <p v-else>No</p>
+                                    </div>
+                                    <span v-else v-html="pending_icon"></span>
+                                </td>
+
+                                <td>
+                                    <div v-if="item.interview">
+                                        <p v-if="item.interview.medical_result == '1'">Fit</p>
+                                        <p v-else>Gone {{item.interview.medical_gone_date}}</p>
+                                    </div>
                                     <span v-else v-html="pending_icon"></span>
                                 </td>
 
@@ -108,10 +74,7 @@
                                     </div>
                                 </td>
 
-                                <td>
-                                    <span v-if="item.interview">{{item.interview.tc_rcv_date}}</span>
-                                    <span v-else v-html="pending_icon"></span>
-                                </td>
+
 
                                 <td>
                                     <div v-if="item.manpowerpassport">
@@ -159,16 +122,16 @@
                                 <td>{{item.sector.sector_name}}</td>
                                 <td>
                                     <span v-if="item.agent">{{item.agent.agent_name}}</span>
-                                    <span v-else>{{item.passenger.passport_source}}</span>
+                                    <span v-else>{{item.passport_source}}</span>
                                 </td>
                                 <td>
-                                    <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
-                                            class="far edit_icon fa-edit"></i></router-link>
-                                    <button @click="deleteAgent(item)"><i
-                                            class="fas delete_icon fa-trash-alt"></i></button>
 
-                                    <button @click="paymentOption(item)"><i
-                                            class="fas fa-money-bill edit_icon"></i></button>
+                                    <span v-if="item.interview">
+                                        <router-link :to="{name: 'EditInterview', params: {id: item.interview.id}}"><i
+                                                class="far edit_icon fa-edit"></i></router-link>
+                                    </span>
+
+                                    <span v-else><span v-html="pending_icon"></span></span>
                                 </td>
                             </tr>
 
@@ -194,10 +157,7 @@ import axios from 'axios';
 export default {
     data : () =>{
         return {
-            form:{
-            },
             passengers:[],
-            passenger:'',
             passenger_fly_data: '',
             pending_icon: `<i style="color:red; size:20px; margin-left: 26px;" class="far fa-window-minimize pending_icon"></i>`
         }
@@ -214,22 +174,12 @@ export default {
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
-                        pageLength: 5,
+                        pageLength: 25,
                         "scrollX": true
                     });
                     });
               })
         },
-
-        viewMore(data){
-            this.passenger = data;
-            console.log(data)
-        },
-
-        paymentOption(data){
-            alert('Pending')
-        },
-
 
         FlyStatus(item){
            
@@ -261,18 +211,6 @@ export default {
                 }
             })
         },
-
-        deleteAgent(item){
-            // axios.post(`delete-passenger/${item.id}`).then(res =>{
-            //     Toast.fire({
-            //             icon: 'success',
-            //             title: res.data.msg
-            //     });
-
-            //     let index = this.passengers.indexOf(item);
-            //     this.passengers.splice(index, 1);
-            // })
-        }
     },
 
     mounted() {
@@ -295,54 +233,20 @@ table.dataTable thead th, table.dataTable thead td {
     font-size: 14;
 }
 
-.edit_icon, .delete_icon{
+.edit_icon{
     font-size: 18px;
     padding: 0px 3px;
+    cursor: pointer;
 }
 
 .edit_icon{
     color: rgb(37, 102, 223);
 }
 
-.delete_icon{
-    color: rgb(238, 12, 12);
-}
-
-
-/* .database__table{
-    max-width: 1140px;
-    overflow-x: scroll;
-}
-
-.dbtable{
-    max-width: 1500px;
-    overflow-x: scroll;
-} */
-
-
-/* @media only screen and (max-width: 1000px){
-	.database__table{
-    overflow-x: scroll;
-}
-} */
 
 tr.flyrow{
     background: #70b685;
     color: white;
-}
-
-.passenger_name{
-     background: #4E73DF;
-    color: white;
-}
-
-.passenger__img{
-    border-radius: 5px;
-}
-
-img.passenger__img {
-    height: 193px;
-    object-fit: cover;
 }
 
 </style>

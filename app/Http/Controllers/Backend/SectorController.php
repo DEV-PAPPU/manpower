@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sector;
+use App\Models\Passenger;
 
 class SectorController extends Controller
 {
@@ -44,13 +45,24 @@ class SectorController extends Controller
     {
         $sector = Sector::findOrfail($id);
 
-        if($sector){
-            $sector->delete();
+        $error_msg = '';
+        $msg = '';
 
-            return response()->json(['msg' => 'Sector Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
+        $passenger = Passenger::where('passenger_sector_id', $sector->id);
+
+        if($passenger){
+            $error_msg = 'Sector Has Some passengers So Can`t Delete';
+            
         }
+        else {
+            $sector->delete();
+            $msg = 'Sector  Delete Sucess ';
+        }
+
+        return response()->json([
+            'msg' =>  $msg,
+            'error_msg' => $error_msg
+        ], 200);
     }
 
 

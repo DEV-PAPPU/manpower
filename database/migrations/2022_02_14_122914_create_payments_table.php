@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePassportStatusManagementTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreatePassportStatusManagementTable extends Migration
      */
     public function up()
     {
-        Schema::create('passport_status_management', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('sector_id');
-            $table->unsignedBigInteger('trade_id');
+            $table->string('pay_amount');
+            $table->string('pay_date');
+            $table->integer('payment_type')->comment('0 => Cash, 1 => Bank');
+            $table->unsignedInteger('bank_id')->nullable();
+            $table->string('bank_check_date')->nullable();
+            $table->unsignedInteger('branch_id')->nullable();
             $table->unsignedBigInteger('passenger_id');
-            $table->unsignedBigInteger('passenger_agent_id')->nullable();
             $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');
             $table->timestamps();
         });
@@ -32,6 +34,6 @@ class CreatePassportStatusManagementTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('passport_status_management');
+        Schema::dropIfExists('payments');
     }
 }

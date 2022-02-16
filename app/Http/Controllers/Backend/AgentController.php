@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use App\Models\Passenger;
 use App\Models\Agent;
+use App\Models\District;
 use App\Models\AgentImage;
 class AgentController extends Controller
 {
@@ -92,10 +94,12 @@ class AgentController extends Controller
     {
         $agent = Agent::find($id);
         $agent_images =  AgentImage::where('agent_id', $id)->get();
+        $district = District::where('id', $agent->district_id)->first();
 
         return response()->json([
             'agent' => $agent,
             'images' => $agent_images,
+            'district' => $district,
         ], 200);
 
     }
@@ -110,13 +114,7 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
 
-           $agent = Agent::findOrfail($id);
-
-         if($request->image){
-
-            $imagePath = public_path($agent->agent_image);
-            unlink($imagePath);
-            
+            $agent = Agent::findOrfail($id);
             $agent->agent_name = $request->agent_name;
             $agent->agent_address_area = $request->agent_address_area;
             $agent->agent_address_office = $request->agent_address_office;
@@ -139,38 +137,21 @@ class AgentController extends Controller
             $agent->agent_ref_3_imo_number = $request->agent_ref_3_imo_number;
             $agent->agent_ref_3_wp_number = $request->agent_ref_3_wp_number;
 
+         if($request->image){
+
+            $imagePath = public_path($agent->agent_image);
+            unlink($imagePath);
+    
+
             $image = $request->image;
             $image_new_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('storage/images/', $image_new_name);
             $agent->agent_image = '/storage/images/' . $image_new_name;
             $agent->save();
 
-            
     
         }
         else{
-        
-         $agent->agent_name = $request->agent_name;
-         $agent->agent_address_area = $request->agent_address_area;
-         $agent->agent_address_office = $request->agent_address_office;
-         $agent->agent_email = $request->agent_email;
-         $agent->district_id = $request->district_id;
-         $agent->agent_phone = $request->agent_phone;
-         $agent->agent_status = $request->agent_status;
-         $agent->agent_imo_number = $request->agent_imo_number;
-         $agent->agent_wp_number = $request->agent_wp_number;
-         $agent->agent_ref_1_name =  $request->agent_ref_1_name;
-         $agent->agent_ref_1_phone =  $request->agent_ref_1_phone;
-         $agent->agent_ref_1_imo_number =  $request->agent_ref_1_imo_number;
-         $agent->agent_ref_1_wp_number =  $request->agent_ref_1_wp_number;
-         $agent->agent_ref_2_name = $request->agent_ref_2_name;
-         $agent->agent_ref_2_phone = $request->agent_ref_2_phone;
-         $agent->agent_ref_2_imo_number = $request->agent_ref_2_imo_number;
-         $agent->agent_ref_2_wp_number = $request->agent_ref_2_wp_number;
-         $agent->agent_ref_3_name = $request->agent_ref_3_name;
-         $agent->agent_ref_3_phone = $request->agent_ref_3_phone;
-         $agent->agent_ref_3_imo_number = $request->agent_ref_3_imo_number;
-         $agent->agent_ref_3_wp_number = $request->agent_ref_3_wp_number;
          $agent->save();
         }
 
@@ -211,9 +192,20 @@ class AgentController extends Controller
         $agent = Agent::findOrfail($id);
 
          $agent_images =  AgentImage::where('agent_id', $id)->get();
+       
+         $passenger =  Passenger::where('agent_id', $agent->id)->first();
 
-        if ($agent) {
-             
+         $error_msg = '';
+         $msg = '';
+
+         if($passenger){
+            $error_msg = 'Agent Has Some Passengers So Can`t Delete';
+        }
+        else {
+
+            $imagePath = public_path($agent->agent_image);
+            unlink($imagePath);
+
             // delete agent images
             if ($agent_images) {
 
@@ -229,11 +221,15 @@ class AgentController extends Controller
 
             $agent->delete();
 
-            return response()->json(['msg' => 'Delete Sucess'], 200);
+            $msg = 'Delete Sucess';
+            
         }
-        else {
-            return response()->json('failed', 404);
-        }
+
+        
+        return response()->json([
+            'msg' =>  $msg,
+            'error_msg' => $error_msg
+        ], 200);
 
         
     }
@@ -242,6 +238,7 @@ class AgentController extends Controller
     public function agent_image_destroy($id)
     {
          $agent_images =  AgentImage::where('agent_id', $id)->first();
+
 
         if ($agent_images) {
              

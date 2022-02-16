@@ -58,13 +58,15 @@
                                 <tr v-for="country in country" :key="country.id">
                                     <td>{{country.id}}</td>
                                     <td>{{country.country_name}}</td>
-                                    <td> <button @click="countrysector(country.id)" data-toggle="modal"
+                                    <td> 
+                                        <button @click="countrysector(country.id)" data-toggle="modal"
                                             data-target="#exampleModalCenter"><i
-                                                class="fas fa-band-aid edit_icon"></i></button></td>
+                                                class="fas fa-band-aid edit_icon"></i></button>
+                                    </td>
                                     <td>
                                         <button @click="edit(country)"><i class="far edit_icon fa-edit"></i></button>
-                                        <a href="#" @click="deleteCountry(country)"><i
-                                                class="fas delete_icon fa-trash-alt"></i></a>
+                                        <button @click="deleteCountry(country)"><i
+                                                class="fas delete_icon fa-trash-alt"></i></button>
 
 
 
@@ -274,17 +276,31 @@ export default {
             confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
             if (result.isConfirmed) {
+
+                
              
-              let index = this.country.indexOf(country);
-              this.country.splice(index, 1);
+              
 
                 axios.post(`delete-country/${id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
 
-              });
+                     if(res.data.msg){
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+                
+
+                });
               }
             })
     

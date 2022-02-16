@@ -4,201 +4,202 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Agent Edit</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Agent Entry</h6>
                     <router-link :to="{name: 'AgentList'}" class="btn bg-light btn-sm">Back To List</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-
                     <form @submit.prevent="UpdateAgent" enctype="multipart/form-data">
-                        <div class="form-group row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Username">Agent Name</label>
-                                    <input class="form-control" v-model="form.agent_name"  type="text">
-                                    <small v-if="errors.agent_name"
-                                        class="form-text text-danger">{{ errors.agent_name[0] }}</small>
+                        <fieldset>
+                            <legend>Agent Information</legend>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Username">Agent Name</label>
+                                        <input class="form-control" v-model="form.agent_name"  type="text">
+                                        <small v-if="errors.agent_name"
+                                            class="form-text text-danger">{{ errors.agent_name[0] }}</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="agent_email">Agent Email</label>
-                                    <input class="form-control" v-model="form.agent_email" type="agent_email">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="agent_email">Agent Email</label>
+                                        <input class="form-control" v-model="form.agent_email" type="agent_email">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Phone No (Primary)</label>
-                                    <input class="form-control" v-model="form.agent_phone"  type="number">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Phone No (Primary)</label>
+                                        <input class="form-control" v-model="form.agent_phone"  type="number">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Whatsapp Number</label>
-                                    <input class="form-control" v-model="form.agent_wp_number" type="number">
-                                </div>
+                               
+
                             </div>
-
-                        </div>
-                        <div class="form-group row">
-
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Imo Number</label>
-                                    <input class="form-control" v-model="form.agent_imo_number" type="number">
+                            <div class="row">
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Whatsapp Number</label>
+                                        <input class="form-control" v-model="form.agent_wp_number" type="number">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="UserRole">District</label>
-                                    <select v-model="form.district_id" class="form-control filter-select" >
-                                        <option value="">-- Select District --</option>
-                                        <option v-for="district in districts" :key="district.id" :value="district.id">
-                                            {{district.district_name}}</option>
-                                    </select>
-                                    <small v-if="errors.district_id"
-                                        class="form-text text-danger">{{ errors.district_id[0] }}</small>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Imo Number</label>
+                                        <input class="form-control" v-model="form.agent_imo_number" type="number">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Agent Address (Area)</label>
-                                    <input class="form-control" v-model="form.agent_address_area" type="text">
-                                </div>
-                            </div>
 
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Agent Address (Office)</label>
-                                    <input class="form-control" v-model="form.agent_address_office" type="text">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="UserRole">District</label>
+                                        <v-select  label="district_name" v-model="form.district_id" placeholder="Select District" :options="districts" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="UserStatus">Current Status</label>
-                                    <select v-model="form.agent_status" class="form-control filter-select">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">In-Active</option>
-                                    </select>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Agent Address (Area)</label>
+                                        <input class="form-control" v-model="form.agent_address_area" type="text">
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
-
-                        <div class="form-group row">
-                            <h3 class="mb-3">Reference information</h3>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Username">Name</label>
-                                    <input class="form-control" v-model="form.agent_ref_1_name" type="text">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Agent Address (Office)</label>
+                                        <input class="form-control" v-model="form.agent_address_office" type="text">
+                                    </div>
                                 </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="UserStatus">Current Status</label>
+                                        <select v-model="form.agent_status" class="form-control filter-select">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Active</option>
+                                            <option value="1">In-Active</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Phone</label>
-                                    <input class="form-control" v-model="form.agent_ref_1_phone" type="number">
+                            <div class="row">
+                                <h5 class="mb-3">Reference information</h5>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Username">Name</label>
+                                        <input class="form-control" v-model="form.agent_ref_1_name" type="text">
+                                    </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Phone</label>
+                                        <input class="form-control" v-model="form.agent_ref_1_phone" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Whatsapp Number</label>
+                                        <input class="form-control" v-model="form.agent_ref_1_wp_number" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Peragent_address">Imo Number</label>
+                                        <input class="form-control" v-model="form.agent_ref_1_imo_number" type="number">
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Whatsapp Number</label>
-                                    <input class="form-control" v-model="form.agent_ref_1_wp_number" type="number">
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Username">Name</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_2_name" type="text">
+                                    </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Phone No (Primary)</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_2_phone" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Whatsapp Number</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_2_wp_number" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Imo Number</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_2_imo_number" type="number">
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Peragent_address">Imo Number</label>
-                                    <input class="form-control" v-model="form.agent_ref_1_imo_number" type="number">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Username">Name</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_3_name" type="text">
+                                    </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Phone No (Primary)</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_3_phone" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Whatsapp Number</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_3_wp_number" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label for="Peragent_address">Imo Number</label> -->
+                                        <input class="form-control" v-model="form.agent_ref_3_imo_number" type="number">
+                                    </div>
+                                </div>
+
                             </div>
 
-                        </div>
+                            <div class="row">
 
-
-                        <div class="form-group row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Username">Name</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_2_name" type="text">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Phone No (Primary)</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_2_phone" type="number">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Whatsapp Number</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_2_wp_number" type="number">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Imo Number</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_2_imo_number" type="number">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Username">Name</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_3_name" type="text">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Phone No (Primary)</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_3_phone" type="number">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Whatsapp Number</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_3_wp_number" type="number">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- <label for="Peragent_address">Imo Number</label> -->
-                                    <input class="form-control" v-model="form.agent_ref_3_imo_number" type="number">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-
-                                <dic class="col-md-4">
-                                    <h3 class="my-3">Agent Profile image</h3>
-                                    <!-- <DropImage v-on:single_image="single_image($event)" /> -->
-                                    <input @change="img"  type="file" id="file">
+                                <dic class="col-md-3">
+                                    <h5 class="mt-3">Agent Profile image</h5>
+                                    <input  @change="changeImg" type="file" id="file">
                                 </dic>
 
-                            <dic class="col-md-4">
-                                  <h3 class="my-3">Agent images</h3>
-                                <DropMultiImages v-on:new_images="new_images($event)" />
-                            </dic>
+                                <dic class="col-md-4">
+                                    <h5 class="mt-3">Image Preview</h5>
+                                    <div class="my-2 Preview">
+                                      <img src="" id="uploadPreview"  class="agentImage"  alt="">
+                                    </div>
+                                </dic>
 
-                            <dic v-if="images" class="col-md-4">
+                                <dic class="col-md-5">
+                                    <h5 class="my-3">Agent images</h5>
+                                    <DropMultiImages v-on:new_images="new_images($event)" />
+
+                                    <dic v-if="images" class="col-md-4">
                                   <div class="d-flex flex-wrap">
                                       <div v-for="image in images" :key="image.id" class="agentimg">
                                           <div class="m-2">  
@@ -208,16 +209,19 @@
                                       </div>
                                   </div>
                             </dic>
-                        </div>
+                                </dic>
 
-                        <div class="mt-5 form-group row">
-                            <div class="col-md-4" style="clear:both;">
-                                <button class="btn btn-success" type="submit">Save Changes</button>
-                                <button @click="resetbtn" class="btn btn-danger" type="reset">Cancel</button>
+                                
                             </div>
-                        </div>
-                    </form>
 
+                            <div class="mt-8 form-group row">
+                                <div class="col-md-4" style="clear:both;">
+                                    <button class="btn btn-success" type="submit">Save Changes</button>
+                                    <button class="btn btn-danger" type="reset">Cancel</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>
@@ -225,6 +229,8 @@
 </template>
 <script>
 import axios from 'axios'
+import 'vue-select/dist/vue-select.css';
+
 import DropMultiImages from '../../assets/droppable_image/Drop_multiple_images.vue'
     export default {
         components:{DropMultiImages: DropMultiImages},
@@ -272,7 +278,7 @@ import DropMultiImages from '../../assets/droppable_image/Drop_multiple_images.v
                 data.append('agent_address_area', this.form.agent_address_area);
                 data.append('agent_address_office', this.form.agent_address_office);
                 data.append('agent_email', this.form.agent_email);
-                data.append('district_id', this.form.district_id);
+                data.append('district_id', this.form.district_id.id);
                 data.append('agent_status', this.form.agent_status);
                 data.append('agent_phone', this.form.agent_phone);
                 data.append('agent_imo_number', this.form.agent_imo_number);
@@ -368,14 +374,22 @@ import DropMultiImages from '../../assets/droppable_image/Drop_multiple_images.v
 
             },
 
+             changeImg(e){
+            var image = document.getElementById('file');
+            let form_img  = image.files[0];
+            var output = document.getElementById('uploadPreview');
+            output.src = URL.createObjectURL(form_img);
+            },
+
         },
 
         mounted() {
 
             let id = this.$route.params.id;
             axios.get(`edit-agent/${id}`).then(res =>{
-                this.form = res.data.agent
-                this.images = res.data.images
+                this.form = res.data.agent;
+                this.form.district_id = res.data.district;
+                this.images = res.data.images;
             });
 
             axios.get('districts').then(response =>{
@@ -401,5 +415,11 @@ import DropMultiImages from '../../assets/droppable_image/Drop_multiple_images.v
 .del-icon{
     color: red;
     cursor: pointer;
+}
+
+.agentImage{
+    width: 250px;
+    height: 165px;
+    object-fit: cover;
 }
 </style>

@@ -6,7 +6,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">All Passports</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -45,7 +45,10 @@
                                 <label for="PassengerName">Complete Date</label>
                                 <input v-model="form.passport_complate_date" required class="form-control" type="date">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                <div class="d-flex gap-4">
+                                  <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                  <button @click="clrDate" class="btn btn-info btn-sm">Reset</button>
+                                </div>
                             </form>
 
                         </div>
@@ -58,7 +61,7 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">TKT List</h6>
-                 <button @click="reLoad" class="btn mx-2 bg-light btn-sm">Reload</button>
+                 <!-- <button @click="reLoad" class="btn mx-2 bg-light btn-sm">Reload</button> -->
                 <router-link :to="{name: 'TKTAdd'}" class="btn bg-light btn-sm">Add TKT</router-link>
             </div>
             <!-- Card Body -->
@@ -87,7 +90,7 @@
                                     <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
                                     <button @click="deleteAgent(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
-                                    <button @click="shopPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+                                    <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
                                 </td>
                             </tr>
 
@@ -146,7 +149,7 @@ export default {
             this.passenger = data;
         },
 
-        shopPassport(id){
+        showPassport(id){
             this.tkt_id = id;
             axios.get(`tkt/passports/${id}`).then(res =>{
                 this.passports = res.data;
@@ -187,8 +190,8 @@ export default {
                         icon: 'success',
                         title: res.data.msg
                 });
-
-                this.shopPassport(this.tkt_id);
+                 this.form.passport_complate_date = '';
+                this.showPassport(this.tkt_id);
                 this.recallchangeStatus(data)
             })
 
@@ -205,6 +208,11 @@ export default {
             axios.get("tkt/lists").then((res)=>{
                 this.tkts = res.data;
             }); 
+        },
+
+        clrDate(){
+            this.isChangeStatus = false;
+            this.form.passport_complate_date = '';
         }
     },
 

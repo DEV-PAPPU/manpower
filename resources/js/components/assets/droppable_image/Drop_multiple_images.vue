@@ -1,24 +1,25 @@
 <template>
-    <div class="flex items-center justify-center text-center mt-2">
-        <div class="p-6 bg-gray-100 rounded-lg border-dotted border-4  border-blue-500 py-16 w-full"
+    <div class="flex items-center justify-center  text-center mt-2">
+        <div class="p-6 bg-gray-100 image_drop  "
             @dragover="dragover" @dragleave="dragleave" @drop="drop">
+            
             <input type="file" name="fields[assetsFieldHandle][]" id="assetsFieldHandle"
                 class="w-px h-px opacity-0 overflow-hidden absolute" @change="onChange" ref="file"
                 accept=".pdf,.jpg,.jpeg,.png" multiple />
 
-            <label for="assetsFieldHandle" class="block cursor-pointer">
-                <div>
+            <label for="assetsFieldHandle" class="mb-2 block cursor_pointer">
+                <p class="text-center">
                     Drop your file
                     or <span class="underline">click here </span>
-                </div>
+                </p>
             </label>
 
             <!-- images showing -->
             <ul class="mt-4" v-if="filelist.length" v-cloak>
                 <li class="text-sm p-1" v-for="file in filelist" :key="file.name">
 
-                    {{ file.name }}<button class="ml-2" type="button" @click="remove(filelist.indexOf(file))"
-                        title="Remove file">remove</button>
+                    {{ file.name }}<span class="ml-2" type="button" @click="remove(filelist.indexOf(file))"
+                        title="Remove file">remove</span>
                 </li>
             </ul>
         </div>
@@ -99,6 +100,15 @@ import axios from 'axios';
     color: white;
     border-radius: 70px !important;
     width: 20px !important;
+}
+
+.image_drop{
+    border-radius: 8px;
+    border: dotted rgb(97, 207, 83) 2px;
+    padding: 40px 20px;
+}
+.cursor_pointer{
+    cursor: pointer;
 }
 
 </style>

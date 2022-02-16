@@ -135,8 +135,13 @@ export default {
 
             axios.post('interview/search-passenger', this.searchFrom).then(response =>{
                 
-                this.passenger = response.data.passenger;
-                this.form.passenger_id = response.data.passenger.id;
+                
+
+                if(!response.data.error_msg){
+                    
+                    this.passenger = response.data.passenger;
+                    this.form.passenger_id = response.data.passenger.id;
+               }
 
                 if(response.data.error_msg){
                     Toast.fire({

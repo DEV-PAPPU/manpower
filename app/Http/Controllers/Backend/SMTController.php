@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Requisition;
-use App\Models\MofaInformation;
 use App\Models\RequisitionVisainfo;
 use App\Models\RequisitionTradeInfo;
 use App\Models\Passenger;
@@ -25,6 +24,37 @@ class SMTController extends Controller
         return response()->json($data, 200);
     }
 
+    public function edit($id){
+       
+        $data = DB::table('stm_passports')
+                    ->leftJoin('stms','stms.id','stm_passports.stm_id')
+                    ->leftJoin('passengers','passengers.id','stm_passports.passenger_id')
+                    ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                   
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                              'passengers.passenger_trade_id')
+
+                    ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                             'passengers.passport_source',
+                             'companies.company_name', 'requisition_trade_infos.trade',
+                            )
+                     ->where('stms.id', $id)    
+                    ->get();
+
+
+         $stm_date = DB::table('stms')
+                        ->select('stms.stm_date')
+                        ->where('stms.id', $id)    
+                        ->first();           
+
+        return response()->json([
+            'passenger' => $data,
+            'stm_date' => $stm_date
+             
+        ], 200);
+    }
+
+    
     public function search_passport(Request $request){
         
         $data = '';
@@ -35,12 +65,18 @@ class SMTController extends Controller
 
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
 
-        $old_passport = StmPassport::where('stm_passport_no',  $request->passport_no)->first();
-
-
-        if($old_passport){
-            $error_msg =   'Passenger Already Added STM';
+        if($passenger){
+          
+            $old_passport = StmPassport::where('passenger_id',  $passenger->id)->first();
+            
+            if($old_passport){
+                $error_msg =   'Passenger Already Added STM';
+            }
         }
+        else {
+            $error_msg = 'Passenger Not Found!';
+        }
+        
         
         //checking passenger interview done or not
         if($passenger){
@@ -56,11 +92,11 @@ class SMTController extends Controller
                 }
 
                 elseif ($passenger_interview->pc_date == null) {
-                    $error_msg = 'Please Complate Passenger Interview';
+                    $error_msg = 'Please Complate Passenger PC Date';
                 }
 
                 elseif ($passenger_interview->medical_result == '0') {
-                    $error_msg = 'Please Complate Passenger Medicam';
+                    $error_msg = 'Please Complate Passenger Medical';
                 }
             }
 
@@ -69,54 +105,53 @@ class SMTController extends Controller
             }
 
         }
-
         else {
             $error_msg = 'Passenger Not Found!';
         }
 
 
-
-
-        // return 'not working';
-
         if($passenger){
 
             if($passenger->passport_source == 'agent'){
-                $passenger = Passenger::with('agent')->where('passport_no',  $request->passport_no)->first();
-            }
-    
-            $mofa = MofaInformation::with('trade')->where('passenger_id', $passenger->id)->first();
-            // checking trade of passenger 
 
-            if($mofa){
+                $data = DB::table('passengers')
+                    ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                    ->leftJoin('agents', 'agents.id', 'passengers.agent_id')
+                   
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                              'passengers.passenger_trade_id')
 
-                $mofa_info = MofaInformation::with('trade','passenger')->where('passenger_id', $passenger->id)->first();
-                
-                // getting company name
-                 $company_info = Requisition::with('company')->where('id',$mofa_info->trade->requisition_id)->first();
+                    ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                             'passengers.passport_source', 'agents.agent_name',
+                             'companies.company_name', 'requisition_trade_infos.trade',
+                            )
+                     ->where('passengers.id', $passenger->id)    
+                    ->get();
+            }
 
-                 $agent_name = '';
-                  
-                 if($passenger->passport_source == 'agent'){
-                     $agent_name = $passenger->agent->agent_name;
-                 }
-                // data collection 
-                $data = array(
-                    'passenger_id'  => $passenger->id,
-                    'passport_no'  => $passenger->passport_no,
-                    'passenger_name'  => $passenger->passenger_name,
-                    'passport_source'  => $passenger->passport_source,
-                    'agent_name'  => $agent_name,
-                    'trade'  => $mofa_info->trade->trade,
-                    'company_name'  => $company_info->company->company_name,
-                );
+            else{
+
+                $data = DB::table('passengers')
+                ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
+                ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                         'passengers.passport_source','companies.company_name', 'requisition_trade_infos.trade',
+                        )
+                ->where('passengers.id', $passenger->id)   
+                ->get();
+
             }
-            else {
-                $error_msg = 'Please entry in Mofa-List';
-            }
+            
         }
 
 
+        // Getting object from data array
+        if($data){
+
+            foreach ($data as $item) {
+                $data = $item;
+             }
+        }
 
         return response()->json([
             'data' => $data,
@@ -138,14 +173,34 @@ class SMTController extends Controller
         foreach( $request->passport as $item){
             $stmPassport = new StmPassport();
             $stmPassport->stm_id = $stm->id;
-            $stmPassport->passenger_id = $item['passenger_id'];
-            $stmPassport->stm_passport_no = $item['passport_no'];
+            $stmPassport->passenger_id = $item['id'];
             $stmPassport->save();
         }
 
         return response()->json(['msg' => 'STM Added Sucess'], 200);
 
     }
+
+
+
+
+
+    // public function update(Request $request, $id){
+
+    //     $stm = new Stm::findOrfail($id);
+    //     $stm->stm_date = $request->date;
+    //     $stm->save();
+
+    //     foreach( $request->passport as $item){
+    //         $stmPassport = new StmPassport();
+    //         $stmPassport->stm_id = $stm->id;
+    //         $stmPassport->passenger_id = $item['id'];
+    //         $stmPassport->save();
+    //     }
+
+    //     return response()->json(['msg' => 'STM Updated Sucess'], 200);
+
+    // }
 
 
     public function change_passport_status(Request $request){

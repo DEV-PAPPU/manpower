@@ -6,7 +6,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">All Passports</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -36,7 +36,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer d-flex justify-between">
+                    <div class="modal-footer d-flex justify-content-between">
                         <div>
                             
                             <form v-if="isChangeStatus" @submit.prevent="changeSTMStatus()">
@@ -45,7 +45,10 @@
                                 <label for="PassengerName">Complete Date</label>
                                 <input v-model="form.passport_complate_date" required class="form-control" type="date">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                <div class="d-flex gap-4">
+                                  <button type="submit" class="btn btn-success btn-sm">Complate </button>
+                                  <button @click="clrDate" class="btn btn-info btn-sm">Reset</button>
+                                </div>
                             </form>
 
                         </div>
@@ -83,10 +86,10 @@
                                     <span v-else >Complate</span>
                                 </td>
                                 <td>
-                                    <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
+                                    <router-link :to="{name: 'EditSTM', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
                                     <button @click="deleteAgent(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
-                                    <button @click="shopPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+                                    <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
                                 </td>
                             </tr>
 
@@ -145,7 +148,7 @@ export default {
             this.passenger = data;
         },
 
-        shopPassport(id){
+        showPassport(id){
             this.stm_id = id;
             axios.get(`stm-passports/${id}`).then(res =>{
                 this.passports = res.data;
@@ -171,7 +174,8 @@ export default {
 
         changeSTMStatus(){
 
-             let total_passport = $('#totalPassport').text();
+            
+            let total_passport = $('#totalPassport').text();
 
             let data = {
                 stm_passport_id : this.form.passport_id,
@@ -181,13 +185,17 @@ export default {
             } 
 
             axios.post('change-passport-status', data).then(res =>{
+              
                 this.isChangeStatus = false;
+                
                 Toast.fire({
                         icon: 'success',
-                        title: res.data.msg
+                            title: res.data.msg
                 });
+                
+                this.form.passport_complate_date = '';
 
-                this.shopPassport(this.stm_id);
+                this.showPassport(this.stm_id);
                 this.recallchangeStatus(data)
             })
 
@@ -198,6 +206,11 @@ export default {
             axios.get("stm-lists").then((res)=>{
                 this.stms = res.data;
             }); 
+        },
+
+        clrDate(){
+            this.isChangeStatus = false;
+            this.form.passport_complate_date = '';
         }
     },
 

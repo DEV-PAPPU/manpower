@@ -29,6 +29,12 @@ class CreatePassengersTable extends Migration
             $table->integer('is_approved')->nullable();
             $table->unsignedInteger('district_id');
             $table->unsignedInteger('agent_id')->nullable();
+            $table->string('passenger_note')->nullable();
+            $table->string('passenger_discount');
+            $table->unsignedInteger('passenger_company_id');
+            $table->unsignedInteger('passenger_sector_id');
+            $table->unsignedInteger('passenger_trade_id');
+            $table->string('passenger_total_pay')->nullable();
             $table->timestamps();
         });
     }

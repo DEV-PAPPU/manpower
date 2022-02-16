@@ -23,8 +23,8 @@
                                     <td>{{sector.sector_name}}</td>
                                     <td>
                                         <button @click="edit(sector)" ><i class="far edit_icon fa-edit"></i></button>
-                                        <a href="#" @click="deletesetor(sector)"><i
-                                                class="fas delete_icon fa-trash-alt"></i></a>
+                                        <button @click="deletesetor(sector)"><i
+                                                class="fas delete_icon fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
 

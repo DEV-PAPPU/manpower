@@ -37,7 +37,6 @@
                     <router-link :to="{name: 'AgentList'}" class="collapse-item">Agent</router-link>
                     <router-link :to="{name: 'Companies'}" class="collapse-item">Company List</router-link>
                     <router-link :to="{name: 'addRequisition'}" class="collapse-item">Add Requisition</router-link>
-                    <router-link :to="{name: 'MofaInformationlist'}" class="collapse-item">Mofa-VISA</router-link>
                 </div>
             </div>
         </li>
@@ -59,6 +58,29 @@
                 </div>
             </div>
         </li>
+
+
+        <!-- Nav Item - Account Menu -->
+        <li class="nav-item active">
+            <router-link :to="{name: 'Account'}" class="nav-link"><i class="fas fa-fw fa-folder"></i>
+                <span>Account</span></router-link>
+        </li>
+
+        <!-- <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#account"
+                aria-expanded="true" aria-controls="account">
+               <i class="fas fa-fw fa-folder"></i>
+                <span>Account</span>
+            </a>
+            <div id="account" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Custom Components:</h6>
+                    <router-link :to="{name: 'Account'}" class="collapse-item">Account</router-link>
+                    <router-link :to="{name: 'Bank'}" class="collapse-item">Bank Lists</router-link>
+                    <router-link :to="{name: 'Branch'}" class="collapse-item">Branch Lists</router-link>
+                </div>
+            </div>
+        </li> -->
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -82,9 +104,13 @@
                     <router-link :to="{name: 'District'}" class="collapse-item">District</router-link>
                     <router-link :to="{name: 'Country'}" class="collapse-item">Country Lists</router-link>
                     <router-link :to="{name: 'Sector'}" class="collapse-item">Sector Lists</router-link>
+                    <router-link :to="{name: 'Bank'}" class="collapse-item">Bank Lists</router-link>
+                    <router-link :to="{name: 'Branch'}" class="collapse-item">Branch Lists</router-link>
                 </div>
             </div>
         </li>
+
+        
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">

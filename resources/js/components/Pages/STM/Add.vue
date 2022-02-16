@@ -129,7 +129,7 @@ export default {
             },
             date : '',
             form:{
-                passenger_id: '',
+                id: '',
                 passenger_name: '',
                 passport_no: '',
                 trade: '',
@@ -237,21 +237,6 @@ export default {
 
     },
 
-    watch: { 
-    // 'form.passport_no': {
-    //   handler(newVal, oldVal) {
-    //       this.searchPassport(newVal);
-    //   },
-    //   deep: true
-    // }
-
-    },
-
-    mounted(){
-
-        let today = new Date().toLocaleDateString();
-        this.form.date = today
-    }
 }
 </script>
 

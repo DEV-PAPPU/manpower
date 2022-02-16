@@ -93,7 +93,7 @@
                                 <td>
                                     <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
-                                    <button @click="deleteAgent(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
+                                    <button @click="deletePassenger(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
 
                                     <router-link :to="{name: 'PassengerFile', params: {id: item.id}}"><i class="edit_icon fas fa-align-justify"></i></router-link>
                                 </td>
@@ -147,16 +147,49 @@ export default {
               })
         },
 
-        deleteAgent(item){
-            // axios.post(`delete-passenger/${item.id}`).then(res =>{
-            //     Toast.fire({
-            //             icon: 'success',
-            //             title: res.data.msg
-            //     });
+        deletePassenger(item){
 
-            //     let index = this.passengers.indexOf(item);
-            //     this.passengers.splice(index, 1);
-            // })
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+             
+                axios.post(`delete-passenger/${item.id}`).then(res =>{
+               
+                    if(res.data.msg){
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                    });
+
+                    let index = this.passengers.indexOf(item);
+                
+                    this.passengers.splice(index, 1);
+
+                    axios.get("passengers").then((res)=>{
+                       this.passengers = res.data;
+                    });
+                    
+                    }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+                })
+
+              }
+            })
+            
         }
     },
 

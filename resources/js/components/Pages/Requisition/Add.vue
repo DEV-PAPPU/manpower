@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="">
+            <CompanyForm v-on:newCompany="newCompany($event)"/>
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -34,11 +35,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserRole">Company Name</label>
-                                    <select @change="changeCompany" v-model="form.company_id" class="form-control filter-select" required>
-                                        <option value="">-- Select company --</option>
-                                        <option v-for="company in companies" :key="company.id" :value="company.id">
-                                            {{company.company_name}}</option>
-                                    </select>
+                                     <v-select label="company_name" v-model="form.company_id" placeholder="-- Select company --" :options="companies" />
+
                                     <small v-if="errors.company_id"
                                         class="form-text text-danger">{{ errors.company_id[0] }}</small>
                                     
@@ -47,16 +45,9 @@
 
                             <div  class="col-md-3">
                                 <div class="form-group">
-                                    <label for="UserRole">Sector</label>
-                                 
-                                    <select v-model="form.sector_id" multiple="true" class="form-control filter-select">
-                                        <option value="" selected >-- Select Sector --</option>
-                                        <option v-for="sector in companysectors" :key="sector.id" :value="sector" required>
-                                            {{sector.sector_name}}</option>
-                                    </select>   
-                                     
-                                    <small v-if="errors.sector_id"
-                                        class="form-text text-danger">{{ errors.sector_id[0] }}</small>
+                                    <label for="Sector">Sector</label>
+                                
+                                 <v-select multiple  label="sector_name" v-model="form.sectors" placeholder="Select Sector" :options="companysectors" />
                                 </div>
 
                             </div>
@@ -75,24 +66,24 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-
+import 'vue-select/dist/vue-select.css';
+import CompanyForm  from './CompanyForm.vue'
 import VisaForm  from './VisaForm.vue'
 import axios from 'axios'
     export default {
-        components:{VisaForm},
+        components:{VisaForm,CompanyForm},
         data: () =>{
             return {
                 form:{
-                kafil_iD: '',
+                kafil_id: '',
                 requisition_date: '',
-                sector_id: [],
+                sectors: [],
                 company_id: '',
                 is_approved: '',
                 visaFormdata:[],
@@ -101,7 +92,7 @@ import axios from 'axios'
                },
                errors: '',
                companies:[],
-               companysectors:'',
+               companysectors:[],
 
 
             }
@@ -109,8 +100,23 @@ import axios from 'axios'
 
         methods:{
             addRequisition(){
-             
-              axios.post('add-requisition', this.form).then(response =>{
+
+                const form = {
+
+                    kafil_id: this.form.kafil_id,
+                    requisition_date: this.form.requisition_date,
+                    sectors: this.form.sectors,
+                    company_id: this.form.company_id.id,
+                    visaFormdata: this.form.visaFormdata,
+                    tradeFormdata: this.form.tradeFormdata
+
+                }
+
+            if(!this.form.sectors.length){
+                alert('Please check all fields');       
+            }
+            else{
+                 axios.post('add-requisition', form).then(response =>{
                
                 if(response.data.msg){
 
@@ -119,7 +125,6 @@ import axios from 'axios'
                         title: response.data.msg
                      });
 
-                    // this.$router.push({name:'RequisitionList'});
                     this.$router.push({name:'Companies'});
                 }
 
@@ -129,6 +134,9 @@ import axios from 'axios'
                .catch(e => {
                      this.errors = e.response.data.errors                     
                 });
+            }
+
+             
             },
 
             formData(event){
@@ -138,8 +146,8 @@ import axios from 'axios'
 
             changeCompany(){
                 
-                let id = this.form.company_id;
-
+                let id = this.form.company_id.id;
+                this.form.sectors = null ;
                 axios.get(`search-sector-by-company/${id}`).then(res =>{
                    this.companysectors = res.data.data
                   
@@ -153,24 +161,11 @@ import axios from 'axios'
             },
 
 
-            lelectSector(sector){
+            newCompany(){
 
-                //checking is item in list  or not
-                let item = this.form.sector_id.filter(a => a.id == sector.id)
-                if(item.length){
-
-                    let index = this.form.sector_id.indexOf(sector);
-                    this.form.sector_id.splice(index, 1);
-
-                   console.log('new items',this.form.sector_id.length)
-                }
-
-                // if item not in list then push this iten in list
-                else{
-                    this.form.sector_id.push(sector);
-                    console.log('old items',this.form.sector_id.length)
-                }
-
+                 axios.get('companies').then(response =>{
+                    this.companies = response.data.companies;
+                });
             }
 
         },
@@ -182,6 +177,15 @@ import axios from 'axios'
          }
   
         },
+
+         watch: { 
+         'form.company_id.id': {
+            handler(newVal, oldVal) {
+                this.changeCompany();
+             },
+            deep: true
+            }
+       },
 
         mounted() {
             axios.get('companies').then(response =>{
