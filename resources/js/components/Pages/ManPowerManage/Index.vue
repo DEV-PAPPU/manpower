@@ -86,10 +86,12 @@
                                     <span v-else >Complate</span>
                                 </td>
                                 <td>
-                                    <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
+                                    <router-link :to="{name: 'EditMP', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
-                                    <button ><i class="fas delete_icon fa-trash-alt"></i></button>
+                                    <button @click="deleteManPower(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></button>
                                     <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+
+                                     <router-link :to="{name: 'ManPowerPrint', params: {id: item.id}}"><i class="fas fa-edit fa-print"></i></router-link>
                                 </td>
                             </tr>
 
@@ -196,7 +198,44 @@ export default {
         clrDate(){
             this.isChangeStatus = false;
             this.form.passport_complate_date = '';
-        }
+        },
+
+        deleteManPower(id){
+              
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.post(`manpower/delete/${id}`).then(res =>{
+                   
+                    if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+              });
+              }
+            })
+        },
     },
 
     mounted() {

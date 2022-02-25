@@ -1,5 +1,25 @@
 <template>
     <div>
+         <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{processing_info.label}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Date: {{processing_info.date}}
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -14,40 +34,33 @@
                                 <th>S/L</th>
                                 <th style="width:110px">Name</th>
                                 <th style="width:110px">Passport</th>
-                                <th style="width:60px">Trade</th>
                                 <th style="width:120px">Company</th>
-                                <th style="width:90px">Pc Date</th>
-                                <th style="width:90px">TC RCV Date</th>
+                                <th style="width:60px">Visa No</th>
+                                <th style="width:60px">Trade</th>
                                 <th style="width:90px">Video</th>
                                 <th style="width:90px">Medical</th>
-                                <th style="width:90px">STM Date</th>
+                                <th style="width:90px">Pc Date</th>
+                                <th style="width:100px">STM Date</th>
+                                <th style="width:90px">TC RCV Date</th>
                                 <th style="width:90px">MP RCV Date</th>
                                 <th style="width:90px">TKT Date</th>
                                 <th style="width:100px">Fly</th>
                                 <th style="width:90px">Sector</th>
                                 <th style="width:80px">Agent</th>
-                                <th style="width:90px">Actions</th>
+                                <th style="width:60px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in passengers" :key="item.id"
-                                :class="{flyrow: item.interview && item.interview.passenger_fly == '1'}">
+                                :class="{flyrow: item.passenger_fly == '1'}">
                                 <td>{{item.id}}</td>
                                 <td>{{item.passenger_name}}</td>
                                 <td>{{item.passport_no}}</td>
-                                <td>{{item.trade.trade}}</td>
                                 <td>{{item.company.company_name}}</td>
-                                <td>
-                                    <span v-if="item.interview">{{item.interview.pc_date}}</span>
-                                    <span v-else v-html="pending_icon"></span>
-                                </td>
+                                <td>{{item.trade.trade_visa_no}}</td>
+                                <td>{{item.trade.trade}}</td>
 
-                                <td>
-                                    <span v-if="item.interview">{{item.interview.tc_rcv_date}}</span>
-                                    <span v-else v-html="pending_icon"></span>
-                                </td>
-
-                                <td>
+                                 <td>
                                     <div v-if="item.interview">
                                         <p v-if="item.interview.video_passenger == '1'">Yes</p>
                                         <p v-else>No</p>
@@ -55,7 +68,7 @@
                                     <span v-else v-html="pending_icon"></span>
                                 </td>
 
-                                <td>
+                                 <td>
                                     <div v-if="item.interview">
                                         <p v-if="item.interview.medical_result == '1'">Fit</p>
                                         <p v-else>Gone {{item.interview.medical_gone_date}}</p>
@@ -64,9 +77,15 @@
                                 </td>
 
                                 <td>
+                                    <span v-if="item.interview">{{item.interview.pc_date}}</span>
+                                    <span v-else v-html="pending_icon"></span>
+                                </td>
+
+                                <td>                                    
                                     <div v-if="item.stmpassport">
-                                        <span v-if="!item.stmpassport.stm_passport_complete_date">Processing</span>
-                                        <span v-else>{{item.stmpassport.stm_passport_complete_date}}</span>
+                                        <span v-if="item.stmpassport.stm_passport_complete_date">{{item.stmpassport.stm_passport_complete_date}}</span>
+
+                                        <span v-else>Processing  <i @click="stmProcessDate(item.stmpassport.stm_id)" class="fas fa-calendar-alt cursor edit_icon" data-toggle="modal" data-target="#exampleModalCenter" ></i> </span>
                                     </div>
 
                                     <div v-else>
@@ -75,7 +94,12 @@
                                 </td>
 
 
+                                <td>
+                                    <span v-if="item.interview">{{item.interview.tc_rcv_date}}</span>
+                                    <span v-else v-html="pending_icon"></span>
+                                </td>
 
+                               
                                 <td>
                                     <div v-if="item.manpowerpassport">
                                         <span
@@ -98,24 +122,16 @@
                                 </td>
 
                                 <td>
-                                    <div v-if="item.interview">
+                                    <span v-if="item.passenger_fly == '1'">Pasenger Flyed</span>
 
-                                        <span v-if="item.interview.passenger_fly == '1'">Fly</span>
+                                    <div v-else class="d-flex gap-2 align-items-center">
 
-                                        <div v-if="item.interview.passenger_fly == '0' ">
+                                      <span>No</span>
 
-                                            <di class="d-flex gap-2 align-items-center">
-                                                <span>No</span>
-                                                <button @click="FlyStatus(item.interview)"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-toggle-on"></i></button>
-                                            </di>
+                                        <button @click="FlyStatus(item.id)" class="btn btn-primary btn-sm">
+                                           <i class="fas fa-toggle-on"></i>
+                                        </button>
 
-                                        </div>
-                                    </div>
-
-                                    <div v-else>
-                                        <span v-html="pending_icon"></span>
                                     </div>
 
                                 </td>
@@ -159,13 +175,17 @@ export default {
         return {
             passengers:[],
             passenger_fly_data: '',
-            pending_icon: `<i style="color:red; size:20px; margin-left: 26px;" class="far fa-window-minimize pending_icon"></i>`
+            pending_icon: `<i style="color:red; size:20px; margin-left: 26px;" class="far fa-window-minimize pending_icon"></i>`,
+            processing_info: {
+                label: '',
+                date: '',
+            },
         }
     },
 
     methods:{
         loadInterview(){
-            //API Call
+            // API Call
             axios.get("passenger-status").then((res)=>{
                 this.passengers = res.data;
                 setTimeout(() => {
@@ -181,7 +201,17 @@ export default {
               })
         },
 
-        FlyStatus(item){
+        stmProcessDate(id){
+            
+            axios.get(`stm/processing-date/${id}`).then((res)=>{
+                this.processing_info.label = res.data.label;
+                this.processing_info.date = res.data.date;
+                console.log('l',res.data.label)
+                console.log('d',res.data.date)
+            })
+        },
+
+        FlyStatus(id){
            
           Swal.fire({
                 title: 'Change Passenger Fly Status.',
@@ -192,22 +222,27 @@ export default {
                 }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                      Swal.fire('Saved!', '', 'success');
 
-                        axios.post(`interview/change-fly-status/${item.id}`).then(res =>{
+                        axios.post(`passenger/fly/status/${id}`).then(res =>{
                 
-                        Toast.fire({
-                                    icon: 'success',
-                                    title: res.data.msg
-                            });
+                              if(res.data.msg){
+                      
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.msg
+                                    });
 
-                            axios.get("passenger-status").then((res)=>{
-                            this.passengers = res.data;
-                            })
+                                    window.location.reload();
+                              }
+
+                            if(res.data.error_msg){
+                                Toast.fire({
+                                        icon: 'error',
+                                        title: res.data.error_msg
+                                });
+                            }
                         })
 
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
                 }
             })
         },

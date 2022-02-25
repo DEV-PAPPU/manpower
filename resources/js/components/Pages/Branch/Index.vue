@@ -72,6 +72,8 @@ import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
+
+
 import $ from 'jquery'; 
 import axios from 'axios';
 
@@ -174,14 +176,27 @@ export default {
             }).then((result) => {
             if (result.isConfirmed) {
              
-              let index = this.branches.indexOf(sector);
-              this.branches.splice(index, 1);
+            //   let index = this.branches.indexOf(sector);
+            //   this.branches.splice(index, 1);
 
                 axios.post(`branch/delete/${id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+                   
+                    if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
 
               });
               }

@@ -1,19 +1,17 @@
 <template>
     <div>
         <div class="">
+            <CompanyForm v-on:newCompany="newCompany($event)"/>
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Requisition Entry</h6>
-                    <router-link :to="{name: 'RequisitionList'}" class="btn bg-light btn-sm">Back To List</router-link>
-
+                    <h6 class="m-0 font-weight-bold text-white">Requisition Edit</h6>
+                    <router-link :to="{name: 'Companies'}" class="btn bg-light btn-sm">Back To List</router-link>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-
-                    <form >
+                    <form>
                         <div class="form-group row">
-
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="Username">Kafil ID</label>
@@ -34,143 +32,26 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserRole">Company Name</label>
-                                    <select v-model="form.company_id" class="form-control filter-select" required>
-                                        <option value="">-- Select District --</option>
-                                        <option v-for="company in companies" :key="company.id" :value="company.id">
-                                            {{company.company_name}}</option>
-                                    </select>
+                                     <v-select label="company_name" v-model="form.company_id" placeholder="-- Select company --" :options="companies" />
+
                                     <small v-if="errors.company_id"
                                         class="form-text text-danger">{{ errors.company_id[0] }}</small>
                                     
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div  class="col-md-3">
                                 <div class="form-group">
-                                    <label for="UserRole">Sector</label>
-                                    <select v-model="form.sector_id" class="form-control filter-select">
-                                        <option value="">-- Select Sector --</option>
-                                        <option v-for="sector in sector_of_company" :key="sector.id" :value="sector.id" required>
-                                            {{sector.sector_name}}</option>
-                                    </select>
-                                    <small v-if="errors.sector_id"
-                                        class="form-text text-danger">{{ errors.sector_id[0] }}</small>
+                                    <label for="Sector">Sector</label>
+                                
+                                 <v-select multiple  label="sector_name" v-model="form.sectors" placeholder="Select Sector" :options="companysectors" />
                                 </div>
+
                             </div>
                             
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                     <label>Is Approved</label>
-                                         <select v-model="form.is_approved" class="form-control filter-select">
-                                            <option value="">-- Select --</option>
-                                            <option value="0">Approved</option>
-                                            <option value="1">Pending</option>
-                                        </select>
-                                    <small v-if="errors.is_approved"
-                                        class="form-text text-danger">{{ errors.is_approved[0] }}</small>
-                                </div>
-                            </div>
 
                             <div class="mt-3">
-                                <div class="mt-3">
-                                    <h5 class="my-2">Vasi & Trade Info</h5>
-                                    <form  @submit.prevent="formvisa()">
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="Username">Visa No</label>
-                                                    <input class="form-control" v-model="visaForm.visa_no" required type="number">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label for="Username">Qty</label>
-                                                    <input class="form-control" v-model="visaForm.visa_qty" required  type="number">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="UserRole">Trade</label>
-                                                    <select v-model="visaForm.trade" required
-                                                        class="form-control filter-select" id="UserRole">
-                                                        <option value="">--- Select Trade ---</option>
-                                                        <option value="helper">Helper</option>
-                                                        <option value="cleaner">Cleaner</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="Username">Salary</label>
-                                                    <input class="form-control" v-model="visaForm.salary" required type="number">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="Username">Price/Reference</label>
-                                                    <input class="form-control" v-model="visaForm.price_reference" required type="number">
-
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="Username">Duty Hours</label>
-                                                    <input class="form-control" v-model="visaForm.duty_hours" required type="number">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-1">
-                                                <div class="visinfo_btn">
-                                                    <button class="btn btn-success btn-sm"
-                                                       type="submit"><i
-                                                            class="fas fa-plus-circle"></i></button>
-
-                                                    <button class="btn btn-danger btn-sm" type="reset"><i
-                                                            class="fas fa-eraser"></i></button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </form>
-                                    <div v-if="visaFormdata.length > 0" class="database__table">
-                                        <table class="table table-hover table-bordered" id="example">
-                                            <thead>
-                                                <tr>
-                                                    <th>Visa No</th>
-                                                    <th>Qty</th>
-                                                    <th>Trade</th>
-                                                    <th>Salary</th>
-                                                    <th>Price/Ref.</th>
-                                                    <th>Duty</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="visa in visaFormdata" :key="visa.visa_no">
-                                                    <td>{{visa.visa_no}}</td>
-                                                    <td>{{visa.visa_qty}}</td>
-                                                    <td>{{visa.trade}}</td>
-                                                    <td>{{visa.salary}}</td>
-                                                    <td>{{visa.price_reference}}</td>
-                                                    <td>{{visa.duty_hours}}</td>
-                                                    <td>
-
-                                                        <a href="#" @click="removeVisa(visa)" class="btn brn-danger"><i
-                                                                class="fas delete_icon fa-trash-alt">
-                                                                Remove</i></a>
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
+                                <VisaForm v-on:formData="formData($event)"/>
                             </div>
 
                         </div>
@@ -182,18 +63,18 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-
+import 'vue-select/dist/vue-select.css';
+import CompanyForm  from './CompanyForm.vue'
 import VisaForm  from './VisaForm.vue'
 import axios from 'axios'
     export default {
-        components:{VisaForm},
+        components:{VisaForm,CompanyForm},
         data: () =>{
             return {
                 form:{
@@ -264,14 +145,21 @@ import axios from 'axios'
                     // let data = this.visaFormdata.filter(item => item.visa_no !== visa.visa_no);
                     let index = this.visaFormdata.indexOf(visa);
                     this.visaFormdata.splice(index, 1);
-                }
+                },
+
+                newCompany(){
+
+                 axios.get('companies').then(response =>{
+                    this.companies = response.data.companies;
+                });
+            }
 
         },
 
         computed:{
 
          sector_of_company(){
-             return  this.companysectors.filter(item => item.company_id === this.form.company_id);
+             return  this.companysectors.filter(item => item.company_id === this.form.company_id.id);
          }
   
         },
@@ -279,13 +167,18 @@ import axios from 'axios'
         mounted() {
             let id = this.$route.params.id;
                axios.get(`edit-requisition/${id}`).then(res =>{
-                this.form = res.data
+                this.form = res.data.requisition;
+                this.form.company_id = res.data.company;
+                this.form.sector_id = res.data.sector;
              });
 
             axios.get('companies').then(response =>{
                 this.companies = response.data.companies;
-                this.companysectors = response.data.companysector;
               });
+              
+            axios.get('sectors').then(response =>{
+                this.companysectors = response.data;
+            });
 
               this.load_Visa_form_data();
                

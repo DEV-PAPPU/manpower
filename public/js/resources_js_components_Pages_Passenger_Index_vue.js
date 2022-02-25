@@ -122,13 +122,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 //Bootstrap and jQuery libraries
 // import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
@@ -401,8 +394,6 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.passenger_name))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(item.passenger_date_of_birth))]),
-                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.passport_no))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.old_passport_no))]),
@@ -606,8 +597,6 @@ var staticRenderFns = [
         _c("th", { staticStyle: { width: "100px" } }, [
           _vm._v("Passenger Name"),
         ]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("DOB")]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Passport No")]),
         _vm._v(" "),

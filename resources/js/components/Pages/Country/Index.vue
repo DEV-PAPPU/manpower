@@ -153,6 +153,16 @@ import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
+
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import "datatables.net-buttons/js/dataTables.buttons.js"
+import "datatables.net-buttons/js/buttons.colVis.js"
+import "datatables.net-buttons/js/buttons.flash.js"
+import "datatables.net-buttons/js/buttons.html5.js"
+import "datatables.net-buttons/js/buttons.print.js"
+
 import $ from 'jquery'; 
 import axios from 'axios';
 
@@ -184,14 +194,13 @@ export default {
                 this.country = res.data;
                 setTimeout(() => {
                     $(".dbtable").DataTable({
-                        lengthMenu: [
-                        [5,10, 25, 50, -1],
-                        [5,10, 25, 50, "All"],
-                        ],
-                        pageLength: 10,
-                        // destroy: true,
-                        orderCellsTop: true,
-                        // "bDestroy": true,                        
+                        pagingType: 'full_numbers',
+                        pageLength: 1,
+                        processing: true,
+                         dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]                     
                     });
                     });
               })
@@ -375,7 +384,7 @@ export default {
         this.loadCountry();
            axios.get("sectors").then((res)=>{
                 this.setors = res.data;
-            })
+            });
         }
 
 }

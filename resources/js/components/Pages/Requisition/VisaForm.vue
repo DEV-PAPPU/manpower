@@ -65,7 +65,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="UserRole">Visa No</label>
-                                    <select @change="changeVisaNo" v-model="tradeForm.trade_visa_no" required class="form-control text-sm">
+                                    <select @change="onChangeVisa" v-model="tradeForm.trade_visa_no" required class="form-control text-sm">
                                         <option value="">-- Select --</option>
                                         <option v-for="item in visaForm.visaData" :key="item.visa_no" :value="item.visa_no">{{item.visa_no}}</option>
                                     </select>
@@ -173,12 +173,16 @@
                  trade_visa_no: '',
                 },
 
-               formData:[]
+               formData:[],
+               addVisa: false,
+               tem_data: [],
             }
         },
 
         methods:{
                 formvisa(){
+
+                   let visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no == this.tradeForm.trade_visa_no);
 
                    let  newData = {
                         trade: this.tradeForm.trade,
@@ -186,22 +190,76 @@
                         price_reference: this.tradeForm.price_reference,
                         trade_qty: this.tradeForm.trade_qty,
                         trade_visa_no: this.tradeForm.trade_visa_no,
-                    };
+                    };  
 
-                    this.formData.push(newData);
 
-                    let visaTrade = {
-                        visa: this.visaForm.visaData,
-                        trade: this.formData
+                    //  checking visa qty  
+                    if(visa_form_visa_no.visa_qty < this.tradeForm.trade_qty){
+                          console.log('error')
+
+                      }else{
+                          this.tem_data.push(newData);
+                      }
+                   
+                     var  totalqty = [];
+
+                     var  visa_qty_added = [];
+                    
+                     this.tem_data.forEach( item =>{
+                    
+                                totalqty.push(parseInt(item.trade_qty))
+                     })
+
+                    visa_qty_added = totalqty.reduce((a,b) => a + b,0);
+                    
+                    // end checking
+
+                        // console.log('tem total visa entry', visa_qty_added)
+                        // console.log('main visa qty.', visa_form_visa_no.visa_qty)
+
+                    
+                    // insert data base on condition
+                    if(visa_form_visa_no.visa_qty < this.tradeForm.trade_qty ){
+                      
+                       Toast.fire({
+                                icon: 'error',
+                                title: 'Visa qty over'
+                        });
                     }
 
-                    this.$emit('formData', visaTrade);
+                    else if(visa_form_visa_no.visa_qty < visa_qty_added){
+                        
+                        Toast.fire({
+                                icon: 'error',
+                                title: 'Visa qty over'
+                        });
 
+                        let temData = this.tem_data.indexOf(newData);
+                        this.tem_data.splice(temData, 1);
+                    
+                       console.log('total tem_data total  after error visa', this.tem_data)
+
+                    }
+                    else{
+                        
+                        this.formData.push(newData);
+                        this.tradeFormClear();
+
+                         let visaTrade = {
+                            visa: this.visaForm.visaData,
+                            trade: this.formData
+                          }
+
+                        this.$emit('formData', visaTrade);
+                    }
+
+                   
                 },
 
 
                 removeTrade(trade){
-                    // let data = this.formData.filter(item => item.visa_no !== visa.visa_no);
+                   
+                   
                     let index = this.formData.indexOf(trade);
                     this.formData.splice(index, 1);
                     
@@ -210,24 +268,58 @@
                         trade: this.formData
                     }
 
+                    let temData = this.tem_data.indexOf(trade);
+                    this.tem_data.splice(temData, 1);
+                   
+                   console.log('total tem data   after remove visa', this.tem_data)
+
                     this.$emit('formData', visaTrade);
                 },
 
                 addVisaNo(){
 
+                   var  oldVisa = this.visaForm.visaData.find(item => item.visa_no == this.visaForm.visa_no);
+
+                //    if(this.visaForm.visaData.length){
+                //       visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no == this.tradeForm.trade_visa_no);
+                //    }
+
+
                     if(!this.visaForm.visa_no){
 
-                        alert('Form can`t be empty!')
-                        
+                        Toast.fire({
+                                icon: 'error',
+                                title: 'Please Add Visa.'
+                       });
+
                     }
+
+                    else if(!this.visaForm.visa_qty){
+                       
+                       Toast.fire({
+                                icon: 'error',
+                                title: 'Visa Qty Missing'
+                       });
+                    }
+
+                    else if(oldVisa){
+                       
+                       Toast.fire({
+                                icon: 'error',
+                                title: 'Visa No. already added'
+                       });
+                    }
+
                     else{
                         
                         let  newData = {
-                        visa_no: this.visaForm.visa_no,
-                        visa_qty: this.visaForm.visa_qty,
+                            visa_no: this.visaForm.visa_no,
+                            visa_qty: this.visaForm.visa_qty,
                          };
 
-                    this.visaForm.visaData.push(newData);
+                        this.visaForm.visaData.push(newData);
+                        this.visaForm.visa_no = '';
+                        this.visaForm.visa_qty = '';
                     
                     }
                 },
@@ -238,52 +330,26 @@
 
                 },
 
+                onChangeVisa(){
+                  this.tem_data = [] ;
+                //    Toast.fire({
+                //                 icon: 'success',
+                //                 title: 'Visa Number Change'
+                //     });
+                },
 
-                changeVisaNo(){
-                   
-                   let visa_no =  this.tradeForm.trade_visa_no;
- 
-
-                   if(this.formData.length){
-
-                       //visaForm -> visaData
-                        let visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no === visa_no);
-
-                        //total visa in formData array 
-                        let total_Visa_store =  this.formData.filter(item => item.trade_visa_no === visa_no);
-                        
-                        let all_qty = [];
-
-                        let number = parseInt(all_qty);
-                        
-                        total_Visa_store.forEach( item =>{
-                                all_qty.push(item.trade_qty)
-                        })
-
-                        // let qty = number.reduce( (a, b) => b + b);
-
-
-                        console.log('main visa qty.', visa_form_visa_no.visa_qty)
-
-                        // console.log('form data total checking .', qty)
-
-                        console.log('final qty num', number)
-                   }
-                   
+                tradeFormClear(){
+                    this.tradeForm.trade = '';
+                    this.tradeForm.salary = '';
+                    this.tradeForm.price_reference = '';
+                    this.tradeForm.trade_qty = '';
+                    this.tradeForm.trade_visa_no = '';
                 }
 
         },
 
         computed:{
-
-        //    visaTotalQty(){
-        //        return this.visaForm.visaData.reduce((a, b) => (a.trade_qty + b.trade_qty));
-        //    }
-  
-        },
-
-        mounted() {
-
+            
         }
     }
 </script>

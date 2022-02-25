@@ -374,6 +374,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     changeImg: function changeImg(e) {
+      this.image = true;
       var image = document.getElementById('file');
       var form_img = image.files[0];
       var output = document.getElementById('uploadPreview');

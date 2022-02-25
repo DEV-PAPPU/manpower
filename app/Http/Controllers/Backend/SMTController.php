@@ -11,6 +11,7 @@ use App\Models\Passenger;
 use App\Models\Stm;
 use App\Models\StmPassport;
 use App\Models\Interview;
+use App\Models\ManPowerPassport;
 use DB;
 class SMTController extends Controller
 {
@@ -34,9 +35,9 @@ class SMTController extends Controller
                     ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
                               'passengers.passenger_trade_id')
 
-                    ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
+                    ->select('stm_passports.id','passengers.passenger_name','passengers.passport_no',
                              'passengers.passport_source',
-                             'companies.company_name', 'requisition_trade_infos.trade',
+                             'companies.company_name', 'requisition_trade_infos.trade', 'stms.stm_date'
                             )
                      ->where('stms.id', $id)    
                     ->get();
@@ -228,5 +229,88 @@ class SMTController extends Controller
 
             return response()->json(['msg' => 'Passport Status Changed'], 200);
 
+    }
+
+
+    public function stm_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $stm =  Stm::where('id', $id)->first();
+
+        $passport = '';
+        $mppassport = '';
+
+        if($stm){
+
+            $passport =  StmPassport::where('stm_id', $stm->id)->first();
+            
+            if($passport){
+
+                $mppassport =  ManPowerPassport::where('passenger_id', $passport->passenger_id)->first();
+               
+                if($mppassport){
+                    $error_msg = 'Please delete from Man-Power  first';
+                }
+                else{
+                    $stm->delete();
+                    $msg = 'Delete Success';
+                }
+            }
+            else{
+                $stm->delete();
+                $msg = 'Delete Success';
+            }
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+
+        
+    }
+
+
+    public function stm_passenger_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $passport =  StmPassport::where('id', $id)->first();
+
+        $mppassport =  ManPowerPassport::where('passenger_id', $passport->passenger_id)->first();
+
+        if($mppassport){
+            $error_msg = 'Please delete from Man-Power  first';
+        }else{
+            $passport->delete();
+            $msg = 'Delete Success';
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+
+        
+    }
+
+
+    
+    public function stm_processing_date($id){
+        
+        $data = DB::table('stms')
+                ->where('stms.id', $id)    
+                ->select('stms.stm_date')
+                ->first();  
+
+        return response()->json([
+            'date' => $data->stm_date,
+            'label' => 'STM Processing Date',
+        ], 200,);
     }
 }

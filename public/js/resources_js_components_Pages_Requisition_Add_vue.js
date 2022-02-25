@@ -617,79 +617,132 @@ __webpack_require__.r(__webpack_exports__);
         price_reference: '',
         trade_visa_no: ''
       },
-      formData: []
+      formData: [],
+      addVisa: false,
+      tem_data: []
     };
   },
   methods: {
     formvisa: function formvisa() {
+      var _this = this;
+
+      var visa_form_visa_no = this.visaForm.visaData.find(function (item) {
+        return item.visa_no == _this.tradeForm.trade_visa_no;
+      });
       var newData = {
         trade: this.tradeForm.trade,
         salary: this.tradeForm.salary,
         price_reference: this.tradeForm.price_reference,
         trade_qty: this.tradeForm.trade_qty,
         trade_visa_no: this.tradeForm.trade_visa_no
-      };
-      this.formData.push(newData);
-      var visaTrade = {
-        visa: this.visaForm.visaData,
-        trade: this.formData
-      };
-      this.$emit('formData', visaTrade);
+      }; //  checking visa qty  
+
+      if (visa_form_visa_no.visa_qty < this.tradeForm.trade_qty) {
+        console.log('error');
+      } else {
+        this.tem_data.push(newData);
+      }
+
+      var totalqty = [];
+      var visa_qty_added = [];
+      this.tem_data.forEach(function (item) {
+        totalqty.push(parseInt(item.trade_qty));
+      });
+      visa_qty_added = totalqty.reduce(function (a, b) {
+        return a + b;
+      }, 0); // end checking
+      // console.log('tem total visa entry', visa_qty_added)
+      // console.log('main visa qty.', visa_form_visa_no.visa_qty)
+      // insert data base on condition
+
+      if (visa_form_visa_no.visa_qty < this.tradeForm.trade_qty) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Visa qty over'
+        });
+      } else if (visa_form_visa_no.visa_qty < visa_qty_added) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Visa qty over'
+        });
+        var temData = this.tem_data.indexOf(newData);
+        this.tem_data.splice(temData, 1);
+        console.log('total tem_data total  after error visa', this.tem_data);
+      } else {
+        this.formData.push(newData);
+        this.tradeFormClear();
+        var visaTrade = {
+          visa: this.visaForm.visaData,
+          trade: this.formData
+        };
+        this.$emit('formData', visaTrade);
+      }
     },
     removeTrade: function removeTrade(trade) {
-      // let data = this.formData.filter(item => item.visa_no !== visa.visa_no);
       var index = this.formData.indexOf(trade);
       this.formData.splice(index, 1);
       var visaTrade = {
         visa: this.visaForm.visaData,
         trade: this.formData
       };
+      var temData = this.tem_data.indexOf(trade);
+      this.tem_data.splice(temData, 1);
+      console.log('total tem data   after remove visa', this.tem_data);
       this.$emit('formData', visaTrade);
     },
     addVisaNo: function addVisaNo() {
+      var _this2 = this;
+
+      var oldVisa = this.visaForm.visaData.find(function (item) {
+        return item.visa_no == _this2.visaForm.visa_no;
+      }); //    if(this.visaForm.visaData.length){
+      //       visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no == this.tradeForm.trade_visa_no);
+      //    }
+
       if (!this.visaForm.visa_no) {
-        alert('Form can`t be empty!');
+        Toast.fire({
+          icon: 'error',
+          title: 'Please Add Visa.'
+        });
+      } else if (!this.visaForm.visa_qty) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Visa Qty Missing'
+        });
+      } else if (oldVisa) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Visa No. already added'
+        });
       } else {
         var newData = {
           visa_no: this.visaForm.visa_no,
           visa_qty: this.visaForm.visa_qty
         };
         this.visaForm.visaData.push(newData);
+        this.visaForm.visa_no = '';
+        this.visaForm.visa_qty = '';
       }
     },
     removeVisa: function removeVisa(visa) {
       var index = this.visaForm.visaData.indexOf(visa);
       this.visaForm.visaData.splice(index, 1);
     },
-    changeVisaNo: function changeVisaNo() {
-      var visa_no = this.tradeForm.trade_visa_no;
-
-      if (this.formData.length) {
-        //visaForm -> visaData
-        var visa_form_visa_no = this.visaForm.visaData.find(function (item) {
-          return item.visa_no === visa_no;
-        }); //total visa in formData array 
-
-        var total_Visa_store = this.formData.filter(function (item) {
-          return item.trade_visa_no === visa_no;
-        });
-        var all_qty = [];
-        var number = parseInt(all_qty);
-        total_Visa_store.forEach(function (item) {
-          all_qty.push(item.trade_qty);
-        }); // let qty = number.reduce( (a, b) => b + b);
-
-        console.log('main visa qty.', visa_form_visa_no.visa_qty); // console.log('form data total checking .', qty)
-
-        console.log('final qty num', number);
-      }
+    onChangeVisa: function onChangeVisa() {
+      this.tem_data = []; //    Toast.fire({
+      //                 icon: 'success',
+      //                 title: 'Visa Number Change'
+      //     });
+    },
+    tradeFormClear: function tradeFormClear() {
+      this.tradeForm.trade = '';
+      this.tradeForm.salary = '';
+      this.tradeForm.price_reference = '';
+      this.tradeForm.trade_qty = '';
+      this.tradeForm.trade_visa_no = '';
     }
   },
-  computed: {//    visaTotalQty(){
-    //        return this.visaForm.visaData.reduce((a, b) => (a.trade_qty + b.trade_qty));
-    //    }
-  },
-  mounted: function mounted() {}
+  computed: {}
 });
 
 /***/ }),
@@ -2051,7 +2104,7 @@ var render = function () {
                                   : $$selectedVal[0]
                               )
                             },
-                            _vm.changeVisaNo,
+                            _vm.onChangeVisa,
                           ],
                         },
                       },

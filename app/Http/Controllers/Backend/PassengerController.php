@@ -13,6 +13,7 @@ use App\Models\Company;
 use App\Models\Sector;
 use App\Models\Interview;
 use App\Models\PassengerImage;
+use App\Models\TktPassport;
 use DB;
 class PassengerController extends Controller
 {
@@ -69,6 +70,7 @@ class PassengerController extends Controller
             $passenger->passenger_gender = $request->passenger_gender;
             $passenger->passenger_phone = $request->passenger_phone;
             $passenger->district_id = $request->district_id;
+            $passenger->passenger_total_pay = 0;
             
             if($passenger->agent_id){
 
@@ -153,12 +155,7 @@ class PassengerController extends Controller
         $passenger->passenger_gender = $request->passenger_gender;
         $passenger->passenger_phone = $request->passenger_phone;
         $passenger->district_id = $request->district_id;
-        
-        if($passenger->agent_id){
-
-            $passenger->agent_id = $request->agent_id;
-        }
-
+        $passenger->agent_id = $request->agent_id;
         $passenger->passenger_discount = $request->discount;
         $passenger->passenger_trade_id = $request->trade_id;
         $passenger->passenger_sector_id = $request->sector_id;
@@ -168,7 +165,8 @@ class PassengerController extends Controller
          if($request->hasFile('passenger_photo')){
 
             $passengerImage = $passenger->passenger_photo;
-            $imagePath = public_path($passengerImage);
+           
+             $imagePath = public_path($passengerImage);
 
             if ($passengerImage && file_exists($imagePath)) {
                 unlink($imagePath);
@@ -242,5 +240,43 @@ class PassengerController extends Controller
         ], 200);
 
         
+    }
+
+
+
+    public function change_fly_status($id){
+        
+        $error_msg = '';
+        $msg = '';
+        $passenger = Passenger::findOrfail($id);
+
+        $is_tkt_done = TktPassport::where('passenger_id', $passenger->id)->first();
+        
+        //if TktPassport status 0 so  fly pending
+        if($is_tkt_done){
+           
+            if($is_tkt_done->tkt_passport_status == '0'){
+                $error_msg = 'Please Complate Tkt first';
+            }
+            elseif($is_tkt_done->tkt_passport_status == '1'){
+                $passenger->passenger_fly = 1;
+                $passenger->save();
+                $msg = 'Passenger Flyed Done :)';
+            }
+            else {
+                $error_msg = 'Please Complate Tkt first';
+            }
+            
+        }
+        else {
+            $error_msg = 'Please Complate Tkt first';
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+        ], 200,);
+        
+
     }
 }

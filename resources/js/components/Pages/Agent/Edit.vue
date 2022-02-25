@@ -375,6 +375,7 @@ import DropMultiImages from '../../assets/droppable_image/Drop_multiple_images.v
             },
 
              changeImg(e){
+                 this.image = true;
             var image = document.getElementById('file');
             let form_img  = image.files[0];
             var output = document.getElementById('uploadPreview');

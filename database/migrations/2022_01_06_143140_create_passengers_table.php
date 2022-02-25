@@ -26,7 +26,7 @@ class CreatePassengersTable extends Migration
             $table->string('passport_expire_date');
             $table->string('old_passport_no')->nullable();
             $table->string('passenger_gender');
-            $table->integer('is_approved')->nullable();
+            $table->integer('passenger_fly')->default(0)->comment('0 => No, 1 => Yes');
             $table->unsignedInteger('district_id');
             $table->unsignedInteger('agent_id')->nullable();
             $table->string('passenger_note')->nullable();
@@ -34,7 +34,7 @@ class CreatePassengersTable extends Migration
             $table->unsignedInteger('passenger_company_id');
             $table->unsignedInteger('passenger_sector_id');
             $table->unsignedInteger('passenger_trade_id');
-            $table->string('passenger_total_pay')->nullable();
+            $table->string('passenger_total_pay')->default(0);
             $table->timestamps();
         });
     }

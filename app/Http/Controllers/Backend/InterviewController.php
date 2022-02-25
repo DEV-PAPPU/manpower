@@ -32,6 +32,7 @@ class InterviewController extends Controller
         $interview->medical_gone_date = $request->gone_date;
         $interview->pc_date = $request->pc_date;
         $interview->tc_rcv_date = $request->tc_rcv_date;
+        // $interview->interview_status = $request->interview_status;
         $interview->save();
 
         return response()->json([
@@ -51,6 +52,7 @@ class InterviewController extends Controller
         $interview->tc_rcv_date = $request->tc_rcv_date;
         $interview->passenger_fly = $request->passenger_fly;
         $interview->medical_gone_date = $request->medical_gone_date;
+        // $interview->interview_status = $request->interview_status;
         $interview->save();
 
         return response()->json([
@@ -59,30 +61,7 @@ class InterviewController extends Controller
         
     }
 
-    public function change_fly_status($id){
-        
-        $error_msg = '';
-        $msg = '';
-        $interview = Interview::findOrfail($id);
-        
-         
-        if($interview){
-            $interview->passenger_fly = 1;
-            $interview->save();
 
-            $msg = 'Interview Status Change';
-        }
-        else {
-            $error_msg = 'passenger not found!';
-        }
-
-        return response()->json([
-            'msg' => $msg,
-            'error_msg' => $error_msg,
-        ], 200,);
-        
-
-    }
 
     public function search_passenger(Request $request){
 

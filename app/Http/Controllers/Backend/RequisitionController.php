@@ -87,9 +87,24 @@ class RequisitionController extends Controller
         return response()->json(['msg' => 'Requisition Created Sucess'], 200);
     }
 
-    public function edit($id)
-    {
-        $data = Requisition::where('id', $id)->first();
+    public function edit($id){
+
+        $requisition = Requisition::where('id', $id)->first();
+
+         $sector = DB::table('requisition_sectors')
+                    ->leftJoin('sectors', 'sectors.id', 'requisition_sectors.requisition_sector_id')
+                    ->where('requisition_sectors.requisition_id', $id)
+                    ->select('sectors.id', 'sectors.sector_name')
+                    ->get();
+
+        $company = Company::where('id', $requisition->company_id)->first();
+
+        return response()->json([
+           'requisition' => $requisition,
+           'sector' => $sector,
+           'company' => $company,
+        ], 200);
+        
         return response()->json($data, 200);
     }
 

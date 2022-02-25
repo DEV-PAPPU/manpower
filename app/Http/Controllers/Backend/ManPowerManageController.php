@@ -10,6 +10,7 @@ use App\Models\RequisitionVisainfo;
 use App\Models\RequisitionTradeInfo;
 use App\Models\Passenger;
 use App\Models\ManPower;
+use App\Models\TktPassport;
 use App\Models\ManPowerPassport;
 use App\Models\Interview;
 use App\Models\StmPassport;
@@ -171,6 +172,37 @@ class ManPowerManageController extends Controller
 
     }
 
+    public function manpower_edit($id){
+       
+        $data = DB::table('man_power_passports')
+        ->leftJoin('man_powers','man_powers.id','man_power_passports.man_power_id')
+        ->leftJoin('passengers','passengers.id','man_power_passports.passenger_id')
+        ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+       
+        ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                  'passengers.passenger_trade_id')
+
+        ->select('man_power_passports.id','passengers.passenger_name','passengers.passport_no',
+                 'passengers.passport_source',
+                 'companies.company_name', 'requisition_trade_infos.trade',
+                 'man_powers.man_power_date',
+                )
+         ->where('man_powers.id', $id)    
+        ->get();
+
+
+        $stm_date = DB::table('man_powers')
+                    ->select('man_powers.man_power_date')
+                    ->where('man_powers.id', $id)    
+                    ->first();           
+
+        return response()->json([
+        'passenger' => $data,
+        'man_power_date' => $stm_date
+        
+        ], 200);
+    }
+
 
     public function change_passport_status(Request $request){
            
@@ -197,6 +229,87 @@ class ManPowerManageController extends Controller
 
             return response()->json(['msg' => 'Passport Status Changed'], 200);
 
+    }
+
+
+    public function manpower_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $manpower =  ManPower::where('id', $id)->first();
+
+
+        if($manpower){
+
+            $passport =  ManPowerPassport::where('man_power_id', $manpower->id)->first();
+            
+            if($passport){
+
+                $tktpassport =  TktPassport::where('passenger_id', $passport->passenger_id)->first();
+               
+                if($tktpassport){
+                    $error_msg = 'Please delete from TKT list first';
+                }
+                else{
+                    $manpower->delete();
+                    $msg = 'Delete Success';
+                }
+            }
+            else{
+                $manpower->delete();
+                $msg = 'Delete Success';
+            }
+        }
+
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+
+        
+    }
+
+
+    public function manpower_passenger_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $passport =  ManPowerPassport::where('id', $id)->first();
+
+        $tktpassport =  TktPassport::where('passenger_id', $passport->passenger_id)->first();
+
+        if($tktpassport){
+            $error_msg = 'Please delete from TKT list  first';
+        }else{
+            $passport->delete();
+            $msg = 'Delete Success';
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+
+        
+    }
+
+
+    public function man_power_processing_date($id){
+        
+        $data = DB::table('man_powers')
+                ->where('man_powers.id', $id)    
+                ->select('man_powers.id','man_powers.man_power_date')
+                ->first();  
+
+        return response()->json([
+            'date' => $data,
+            'label' => 'Man Power Processing Date',
+        ], 200,);
     }
 
 

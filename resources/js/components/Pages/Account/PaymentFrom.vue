@@ -245,6 +245,9 @@ export default {
                  else if(!this.paymentForm.branch.id){
                       alert('Please select bank');
                  }
+                 else if(!this.paymentForm.passenger_id){
+                      alert('Please search passenger');
+                 }
                  else if(!this.paymentForm.check_date){
                       alert('Please select check date');
                  }

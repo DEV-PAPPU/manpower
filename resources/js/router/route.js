@@ -16,19 +16,32 @@ import UserEdit from "../components/Pages/UserManagement/Edit";
 
 import SectorList from "../components/Pages/Sector/Index.vue";
 
+import AgentProfile from "../components/Pages/Profile/AgentProfile.vue";
+
 
 import STMLIST from "../components/Pages/STM/Index.vue";
 import AddSTM from "../components/Pages/STM/Add.vue";
 import EditSTM from "../components/Pages/STM/Edit.vue";
+import STMPrint from "../components/Pages/STM/Print.vue";
 
 import PassengerFile from "../components/Pages/Passenger/PassengerInfo/Index.vue";
 import AddPassengerFile from "../components/Pages/Passenger/PassengerInfo/Add.vue";
 
+
+
 import ManPowerList from "../components/Pages/ManPowerManage/Index.vue";
 import AddManPower from "../components/Pages/ManPowerManage/Add.vue";
+import EditManPower from "../components/Pages/ManPowerManage/Edit.vue";
+import ManPowerPrint from "../components/Pages/ManPowerManage/Print.vue";
+
+
 
 import TKTList from "../components/Pages/TKT/Index.vue";
 import AddTKT from "../components/Pages/TKT/Add.vue";
+import EditTKT from "../components/Pages/TKT/Edit.vue";
+import TKTPrint from "../components/Pages/TKT/Print.vue";
+
+
 import NotFound from "../components/Pages/NotFound/NotFound.vue";
 
 import Country from "../components/Pages/Country/Index.vue";
@@ -39,6 +52,9 @@ import Account from "../components/Pages/Account/Index.vue";
 import Bank from "../components/Pages/Bank/Index.vue";
 import Branch from "../components/Pages/Branch/Index.vue";
 
+
+// Report
+import STMReport from '../components/Pages/Report/STMReport.vue'
 
 Vue.use(VueRouter)
 
@@ -145,6 +161,11 @@ const routes = new VueRouter({
                         component: () => import("../components/Pages/Agent/Edit.vue"),
                     },
                     {
+                        path: '/Agent/profile/:id',
+                        name: 'AgentProfile',
+                        component: AgentProfile,
+                    },
+                    {
                         path: '/AgentEntry',
                         name: 'AgentEntry',
                         component: () => import("../components/Pages/Agent/Add.vue"),
@@ -201,6 +222,11 @@ const routes = new VueRouter({
                         component: EditSTM,
                     },
                     {
+                        path: '/Stm/print/:id',
+                        name: 'STMPrint',
+                        component: STMPrint,
+                    },
+                    {
                         path: '/manpower',
                         name: 'MPLIST',
                         component: ManPowerList,
@@ -211,6 +237,16 @@ const routes = new VueRouter({
                         component: AddManPower,
                     },
                     {
+                        path: '/manpower/edit/:id',
+                        name: 'EditMP',
+                        component: EditManPower,
+                    },
+                    {
+                        path: '/manpower/print/:id',
+                        name: 'ManPowerPrint',
+                        component: ManPowerPrint,
+                    },
+                    {
                         path: '/tkts',
                         name: 'TKTLists',
                         component: TKTList,
@@ -219,6 +255,16 @@ const routes = new VueRouter({
                         path: '/tkt/add',
                         name: 'TKTAdd',
                         component: AddTKT,
+                    },
+                    {
+                        path: '/tkt/edit/:id',
+                        name: 'EditTkt',
+                        component: EditTKT,
+                    },
+                    {
+                        path: '/tkt/print/:id',
+                        name: 'TKTPrint',
+                        component: TKTPrint,
                     },
                     {
                         path: '/interview/entry',
@@ -244,6 +290,16 @@ const routes = new VueRouter({
                         path: '/Account',
                         name: 'Account',
                         component: Account,
+                    },
+                    {
+                        path: '/db',
+                        name: 'db',
+                        component: () => import("../components/p.vue"),
+                    },
+                    {
+                        path: '/stm/report',
+                        name: 'STMReport',
+                        component: STMReport,
                     },
                  ]
             },

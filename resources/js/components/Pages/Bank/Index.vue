@@ -180,14 +180,27 @@ export default {
             }).then((result) => {
             if (result.isConfirmed) {
              
-              let index = this.banks.indexOf(bank);
-              this.banks.splice(index, 1);
+            //   let index = this.banks.indexOf(bank);
+            //   this.banks.splice(index, 1);
 
                 axios.post(`bank/delete/${id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+                
+                    if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
 
               });
               }

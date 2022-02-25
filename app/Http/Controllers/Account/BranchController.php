@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Branch;
+use App\Models\Payment;
 
 class BranchController extends Controller
 {
@@ -40,17 +41,29 @@ class BranchController extends Controller
 
     }
 
-    public function destroy($id)
-    {
+
+    public function destroy($id){
+
         $branch = Branch::findOrfail($id);
 
-        if($branch){
-            $branch->delete();
+        $error_msg = '';
+        $msg = '';
 
-            return response()->json(['msg' => 'Branch Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
+        $payment = Payment::where('branch_id', $branch->id)->first();
+
+        if($payment){
+            $error_msg = 'Branch Has Some Entry So Can`t Delete';
+            
         }
+        else {
+            $branch->delete();
+            $msg = 'Branch  Delete Sucess ';
+        }
+
+        return response()->json([
+            'msg' =>  $msg,
+            'error_msg' => $error_msg
+        ], 200);
     }
 
 

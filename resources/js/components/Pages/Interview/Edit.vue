@@ -55,7 +55,21 @@
                                     <input v-model="form.medical_gone_date" class="form-control" type="date">
                                 </div>
                             </div>
+
+<!-- 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name">Interview Satus</label>
+                                    <select v-model="form.interview_status" required class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="0">No</option>
+                                        <option value="1">Complete</option>
+                                    </select>
+                                </div>
+                            </div> -->
                         </div>
+
+                          
 
                         <div class="form-group row">
                             <div class="col-md-4" style="clear:both;">
@@ -82,6 +96,7 @@ export default {
                 pc_date: '',
                 passenger_id: '',
                 tc_rcv_date: '',
+                // interview_status: ''
             },
         }
     },

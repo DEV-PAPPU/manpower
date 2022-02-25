@@ -76,6 +76,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //Bootstrap and jQuery libraries
 // import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
@@ -404,6 +405,19 @@ var render = function () {
                                 staticClass: "fas delete_icon fa-trash-alt",
                               }),
                             ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              attrs: {
+                                to: {
+                                  name: "AgentProfile",
+                                  params: { id: item.id },
+                                },
+                              },
+                            },
+                            [_c("i", { staticClass: "far fa-user edit_icon" })]
                           ),
                         ],
                         1

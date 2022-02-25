@@ -236,8 +236,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
  // import DropImage from '../../assets/droppable_image/Drop_single_image.vue'

@@ -88,8 +88,11 @@
                                 <td>
                                     <router-link :to="{name: 'EditSTM', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
-                                    <button @click="deleteAgent(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
+                                    <button @click="deleteStm(item.id)"><i class="fas delete_icon fa-trash-alt"></i></button>
                                     <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+
+                                    <router-link :to="{name: 'STMPrint', params: {id: item.id}}"><i class="fas fa-edit fa-print"></i></router-link>
+                                   
                                 </td>
                             </tr>
 
@@ -138,9 +141,9 @@ export default {
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
-                        pageLength: 5,
+                        pageLength: 10,
                     });
-                    });
+                });
               })
         },
 
@@ -155,15 +158,40 @@ export default {
             })
         },
 
-        deleteAgent(item){
-            axios.post(`delete-passenger/${item.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+          deleteStm(id){
+              
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
 
-                let index = this.stms.indexOf(item);
-                this.stms.splice(index, 1);
+                axios.post(`stm/delete/${id}`).then(res =>{
+                   
+                    if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+              });
+              }
             })
         },
 

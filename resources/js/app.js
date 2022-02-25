@@ -21,6 +21,10 @@ Vue.component('v-select', vSelect)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('main-component', require('./App.vue').default);
 
+import VueMeta from 'vue-meta'
+
+Vue.use(VueMeta)
+
 import moment from 'moment';
   // register globally
   

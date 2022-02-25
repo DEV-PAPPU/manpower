@@ -48,7 +48,7 @@ class SectorController extends Controller
         $error_msg = '';
         $msg = '';
 
-        $passenger = Passenger::where('passenger_sector_id', $sector->id);
+        $passenger = Passenger::where('passenger_sector_id', $sector->id)->first();
 
         if($passenger){
             $error_msg = 'Sector Has Some passengers So Can`t Delete';

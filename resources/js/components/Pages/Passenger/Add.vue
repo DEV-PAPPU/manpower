@@ -276,7 +276,6 @@ export default {
             .catch(e =>{
                 alert('Please check all fields')
             })
-
         },
 
         changeImg(e){

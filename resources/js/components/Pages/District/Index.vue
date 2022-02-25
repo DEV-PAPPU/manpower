@@ -15,19 +15,13 @@
                                 <tr>
                                     <th>S/L</th>
                                     <th>District Name</th>
-                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="district in districts" :key="district.id">
                                     <td>{{district.id}}</td>
                                     <td>{{district.district_name}}</td>
-                                    <td>
-                                        <router-link :to="{name: 'district-edit', params: {id: district.id}}"><i class="far edit_icon fa-edit"></i></router-link>
-                                        <a href="#" @click="deletedistrict(district)" ><i class="fas delete_icon fa-trash-alt"></i></a>
-                                    </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -69,7 +63,11 @@ export default {
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 5,
-                        // "bDestroy": true,                        
+                        // "bDestroy": true,  
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]                      
                     });
                     });
               })

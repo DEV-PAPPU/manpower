@@ -204,8 +204,6 @@
                                     <h5 class="my-3">Agent images</h5>
                                     <DropMultiImages v-on:new_images="new_images($event)" />
                                 </dic>
-
-                                
                             </div>
 
                             <div class="mt-8 form-group row">

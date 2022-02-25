@@ -275,7 +275,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       })["catch"](function (e) {
-        alert('Reload page and try again');
+        alert('Please check all fields');
       });
     },
     changeImg: function changeImg(e) {

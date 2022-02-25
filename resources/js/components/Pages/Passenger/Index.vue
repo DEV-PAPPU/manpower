@@ -58,7 +58,6 @@
                             <tr>
                                 <th style="width:60px">S/L</th>
                                 <th style="width:100px">Passenger Name</th>
-                                <th style="width:100px">DOB</th>
                                 <th style="width:100px">Passport No</th>
                                 <th style="width:100px">Old Passport No</th>
                                 <th style="width:100px">Passport Exp D</th>
@@ -68,7 +67,6 @@
                                 <th style="width:100px">District</th>
                                 <th style="width:90px">Passport Source</th>
                                 <th style="width:100px">Agent Name</th>
-                                <!-- <th style="width:80px">Is Approved</th> -->
                                 <th style="width:100px">Actions</th>
                             </tr>
                         </thead>
@@ -76,7 +74,6 @@
                             <tr v-for="item in passengers" :key="item.id">
                                 <td>{{item.id}}</td>
                                 <td>{{item.passenger_name}}</td>
-                                <td>{{item.passenger_date_of_birth}}</td>
                                 <td>{{item.passport_no}}</td>
                                 <td>{{item.old_passport_no}}</td>
                                 <td>{{item.passport_expire_date}}</td>
@@ -86,10 +83,6 @@
                                 <td>{{item.district_name}}</td>
                                 <td>{{item.passport_source}}</td>
                                 <td>{{item.agent_name}}</td>
-                                <!-- <td>
-                                    <i v-if="item.is_approved == 0" class="fa fa-check Yes"></i>
-                                    <i v-else class="fas fa-times"></i>
-                                </td> -->
                                 <td>
                                     <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>

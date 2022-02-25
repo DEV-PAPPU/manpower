@@ -1,5 +1,49 @@
 <template>
     <div>
+          <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="bg-primary modal-header">
+                        <h6 class="modal-title text-white" id="exampleModalCenterTitle">Payment History</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div v-if="paymentHistory.length" class="database__table">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th style="width:200px;">Pay Type / Info</th>
+                                        <th>Pay Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in paymentHistory" :key="item.id">
+                                        <td>{{item.pay_amount}}</td>
+                                        <td>
+                                            <span v-if="item.payment_type == '0'">Cash</span>
+                                            
+                                            <div  v-if="item.bank">
+                                              <span>Bank N: {{item.bank.bank_name}} B: {{item.branch.branch_name}}</span>
+                                              <div> C.Date : {{item.bank_check_date}}</div>
+                                            </div>
+
+                                        </td>
+                                        <td>{{item.pay_date}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                     <span v-else class="my-5">Payment Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div>
             <PaymentFrom/>
         </div>
@@ -7,7 +51,6 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">Passenger List</h6>
-                <!-- <router-link :to="{name: 'AddPassenger'}" class="btn bg-light btn-sm">Add Passenger</router-link> -->
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -15,17 +58,20 @@
                     <table class="table table-hover table-bordered dbtable">
                         <thead>
                             <tr>
-                                <th style="width:60px">S/L</th>
+                                <th style="width:50px">S/L</th>
                                 <th style="width:100px">Passenger Name</th>
                                 <th style="width:100px">Passenger Phone</th>
                                 <th style="width:100px">Passport No.</th>
                                 <th style="width:100px">Agent Name</th>
                                 <th style="width:100px">Agent Phone</th>
-                                <th style="width:100px">Trade</th>
-                                <th style="width:100px">Visa Price</th>
-                                <th style="width:100px">Total Pay</th>
-                                <th style="width:100px">Total Due</th>
-                                <th style="width:80px">P: history</th>
+                                <th style="width:60px">Visa NO.</th>
+                                <th style="width:60px">Trade</th>
+                                <th style="width:80px">Visa Price</th>
+                                <th style="width:80px">Discount</th>
+                                <!-- <th style="width:120px">Visa Discount Price</th> -->
+                                <th style="width:80px">Total Pay</th>
+                                <th style="width:70px">Total Due</th>
+                                <th style="width:75px">P: history</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,12 +88,32 @@
                                     <span v-if="item.agent">{{item.agent.agent_phone}}</span>
                                     <span v-else>N/A</span>
                                 </td>
+                                <td>{{item.trade.trade_visa_no}}</td>
                                 <td>{{item.trade.trade}}</td>
                                 <td>{{item.trade.price_reference}}</td>
+                                <td>{{item.passenger_discount > 0 ? item.passenger_discount : 'N/A'}}</td>
+
+                                <!-- <td>
+                                    <span v-if="item.passenger_discount > 0"> Discount P: {{item.trade.price_reference - item.passenger_discount}}
+                                    </span>
+
+                                    <span v-else > Visa P: {{item.trade.price_reference}} </span>
+                                </td> -->
+
                                 <td>{{item.passenger_total_pay ? item.passenger_total_pay : 'N/A'}}</td>
-                                <td>{{item.trade.price_reference - item.passenger_total_pay }}</td>
+
                                 <td>
-                                    <button @click="paymentHistory(item.id)"><i class="fa fa-list action_icon"></i></button>
+
+                                  {{item.trade.price_reference - item.passenger_discount - item.passenger_total_pay == 0 ? 'Paid': 
+                                  item.trade.price_reference - item.passenger_discount - item.passenger_total_pay }}
+
+                                </td>
+                                <td>
+                                    <button @click="payHistory(item.id)"
+                                             data-toggle="modal"
+                                            data-target="#exampleModalCenter">
+                                            <i class="fa fa-list action_icon"></i>
+                                    </button>
                                 </td>
                                
                             </tr>
@@ -76,7 +142,8 @@ export default {
             form:{
             },
             passengers:[],
-            passenger:''
+            passenger:'',
+            paymentHistory: '',
         }
     },
 
@@ -99,8 +166,10 @@ export default {
               })
         },
 
-        paymentHistory(id){
-            alert(id)
+        payHistory(id){
+            axios.get(`payment/history/for/passenger/${id}`).then(res =>{
+                this.paymentHistory = res.data
+            })
         }
 
     },

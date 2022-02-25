@@ -142,7 +142,6 @@ class AgentController extends Controller
             $imagePath = public_path($agent->agent_image);
             unlink($imagePath);
     
-
             $image = $request->image;
             $image_new_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('storage/images/', $image_new_name);
@@ -256,7 +255,29 @@ class AgentController extends Controller
 
         
     }
+ 
+     public function agent_profile($id){
 
+        $agent = Agent::where('id', $id)->first();
+        
+        $agent_images =  AgentImage::where('agent_id', $id)->get();
+
+        return response()->json([
+            'agent' => $agent,
+            'images' => $agent_images,
+        ], 200);
+
+     }
+
+     public function agent_passenger($id){
+
+        $agent = Agent::find($id);
+
+        $passenger = Passenger::where('agent_id', $agent->id)->get();
+
+        return response()->json($passenger, 200);
+
+     }
 
 
 }

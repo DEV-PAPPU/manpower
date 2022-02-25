@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bank;
+use App\Models\Payment;
 
 class BankController extends Controller
 {
@@ -40,17 +41,29 @@ class BankController extends Controller
 
     }
 
-    public function destroy($id)
-    {
-        $branch = Bank::findOrfail($id);
 
-        if($branch){
-            $branch->delete();
+    public function destroy($id){
 
-            return response()->json(['msg' => 'Bank Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
+        $bank = Bank::findOrfail($id);
+
+        $error_msg = '';
+        $msg = '';
+
+        $payment = Payment::where('bank_id', $bank->id)->first();
+
+        if($payment){
+            $error_msg = 'Bank Has Some Entry So Can`t Delete';
+            
         }
+        else {
+            $bank->delete();
+            $msg = 'Bank  Delete Sucess ';
+        }
+
+        return response()->json([
+            'msg' =>  $msg,
+            'error_msg' => $error_msg
+        ], 200);
     }
 
 }

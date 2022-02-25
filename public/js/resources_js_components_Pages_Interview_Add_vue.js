@@ -120,6 +120,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -133,7 +144,8 @@ __webpack_require__.r(__webpack_exports__);
         video: '',
         pc_date: '',
         passenger_id: '',
-        tc_rcv_date: ''
+        tc_rcv_date: '' // interview_status:''
+
       },
       passenger: {
         passport_no: "",

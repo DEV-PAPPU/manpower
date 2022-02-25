@@ -265,9 +265,9 @@ export default {
                 }
 
             })
-            .catch(e => {
-                     alert('Reload page and try again')                  
-                });
+             .catch(e =>{
+                alert('Please check all fields')
+            })
         },
 
         changeImg(e){

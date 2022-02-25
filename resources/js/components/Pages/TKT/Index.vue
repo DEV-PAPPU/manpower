@@ -87,10 +87,12 @@
                                     <span v-else >Booked</span>
                                 </td>
                                 <td>
-                                    <router-link :to="{name: 'PassengerEdit', params: {id: item.id}}"><i
+                                    <router-link :to="{name: 'EditTkt', params: {id: item.id}}"><i
                                             class="far edit_icon fa-edit"></i></router-link>
-                                    <button @click="deleteAgent(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
+                                    <button @click="deleteTKT(item.id)"><i class="fas delete_icon fa-trash-alt"></i></button>
                                     <button @click="showPassport(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="edit_icon fas fa-align-justify"></i></button>
+
+                                     <router-link :to="{name: 'TKTPrint', params: {id: item.id}}"><i class="fas fa-edit fa-print"></i></router-link>
                                 </td>
                             </tr>
 
@@ -156,15 +158,40 @@ export default {
             })
         },
 
-        deleteAgent(item){
-            axios.post(`tkt/delete-passenger/${item.id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+        deleteTKT(id){
+              
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
 
-                let index = this.tkts.indexOf(item);
-                this.tkts.splice(index, 1);
+                axios.post(`tkt/delete/${id}`).then(res =>{
+                   
+                    if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+
+              });
+              }
             })
         },
 

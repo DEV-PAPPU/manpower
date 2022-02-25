@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Account\BranchController;
 use App\Http\Controllers\Account\BankController;
 use App\Http\Controllers\Account\PaymentController;
+use App\Http\Controllers\Report\STMReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,17 +78,17 @@ use App\Http\Controllers\Account\PaymentController;
     Route::post('add-district', [DistrictController::class, 'store']);
     Route::get('edit-district/{id}', [DistrictController::class, 'edit']);
     Route::post('update-district/{id}', [DistrictController::class, 'update']);
-    Route::post('delete-district/{id}', [DistrictController::class, 'destroy']);
-
 
     //------------------------------- Agent Api Routes --------------------------\\
     //------------------------------------------------------------------\\
     Route::get('agents', [AgentController::class, 'index']);
     Route::post('/add-agent', [AgentController::class, 'store']);
     Route::get('edit-agent/{id}', [AgentController::class, 'edit']);
+    Route::get('agent-profile/{id}', [AgentController::class, 'agent_profile']);
     Route::post('update-agent/{id}', [AgentController::class, 'update']);
     Route::post('delete-agent/{id}', [AgentController::class, 'destroy']);
     Route::post('delete-agent-image/{id}', [AgentController::class, 'agent_image_destroy']);
+    Route::get('agent-passenger/{id}', [AgentController::class, 'agent_passenger']);
 
 
 
@@ -98,6 +99,7 @@ use App\Http\Controllers\Account\PaymentController;
     Route::get('edit-passenger/{id}', [PassengerController::class, 'edit']);
     Route::post('update-passenger/{id}', [PassengerController::class, 'update']);
     Route::post('delete-passenger/{id}', [PassengerController::class, 'destroy']);
+    Route::post('passenger/fly/status/{id}', [PassengerController::class, 'change_fly_status']);
 
 
     //------------------------------- Sector Api Routes --------------------------\\
@@ -140,7 +142,9 @@ use App\Http\Controllers\Account\PaymentController;
     Route::prefix('stm')->group(function () {
         Route::get('/edit/{id}', [SMTController::class, 'edit']);
         Route::get('/update/{id}', [SMTController::class, 'update']);
-        Route::get('/passport/delete/{id}', [SMTController::class, 'stm_passport_delete']);
+        Route::post('/delete/{id}', [SMTController::class, 'stm_delete']);
+        Route::post('/passenger/delete/{id}', [SMTController::class, 'stm_passenger_delete']);
+        Route::get('/processing-date/{id}', [SMTController::class, 'stm_processing_date']);
     });
 
 
@@ -150,7 +154,10 @@ use App\Http\Controllers\Account\PaymentController;
     Route::get('manpower-lists', [ManPowerManageController::class, 'index']);
     Route::post('add-manpower-passport', [ManPowerManageController::class, 'store']);
     Route::get('manpower-passports/{id}', [ManPowerManageController::class, 'manpower_passports']);
+    Route::get('manpower/edit/{id}', [ManPowerManageController::class, 'manpower_edit']);
     Route::post('manpower-change-passport-status', [ManPowerManageController::class, 'change_passport_status']);
+    Route::post('manpower/delete/{id}', [ManPowerManageController::class, 'manpower_delete']);
+    Route::post('manpower/passenger/delete/{id}', [ManPowerManageController::class, 'manpower_passenger_delete']);
 
 
     
@@ -162,6 +169,9 @@ use App\Http\Controllers\Account\PaymentController;
         Route::post('/add-passport', [TKTController::class, 'store']);
         Route::get('/passports/{id}', [TKTController::class, 'Tkt_passports']);
         Route::post('/change-passport-status', [TKTController::class, 'change_passport_status']);
+        Route::get('/edit/{id}', [TKTController::class, 'edit']);
+        Route::post('/delete/{id}', [TKTController::class, 'tkt_delete']);
+        Route::post('/passenger/delete/{id}', [TKTController::class, 'tkt_passenger_delete']);
     });
 
 
@@ -235,6 +245,17 @@ use App\Http\Controllers\Account\PaymentController;
         Route::post('/update/{id}', [PaymentController::class, 'update']);
         Route::post('/search/passenger', [PaymentController::class, 'search_passenger']);
         Route::post('/delete/{id}', [PaymentController::class, 'destroy']);
+        Route::get('/history/for/passenger/{id}', [PaymentController::class, 'passenger_payment_history']);
+    });
+
+
+
+    //------------------------------- ReportController Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('filter')->group(function () {
+        Route::post('/stm', [STMReportController::class, 'stm_report_filter']);
+        Route::post('/company/by-visa-no', [STMReportController::class, 'company_by_visa_no']);
+
     });
 
 

@@ -351,6 +351,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
@@ -1692,11 +1713,52 @@ var render = function () {
       _c("hr", { staticClass: "sidebar-divider" }),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-heading" }, [
-        _vm._v("\n        All Settings\n    "),
+        _vm._v("\n        All Report\n    "),
       ]),
       _vm._v(" "),
       _c("li", { staticClass: "nav-item" }, [
         _vm._m(3),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse",
+            attrs: {
+              id: "report",
+              "aria-labelledby": "headingTwo",
+              "data-parent": "#accordionSidebar",
+            },
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "bg-white py-2 collapse-inner rounded" },
+              [
+                _c("h6", { staticClass: "collapse-header" }, [
+                  _vm._v("Custom Components:"),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "collapse-item",
+                    attrs: { to: { name: "STMReport" } },
+                  },
+                  [_vm._v("STM Report")]
+                ),
+              ],
+              1
+            ),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "sidebar-heading" }, [
+        _vm._v("\n        All Settings\n    "),
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _vm._m(4),
         _vm._v(" "),
         _c(
           "div",
@@ -1847,6 +1909,29 @@ var staticRenderFns = [
         _c("i", { staticClass: "fas fa-fw fa-folder" }),
         _vm._v(" "),
         _c("span", [_vm._v("Info Management")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "nav-link collapsed",
+        attrs: {
+          href: "#",
+          "data-toggle": "collapse",
+          "data-target": "#report",
+          "aria-expanded": "true",
+          "aria-controls": "report",
+        },
+      },
+      [
+        _c("i", { staticClass: "fas fa-fw fa-cog" }),
+        _vm._v(" "),
+        _c("span", [_vm._v("Report")]),
       ]
     )
   },

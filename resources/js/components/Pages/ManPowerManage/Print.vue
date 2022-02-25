@@ -1,0 +1,125 @@
+<template>
+    <div class="">
+         <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                 <router-link :to="{name: 'MPLIST'}" class="btn bg-light btn-sm">Back To List</router-link>
+            </div>
+            <!-- Card Body -->
+            <div  class="card-body">
+                <table class="table table-hover table-bordered dbtable">
+                    <thead>
+                        <tr>
+                            <th>S/L</th>
+                            <th>Processing Date</th>
+                            <th>Passenger Name</th>
+                            <th>Passport No.</th>
+                            <th>Company Name</th>
+                            <th>Trade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in passengers" :key="item.id">
+                            <td>{{item.id}}</td>
+                            <td>{{item.man_power_date}}</td>
+                            <td>{{item.passenger_name}}</td>
+                            <td>{{item.passport_no}}</td>
+                            <td>{{item.company_name}}</td>
+                            <td>{{item.trade}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+//Bootstrap and jQuery libraries
+import 'jquery/dist/jquery.min.js';
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import "datatables.net-buttons/js/dataTables.buttons.js"
+import "datatables.net-buttons/js/buttons.colVis.js"
+import "datatables.net-buttons/js/buttons.flash.js"
+import "datatables.net-buttons/js/buttons.html5.js"
+import "datatables.net-buttons/js/buttons.print.js"
+
+import $ from 'jquery'; 
+
+export default {
+
+     metaInfo: {
+      // title will be injected into parent titleTemplate
+      title: 'Man Power Passport'
+    },
+    data : () =>{
+        return {
+            passengers:'',
+            expassengers:'',
+            isShowCard: true
+        }
+    },
+
+    methods:{
+
+    },
+
+
+
+
+    mounted() {
+
+            let id = this.$route.params.id;
+           
+            axios.get(`manpower/edit/${id}`).then(res =>{
+                this.passengers = res.data.passenger;
+
+                setTimeout(() => {
+                    $(".dbtable").DataTable({
+                         pagingType: 'full_numbers',
+                        pageLength: 10,
+                        processing: true,
+                         dom: 'Bfrtip',
+                        buttons: [
+                           'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]                          
+                    });
+                });
+            });
+
+
+        }
+
+}
+</script>
+
+
+<style scoped>
+.search_btn{
+    margin-top: 30px;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(43, 43, 43);
+}
+
+.table td, .table th {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    font-size: 14;
+}
+
+.delete_icon{
+    color: rgb(238, 12, 12);
+}
+</style>

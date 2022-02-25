@@ -23,20 +23,19 @@ class Passenger extends Model
 
     public function stmpassport()
     {
-        return $this->hasMany(StmPassport::class, 'passenger_id');
-        // return $this->hasMany(StmPassport::class, 'passenger_id')->select(['stm_passport_status']);
+        return $this->belongsTo(StmPassport::class, 'id','passenger_id');
     }
 
 
     public function manpowerpassport()
     {
-        return $this->hasMany(ManPowerPassport::class, 'passenger_id');
+        return $this->belongsTo(ManPowerPassport::class , 'id','passenger_id');
     }
 
 
     public function tktpassport()
     {
-        return $this->hasMany(Tktpassport::class, 'passenger_id');
+        return $this->belongsTo(Tktpassport::class, 'id','passenger_id');
     }
 
 

@@ -45,11 +45,11 @@ class PaymentController extends Controller
         $trade = RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->first();
             
         //calculating passenger total payment
-        $passenger_total = $passenger->passenger_total_pay;
-        $total = $passenger_total + $request->pay_amount;
+        $total = $passenger->passenger_total_pay + $request->pay_amount;
 
+        $total_check = $passenger->passenger_total_pay + $request->pay_amount +  $passenger->passenger_discount;
 
-        if($total > $trade->price_reference){
+        if($total_check > $trade->price_reference){
             $error_msg = 'Amount should not be getterthan visa price';
         }
         else{
@@ -82,23 +82,33 @@ class PaymentController extends Controller
     }
 
 
+    public function passenger_payment_history($id){
+      
+        $data = Payment::with('bank','branch')->where('passenger_id', $id)->get(); 
+
+        return response()->json($data, 200);
+    }
+
+
     public function search_passenger(Request $request){
         
         $passenger = Passenger::where('passport_no', $request->passport_no)->first();
-
-        $trade = RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->first();
-
+        
         $data = '';
         $error_msg = '';
         
         //checking passenger payment complete or not
-        if($passenger->passenger_total_pay == $trade->price_reference){
-            $error_msg = 'Passenger Payment Complete';
-        }
-
         if($passenger){
+            
+            $trade = RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->first();
 
-            $data = DB::table('passengers')
+           $passenger_total = $passenger->passenger_total_pay + $passenger->passenger_discount;
+           
+            if($passenger_total == $trade->price_reference){
+                $error_msg = 'Passenger Payment Complete';
+            }
+            else{
+                $data = DB::table('passengers')
                 ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
                 ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
                 ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
@@ -106,10 +116,13 @@ class PaymentController extends Controller
                         )
                 ->where('passengers.id', $passenger->id)   
                 ->first();
-        }else{
+            }
+
+        }
+        else{
             $error_msg = 'Passenger not found!';
         }
-        
+            
 
         return response()->json([
             'passenger' => $data,

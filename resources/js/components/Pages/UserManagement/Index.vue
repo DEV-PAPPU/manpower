@@ -31,7 +31,7 @@
                                     <td>{{user.role}}</td>
                                     <td>{{user.status}}</td>
                                     <td>
-                                        <router-link :to="{name: 'UserEdit', params: {id: user.id}}" class="mr-2 btn btn-primary btn-user"><i class="far edit_icon fa-edit pr-2"></i>Edit</router-link>
+                                        <router-link :to="{name: 'UserEdit', params: {id: user.id}}" class="mr-2 btn btn-primary btn-user"><i class="far edit_icon fa-edit pr-2"></i></router-link>
                                         <button class="btn btn-danger btn-user">Delete</button>
                                     </td>
                                 </tr>
@@ -89,8 +89,29 @@ export default {
 
     mounted() {
         this.loadUsers();
-            console.log('Component mounted.')
         }
 
 }
 </script>
+
+<style scoped>
+table.dataTable thead th, table.dataTable thead td {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgb(43, 43, 43);
+}
+
+.table td, .table th {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    font-size: 14;
+}
+
+
+@media only screen and (max-width: 1000px){
+	.database__table{
+    overflow-x: scroll;
+}
+}
+</style>

@@ -183,6 +183,37 @@ class TKTController extends Controller
     }
 
 
+    public function edit($id){
+       
+        $data = DB::table('tkt_passports')
+                    ->leftJoin('tkts','tkts.id','tkt_passports.tkt_id')
+                    ->leftJoin('passengers','passengers.id','tkt_passports.passenger_id')
+                    ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
+                   
+                    ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 
+                              'passengers.passenger_trade_id')
+
+                    ->select('tkt_passports.id','passengers.passenger_name','passengers.passport_no',
+                             'passengers.passport_source',
+                             'companies.company_name', 'requisition_trade_infos.trade','tkts.tkt_date',
+                            )
+                     ->where('tkts.id', $id)    
+                    ->get();
+
+
+         $stm_date = DB::table('tkts')
+                        ->select('tkts.tkt_date')
+                        ->where('tkts.id', $id)    
+                        ->first();           
+
+        return response()->json([
+            'passenger' => $data,
+            'tkt_date' => $stm_date
+             
+        ], 200);
+    }
+
+
     public function change_passport_status(Request $request){
            
             // checking for change status of Tkt table. if all passport staus Complate then Tkt table status will change to Complate
@@ -208,5 +239,76 @@ class TKTController extends Controller
             return response()->json(['msg' => 'Passport Status Changed'], 200);
 
     }
+
+
+    public function tkt_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $tkt =  Tkt::where('id', $id)->first();
+
+        $tktpassport =  TktPassport::where('tkt_id', $id)->first();
+
+        $passenger = Passenger::where('id', $tktpassport->passenger_id)->first();
+
+        if($passenger->passenger_fly == '1'){
+            $error_msg = 'Some passenger has flyed in this list can`t delete';
+        } 
+        else{
+            $tkt->delete();
+            $msg = 'Delete Success';
+        }
+    
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+        
+    }
+
+
+    public function tkt_passenger_delete($id){
+
+        $msg = '';
+        $error_msg = '';
+
+        $tktpassport =  TktPassport::where('id', $id)->first();
+
+        $passenger =  Passenger::where('id', $tktpassport->passenger_id)->first();
+
+        if($passenger->passenger_fly == '1'){
+            $error_msg = 'Passenger has flyed so can`t delete';
+        }
+        else{
+            $tktpassport->delete();
+            $msg = 'Delete Success';
+        }
+
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
+
+    }
+
+
+    public function tkt_processing_date($id){
+        
+        $data = DB::table('tkts')
+                ->where('tkts.id', $id)    
+                ->select('tkts.id','tkts.tkt_date')
+                ->first();  
+
+        return response()->json([
+            'date' => $data,
+            'label' => 'TKT Processing Date',
+        ], 200,);
+    }
+
+
 
 }

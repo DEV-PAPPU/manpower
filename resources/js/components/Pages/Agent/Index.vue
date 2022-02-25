@@ -42,6 +42,7 @@
                                     <td>
                                         <router-link :to="{name: 'AgentEdit', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
                                         <a href="#" @click="deleteAgent(item)" ><i class="fas delete_icon fa-trash-alt"></i></a>
+                                         <router-link :to="{name: 'AgentProfile', params: {id: item.id}}"><i class="far fa-user edit_icon"></i></router-link>
                                     </td>
                                 </tr>
 

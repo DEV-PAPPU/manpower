@@ -101,7 +101,7 @@ export default {
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
-                        pageLength: 5,
+                        pageLength: 10,
                         // destroy: true,
                         orderCellsTop: true,
                         // "bDestroy": true,                        
@@ -174,14 +174,27 @@ export default {
             }).then((result) => {
             if (result.isConfirmed) {
              
-              let index = this.setors.indexOf(sector);
-              this.setors.splice(index, 1);
+            //   let index = this.setors.indexOf(sector);
+            //   this.setors.splice(index, 1);
 
                 axios.post(`delete-sector/${id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+                  
+                   if(res.data.msg){
+                      
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
 
               });
               }

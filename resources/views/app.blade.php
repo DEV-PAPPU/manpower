@@ -23,6 +23,10 @@
     
     <!-- Sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.js"></script>
+<script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
 </head>
 
 <style>
@@ -38,9 +42,24 @@
     cursor: pointer;
 }
 
+.dt-buttons {
+    display: inline-block;
+}
+
+.fa-print{
+    font-size: 19px;
+}
+
 button {
     background: none;
     border: 0px;
+}
+
+
+@media only screen and (max-width: 1000px){
+	.database__table, .dbtable{
+    overflow-x: scroll;
+}
 }
 
 </style>
