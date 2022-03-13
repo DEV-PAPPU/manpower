@@ -91,20 +91,28 @@ class CountryController extends Controller
 
     }
 
-    public function destroy_country_sector($id)
-    {
+    public function destroy_country_sector($id) {
 
+        $sector = CountrySector::findOrfail($id);
+             
+        $isUse =  Passenger::where('passenger_sector_id', $sector->country_sector_id)->first();
+
+        $error_msg = '';
         $msg = '';
 
-        $sector = CountrySector::where('country_sector_id', $id);
-      
-        $sector->delete();
+        if($isUse){
+           $error_msg = 'Sectior Has Some Passenger So Can`t Delete';
+       }
+       else {
+           $sector->delete();
+           $msg = 'Delete Sucess';
+           
+       }
 
-        $msg = 'Country Sector Delete Sucess ';
-
-        return response()->json([
-            'msg' =>  $msg,
-        ], 200);
+       return response()->json([
+           'msg' =>  $msg,
+           'error_msg' => $error_msg
+       ], 200);
     }
 
 
@@ -113,7 +121,7 @@ class CountryController extends Controller
                  $data = DB::table('country_sectors')
                  ->leftJoin('sectors', 'sectors.id','country_sectors.country_sector_id')
                  ->where('country_id', $id)
-                 ->select('sectors.id', 'sectors.sector_name')
+                 ->select('country_sectors.id', 'sectors.sector_name')
                  ->orderBy('sectors.sector_name', 'asc')
                  ->get(); 
 

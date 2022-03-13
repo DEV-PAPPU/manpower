@@ -94,7 +94,6 @@ import axios from 'axios'
                companies:[],
                companysectors:[],
 
-
             }
         },
 
@@ -191,6 +190,10 @@ import axios from 'axios'
             axios.get('companies').then(response =>{
                 this.companies = response.data.companies;
                 // this.companysectors = response.data.companysector;
+              });
+
+            axios.get('trade/lists').then(response =>{
+                this.trades = response.data;
               });
         }
     }

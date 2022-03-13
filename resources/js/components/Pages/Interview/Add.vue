@@ -80,6 +80,7 @@
                                         <option value="">-- Select One --</option>
                                         <option value="0">Gone</option>
                                         <option value="1">Fit</option>
+                                        <option value="2">UnFit</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,17 +91,6 @@
                                     <input v-model="form.gone_date" class="form-control" type="date">
                                 </div>
                             </div>
-
-                            <!-- <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="name">Interview Satus</label>
-                                    <select v-model="form.interview_status" required class="form-control filter-select">
-                                        <option value="">-- Select One --</option>
-                                        <option value="0">No</option>
-                                        <option value="1">Complete</option>
-                                    </select>
-                                </div>
-                            </div> -->
                         </div>
 
                         <div class="form-group row">

@@ -36,7 +36,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer d-flex justify-between">
+                    <div class="modal-footer d-flex justify-content-between">
                         <div>
                             
                             <form v-if="isChangeStatus" @submit.prevent="changetktstatus()">
@@ -228,13 +228,19 @@ export default {
             axios.post('tkt/change-passport-status', data);
             axios.get("tkt/lists").then((res)=>{
                 this.tkts = res.data;
+
+                window.location.reload();
+
             }); 
+
+            
         },
 
         reLoad(){
             axios.get("tkt/lists").then((res)=>{
                 this.tkts = res.data;
             }); 
+
         },
 
         clrDate(){

@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('payment_type')->comment('0 => Cash, 1 => Bank');
             $table->unsignedInteger('bank_id')->nullable();
             $table->string('bank_check_date')->nullable();
+            $table->string('bank_check_number')->nullable();
             $table->unsignedInteger('branch_id')->nullable();
             $table->unsignedBigInteger('passenger_id');
             $table->foreign('passenger_id')->references('id')->on('passengers')->onDelete('CasCade');

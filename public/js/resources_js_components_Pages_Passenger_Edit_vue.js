@@ -202,6 +202,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -232,7 +234,8 @@ __webpack_require__.r(__webpack_exports__);
       districts: [],
       sectors: [],
       trades: [],
-      image: false
+      image: false,
+      selectedTrade: ''
     };
   },
   methods: {
@@ -340,7 +343,7 @@ __webpack_require__.r(__webpack_exports__);
       _this3.form.passenger_discount = passenger.passenger_discount;
       _this3.form.district_id = res.data.district;
       _this3.form.company_id = res.data.company;
-      _this3.form.trade_id = res.data.trade.id;
+      _this3.selectedTrade = res.data.trade;
       _this3.form.sector_id = res.data.sector;
       _this3.form.agent_id = res.data.agent;
 
@@ -1100,7 +1103,18 @@ var render = function () {
                 _c("div", { staticClass: "col-md-5" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "UserRole" } }, [
-                      _vm._v("Visa & Trade"),
+                      _vm._v("Visa & Trade  -> Selected "),
+                      _c("span", [
+                        _vm._v(
+                          "V: " +
+                            _vm._s(_vm.selectedTrade.trade_visa_no) +
+                            " - T: " +
+                            _vm._s(_vm.selectedTrade.trade) +
+                            "\n                                                - Ref: " +
+                            _vm._s(_vm.selectedTrade.price_reference) +
+                            "\n                                            "
+                        ),
+                      ]),
                     ]),
                     _vm._v(" "),
                     _c(

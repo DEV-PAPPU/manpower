@@ -3,15 +3,12 @@
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
-            <div class="login__div col-xl-8 col-lg-8 col-md-9">
+            <div class="login__div col-xl-4 col-lg-5 col-md-5">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
+                        <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back! {{errors}}</h1>
                                     </div>
@@ -26,25 +23,16 @@
                                             <input type="password" v-model="form.password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="#">Forgot Password?</a>
+                                         <!-- <router-link :to="{name: 'Passwordreset'}" class="small">Forgot Password?</router-link> -->
                                     </div>
-                                    <div class="text-center">
+                                    <!-- <div class="text-center">
                                         <a class="small" href="#">Create an Account!</a>
-                                    </div>
+                                    </div> -->
                                 </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -79,8 +67,27 @@ export default {
              const token = response.data.token;
              const user = response.data.user;
 
+             if(user.role == 'superadmin'){
+                 this.$store.commit('SET_superAdmin', true);
+             }
+
+             if(user.role == 'admin'){
+                 this.$store.commit('SET_adminUser', true);
+             }
+
+             if(user.role == 'account'){
+                 this.$store.commit('SET_accountUser', true);
+             }
+
+             if(user.role == 'dataentry'){
+                 this.$store.commit('SET_dataentryUser', true);
+             }
+
               //  if user role is not "user" then it will work
-             if(user.role !== 'user'){
+             if(user.status == 'active'){
+                 
+                  this.$store.commit('SET_UserRole', user.role);
+                  
                   this.$store.commit('SET_AUTHENTICATED',true);
                   this.$router.push({name:'Dashboard'});
                   this.$store.commit('SET_USER', response.data.user);
@@ -89,14 +96,15 @@ export default {
                   Toast.fire({
                         icon: 'success',
                         title: 'Login Success.'
-                    });
+                  });
+                  
              }
 
              else{
 
                  Toast.fire({
                         icon: 'error',
-                        title: 'The provided credentials are incorrect.'
+                        title: 'User is not active.'
                  });
 
              }

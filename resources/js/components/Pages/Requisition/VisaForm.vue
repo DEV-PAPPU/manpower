@@ -72,15 +72,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="UserRole">Trade</label>
-                                    <select v-model="tradeForm.trade" required class="form-control filter-select"
+
+                                     <v-select  label="trade_name" v-model="tradeForm.trade" placeholder="Trade" :options="trades" />
+
+                                    <!-- <select v-model="tradeForm.trade" required class="form-control filter-select"
                                         id="UserRole">
                                         <option value="">-- Select --</option>
                                         <option value="helper">Helper</option>
                                         <option value="cleaner">Cleaner</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                             </div>
 
@@ -107,17 +110,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-1 act__btn">
                                 <div class="visinfo_btn">
                                     <button class="btn btn-success btn-sm" type="submit"><i
                                             class="fas fa-plus-circle"></i></button>
 
-                                    <button class="btn btn-danger btn-sm" type="reset"><i
+                                    <button class="mt-2 btn btn-danger btn-sm" type="reset"><i
                                             class="fas fa-eraser"></i></button>
                                 </div>
                             </div>
 
-                            <div v-if="formData.length > 0" class="database__table">
+                            <div v-if="formData.length > 0" class="mt-3 database__table">
                                 <table class="table table-hover table-bordered" id="example">
                                     <thead>
                                         <tr>
@@ -139,7 +142,7 @@
                                             <td>
                                                 <a href="#" @click="removeTrade(item)" class="btn brn-danger"><i
                                                         class="fas delete_icon fa-trash-alt">
-                                                        Remove</i></a>
+                                                        </i></a>
                                             </td>
                                         </tr>
 
@@ -155,7 +158,9 @@
 
     </div>
 </template>
+
 <script>
+import 'vue-select/dist/vue-select.css';
 
     export default {
         data: () =>{
@@ -176,6 +181,7 @@
                formData:[],
                addVisa: false,
                tem_data: [],
+               trades: ''
             }
         },
 
@@ -185,7 +191,7 @@
                    let visa_form_visa_no = this.visaForm.visaData.find(item => item.visa_no == this.tradeForm.trade_visa_no);
 
                    let  newData = {
-                        trade: this.tradeForm.trade,
+                        trade: this.tradeForm.trade.trade_name,
                         salary: this.tradeForm.salary,
                         price_reference: this.tradeForm.price_reference,
                         trade_qty: this.tradeForm.trade_qty,
@@ -214,8 +220,9 @@
                     
                     // end checking
 
-                        // console.log('tem total visa entry', visa_qty_added)
-                        // console.log('main visa qty.', visa_form_visa_no.visa_qty)
+                        console.log('totalqty', totalqty)
+                        console.log('tem total visa entry', visa_qty_added)
+                        console.log('main qty.', visa_form_visa_no.visa_qty)
 
                     
                     // insert data base on condition
@@ -342,14 +349,24 @@
                     this.tradeForm.trade = '';
                     this.tradeForm.salary = '';
                     this.tradeForm.price_reference = '';
-                    this.tradeForm.trade_qty = '';
-                    this.tradeForm.trade_visa_no = '';
+                    // this.tradeForm.trade_qty = '';
+                    // this.tradeForm.trade_visa_no = '';
+
+                    // this.tradeForm = {
+                    //     trade:'',
+                    //     salary: '',
+                    //     price_reference: '',
+                    //     trade_qty: '',
+                    //     trade_visa_no: '',
+                    // }
                 }
 
         },
 
-        computed:{
-            
+         mounted() {
+            axios.get('trade/lists').then(response =>{
+                this.trades = response.data;
+              });
         }
     }
 </script>
@@ -369,5 +386,9 @@ table.dataTable thead th, table.dataTable thead td {
     vertical-align: top;
     border-top: 1px solid #e3e6f0;
     font-size: 13;
+}
+
+.act__btn{
+    margin-top: -15px !important;
 }
 </style>

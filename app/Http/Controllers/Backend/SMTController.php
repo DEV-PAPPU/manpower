@@ -66,17 +66,17 @@ class SMTController extends Controller
 
         $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
 
-        if($passenger){
+        // if($passenger){
           
-            $old_passport = StmPassport::where('passenger_id',  $passenger->id)->first();
+        //     $old_passport = StmPassport::where('passenger_id',  $passenger->id)->first();
             
-            if($old_passport){
-                $error_msg =   'Passenger Already Added STM';
-            }
-        }
-        else {
-            $error_msg = 'Passenger Not Found!';
-        }
+        //     if($old_passport){
+        //         $error_msg =   'Passenger Already Added STM';
+        //     }
+        // }
+        // else {
+        //     $error_msg = 'Passenger Not Found!';
+        // }
         
         
         //checking passenger interview done or not
@@ -207,17 +207,29 @@ class SMTController extends Controller
     public function change_passport_status(Request $request){
            
              
-            // checking for change status of stm table. if all passport staus Complate then stm table status will change to Complate
-             $stm_total_passports = $request->total_passport;
+             $total_passports = DB::table('stm_passports')
+                            ->where('stm_id', $request->stm_id)    
+                            ->get();
 
-             //getting Complate passports 
-             $passports =  StmPassport::where('stm_passport_status', '1')->get();
-             $total_passport = $passports->count();
+             $total_passport_of_stm = $total_passports->count();
 
-             if($total_passport == $stm_total_passports){
+
+            $total_complete_passports = DB::table('stm_passports')
+                           ->where('stm_passport_status', 1)
+                            ->where('stm_id', $request->stm_id)    
+                            ->get();
+
+                            
+             $total_passport_complete = $total_complete_passports->count();
+
+
+             if($total_passport_of_stm == $total_passport_complete){
+
                 $stm =  Stm::findOrfail($request->stm_id);
-                $stm->stm_status = '1';
+                $stm->stm_status = 1;
                 $stm->save();
+
+                return response()->json(['msg' => 'done'], 200);
                  
              }
             

@@ -148,7 +148,9 @@
 
                             <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="UserRole">Visa & Trade</label>
+                                        <label for="UserRole">Visa & Trade  -> Selected <span>V: {{selectedTrade.trade_visa_no}} - T: {{selectedTrade.trade}}
+                                                    - Ref: {{selectedTrade.price_reference}}
+                                                </span> </label>
                                         <select v-model="form.trade_id" class="form-control filter-select" >
                                             <option value="">-- Select trade --</option>
                                             <option v-for="item in trades" :key="item.id" :value="item.id">
@@ -158,7 +160,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                </div>
+                            </div>
 
 
                             <div class="col-md-2">
@@ -169,7 +171,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-4" style="clear:both;">
@@ -217,7 +219,8 @@ export default {
             districts:[],
             sectors: [],
             trades: [],
-            image: false
+            image: false,
+            selectedTrade: ''
 
         }
     },
@@ -339,7 +342,7 @@ export default {
 
             this.form.district_id = res.data.district;
             this.form.company_id = res.data.company;
-            this.form.trade_id = res.data.trade.id;
+            this.selectedTrade = res.data.trade;
             this.form.sector_id = res.data.sector;
             this.form.agent_id = res.data.agent;
 

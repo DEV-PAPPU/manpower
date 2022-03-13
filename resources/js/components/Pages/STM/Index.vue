@@ -80,7 +80,7 @@
                             <tr v-for="item in stms" :key="item.id">
                                 <td>{{item.id}}</td>
                                 <td>{{item.stm_date}}</td>
-                                <td id="totalPassport" >{{item.stmpassport.length}}</td>
+                                <td id="stmtotalPassport" >{{item.stmpassport.length}}</td>
                                 <td>
                                     <span v-if="item.stm_status == '0'" >Processing</span>
                                     <span v-else >Complate</span>
@@ -203,7 +203,7 @@ export default {
         changeSTMStatus(){
 
             
-            let total_passport = $('#totalPassport').text();
+            let total_passport = $('#stmtotalPassport').text();
 
             let data = {
                 stm_passport_id : this.form.passport_id,
@@ -231,9 +231,7 @@ export default {
 
         recallchangeStatus(data){
             axios.post('change-passport-status', data);
-            axios.get("stm-lists").then((res)=>{
-                this.stms = res.data;
-            }); 
+            window.location.reload(); 
         },
 
         clrDate(){

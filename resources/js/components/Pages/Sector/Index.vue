@@ -44,7 +44,7 @@
                     <form>
                         <div class="form-group">
                             <div class="form-group">
-                                    <label for="PerAddress">Company Name</label>
+                                    <label for="PerAddress">trade Name</label>
                                     <input class="form-control" v-model="form.sector_name" type="text" required>
                                     <small v-if="errors.sector_name"
                                         class="form-text text-danger">{{ errors.sector_name[0] }}</small>
@@ -55,7 +55,7 @@
                             <div class="d-flex gap-3" style="clear:both;">
                                 <button v-if="isEdit" class="btn btn-success" @click="update">Update</button>
                                 <button v-else class="btn btn-success" @click.prevent="addSector">Save Changes</button>
-                                <button class="btn btn-danger" @click.prevent="Cancel" type="reset">Cancel</button>
+                                <!-- <button class="btn btn-danger" @click.prevent="Cancel" type="reset">Cancel</button> -->
                             </div>
                         </div>
                     </form>

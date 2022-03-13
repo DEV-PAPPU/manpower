@@ -22,7 +22,7 @@ class PaymentController extends Controller
         //              'districts.district_name', 'companies.company_name','passengers.passenger_discount')
         //             ->get();
 
-        $data = Passenger::with('agent','trade')
+        $data = Passenger::with('agent','trade','company')
                    ->orderBy('passenger_name', 'asc')
                    ->get();  
 
@@ -40,6 +40,7 @@ class PaymentController extends Controller
 
         $error_msg = '';
         $msg = '';
+        $due = '';
 
         $passenger = Passenger::findOrfail($request->passenger_id);
         $trade = RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->first();
@@ -61,6 +62,7 @@ class PaymentController extends Controller
             $payment->bank_id = $request->bank_id;
             $payment->branch_id = $request->branch_id;
             $payment->bank_check_date = $request->check_date;
+            $payment->bank_check_number = $request->check_number;
             $payment->save();
 
 
@@ -112,22 +114,71 @@ class PaymentController extends Controller
                 ->leftJoin('companies', 'companies.id', 'passengers.passenger_company_id')
                 ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
                 ->select('passengers.id','passengers.passenger_name','passengers.passport_no',
-                         'passengers.passport_source','companies.company_name', 'requisition_trade_infos.trade',
+                         'passengers.passport_source','companies.company_name',
+                          'requisition_trade_infos.trade', 'requisition_trade_infos.price_reference',
+                         'passengers.passenger_total_pay', 'passengers.passenger_discount'
                         )
                 ->where('passengers.id', $passenger->id)   
                 ->first();
+
+                $total_pay =  $data->passenger_total_pay + $data->passenger_discount;
+                $due =  $data->price_reference - $total_pay;
             }
 
         }
         else{
             $error_msg = 'Passenger not found!';
         }
+
+
             
 
         return response()->json([
             'passenger' => $data,
+            'due' => $due,
             'error_msg' => $error_msg,
         ], 200,);
+    }
+
+
+    public function filter_payment(Request $request){
+        
+        $query = Passenger::with('agent','trade')
+                   ->orderBy('passenger_name', 'asc');  
+
+
+        // trade filter
+        if ($request->trade) {
+
+            $trade = $request->trade;
+
+            $query->whereHas('trade', function ($q) use ($trade) {
+                $q->where('trade', $trade);
+               });
+           }
+
+           
+        // visa filter
+        if ($request->visa_no) {
+
+            $visa_no = $request->visa_no;
+
+            $query->whereHas('trade', function ($q) use ($visa_no) {
+                $q->where('trade_visa_no', $visa_no);
+               });
+           }
+
+
+        if($request->company_id){
+
+            $query->where('passenger_company_id', $request->company_id);
+        }
+
+
+
+          $data = $query->get();
+
+        return response()->json($data, 200);
     }
 
 

@@ -98,8 +98,10 @@
                                             <td>{{passport.company_name}}</td>
                                             <td v-if="passport.passport_source == 'self' || passport.passport_source == 'process' ">{{passport.passport_source}}</td>
                                             <td v-else>{{passport.agent_name}}</td>
-                                            <td> <button @click="removePassport(passport)" class="btn btn-success btn-sm"
-                                                    >Remove</button>
+                                            <td> <button @click="removePassport(passport)"
+                                                    ><i
+                                                        class="fas delete_icon fa-trash-alt">
+                                                    </i></button>
                                             </td>
                                         </tr>
 

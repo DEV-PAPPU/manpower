@@ -13,7 +13,7 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <img :src="modalImage.image" alt="" srcset="">
+                            <img :src="modalImage.image" alt="" width="450px" height="auto" srcset="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -38,7 +38,7 @@
                         <thead>
                             <tr>
                                 <th>S/L</th>
-                                <th>Date</th>
+                                <!-- <th>Date</th> -->
                                 <th>Title</th>
                                 <th>Image</th>
                                 <th>Actions</th>
@@ -47,7 +47,7 @@
                         <tbody>
                             <tr v-for="item in images" :key="item.id">
                                 <td>{{item.id}}</td>
-                                <td>{{item.created_at | dateformat(item.created_at)}}</td>
+                                <!-- <td>{{item.created_at | dateformat(item.created_at)}}</td> -->
                                 <td>{{item.title}}</td>
                                 <td><img :src="item.image" class="img-fluid border" style="width:100px" alt="" srcset=""> </td>
                                 <td>
@@ -55,7 +55,7 @@
                                     <button @click="showImage(item)" data-toggle="modal" data-target="#modelimage"
                                      class="btn btn-success " >View Image </button>
                                     <button @click="deleteImage(item)" class="mx-3 btn btn-success " >Delete Image </button>
-                                    <button @click="downloadImage(item.image)" class="btn btn-success " >Download Image<i class="fas fa-arrow-circle-right px-2"></i></button>
+                                    <!-- <button @click="downloadImage(item.image)" class="btn btn-success " >Download Image<i class="fas fa-arrow-circle-right px-2"></i></button> -->
                                 </td>
                             </tr>
 
@@ -125,10 +125,8 @@ export default {
                 }).then((result) => {
                 if (result.isConfirmed) {
 
-                // axios.delete(`/api/product/${product.id}`)
-                //  let index = this. products.indexOf(product);
-                //  this.products.splice(index, 1);
-
+                axios.post(`passenger-image-delete/${item.id}`)
+                 window.location.reload();
                    Swal.fire(
                     'Deleted!',
                     'Image Deleted.',

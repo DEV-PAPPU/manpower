@@ -169,11 +169,61 @@
                                 <div class="form-group">
                                     <label for="email">Discount</label>
                                     <input class="form-control" v-model="form.discount" type="number">
+                                </div>
+                            </div>
+                        </div>
+                         
 
+                          <div class="form-group row">
+                            
+                            <h5 class="border-bottom pb-2 my-4">Docoment</h5>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="name">Video</label>
+                                    <select v-model="form.video" required class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="trade">PC Date</label>
+                                    <input v-model="form.pc_date" class="form-control" type="date">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="trade">TC RCV Date</label>
+                                    <input v-model="form.tc_rcv_date" class="form-control" type="date">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="UserRole">Medical</label>
+                                    <select v-model="form.medical" required class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="0">Gone</option>
+                                        <option value="1">Fit</option>
+                                        <option value="2">Unfit</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div v-if="form.medical == '0'" class="col-md-2">
+                                <div class="form-group">
+                                    <label for="trade">Gone Date</label>
+                                    <input v-model="form.gone_date" class="form-control" type="date">
                                 </div>
                             </div>
 
                         </div>
+
 
                             <div class="form-group row">
                                 <div class="col-md-4" style="clear:both;">
@@ -216,6 +266,11 @@ export default {
                 trade_id: '',
                 note: '',
                 discount: 0,
+                medical: '',
+                gone_date: '',
+                video: '',
+                pc_date: '',
+                tc_rcv_date: '',
             },
             agents: '',
             companies: '',
@@ -249,6 +304,11 @@ export default {
                 data.append('trade_id', this.form.trade_id);
                 data.append('company_id', this.form.company_id.id);
                 data.append('note', this.form.note);
+                data.append('medical', this.form.medical);
+                data.append('gone_date', this.form.gone_date);
+                data.append('video', this.form.video);
+                data.append('pc_date', this.form.pc_date);
+                data.append('tc_rcv_date', this.form.tc_rcv_date);
                 data.append('passenger_photo', document.getElementById('file').files[0])
 
             axios.post('add-passenger', data).then(response =>{
@@ -293,11 +353,12 @@ export default {
                 axios.get(`search-sector-trade-by-company/${id}`).then(res =>{
                    this.trades = res.data.trade;
                    this.sectors = res.data.sectors;
-                   if(res.data.msg){
+                  
+                  if(res.data.msg){
 
                         Toast.fire({
                         icon: 'error',
-                        title: res.data.msg
+                          title: res.data.msg
                         });
                     }
                 })

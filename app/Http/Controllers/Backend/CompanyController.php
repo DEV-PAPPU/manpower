@@ -59,6 +59,15 @@ class CompanyController extends Controller
             $company->save();
 
         }
+
+
+        // foreach( $request->sector as $sector){
+        //     $company_sector = new CompanySector();
+        //     $company_sector->company_id = $country->id;
+        //     $company_sector->company_sector_id = $sector['id'];
+        //     $company_sector->save();
+        // }
+
     
         return response()->json(['msg' => 'Company Created Sucess'], 200);
     }
@@ -69,10 +78,12 @@ class CompanyController extends Controller
         $company = Company::find($id);
 
         $country = Country::where('id', $company->country_id)->first();
+        $passenger = Passenger::where('passenger_company_id', $id)->get();
 
         return response()->json([
             'company' => $company,
             'country' => $country,
+            'passenger' => $passenger,
         ], 200);
 
     }
@@ -118,6 +129,14 @@ class CompanyController extends Controller
             $company->save();
         }
 
+
+        // foreach( $request->sector as $sector){
+        //     $company_sector = new CompanySector();
+        //     $company_sector->company_id = $country->id;
+        //     $company_sector->company_sector_id = $sector['id'];
+        //     $company_sector->save();
+        // }
+
          return response()->json(['msg' => 'Company Updated Sucess'], 200);
 
     }
@@ -159,6 +178,26 @@ class CompanyController extends Controller
             'msg' =>  $msg,
             'error_msg' => $error_msg
         ], 200);
+
+    }
+
+
+    public function company_visa_trade($id){
+
+
+        $data = DB::table('requisitions')
+        ->leftJoin('requisition_trade_infos', 'requisition_trade_infos.requisition_id', 'requisitions.id')
+        ->join('companies', 'companies.id', 'requisitions.company_id')
+        ->where('companies.id', $id)
+        ->select('requisition_trade_infos.trade','requisition_trade_infos.trade_qty','requisition_trade_infos.trade_visa_no')
+        ->get();
+
+
+        return response()->json([
+            'visa' =>  $data,
+        ], 200);
+
+
 
     }
 }

@@ -48,4 +48,19 @@ class PasssengerFileController extends Controller
 
         return response()->json(['msg' => 'Images Added Sucess'], 200);
     }
+
+
+    public function destroy($id)
+    {
+        $image = PassengerImage::findOrfail($id);
+
+        $imagePath = public_path($image->image);
+        unlink($imagePath);
+
+        $image->delete();
+
+        return response()->json(['msg' => 'Delete Sucess'], 200);
+
+    }
+
 }

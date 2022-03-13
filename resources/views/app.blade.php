@@ -34,9 +34,6 @@
     background: #FEFEFE;
 }
 
-.card-header {
-    background: #4E73DF !important;
-}
 
 .cursor{
     cursor: pointer;
@@ -55,12 +52,38 @@ button {
     border: 0px;
 }
 
+.bg-gradient-primary {
+    background-color: #4e73df;
+    background-image: linear-gradient(180deg,#3E1E71 10%,#3E1E71 100%);
+    background-size: cover;
+}
+
+.card-header {
+    background: #3E1E71 !important;
+}
 
 @media only screen and (max-width: 1000px){
 	.database__table, .dbtable{
     overflow-x: scroll;
 }
 }
+
+p {
+    margin: 0px;
+}
+
+.edit_icon{
+    color: rgb(37, 102, 223);
+}
+
+.delete_icon{
+    color: rgb(238, 12, 12);
+}
+.edit_icon, .delete_icon{
+    font-size: 18px;
+    padding: 0px 3px;
+}
+
 
 </style>
 

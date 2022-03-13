@@ -5,7 +5,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Company/Delegate</h6>
-                    <span @click="fromToggle" class="cursor btn btn-light btn-sm">Company From Toggle</span>
+                    <span @click="fromToggle" class="cursor btn btn-light btn-sm">Add Company </span>
                 </div>
                 <!-- Card Body -->
                 <div v-if="isShowfrom" class="card-body">

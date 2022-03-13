@@ -64,6 +64,7 @@
                                     <th>S/L</th>
                                     <th>Kafil ID</th>
                                     <!-- <th>Company Name</th> -->
+                                    <th style="width:500px">Visa</th>
                                     <th>Sector</th>
                                     <th>Requisition Date</th>
                                     <th>Actions</th>
@@ -73,7 +74,15 @@
                                 <tr v-for="item in requisitions" :key="item.id">
                                     <td>{{item.id}}</td>
                                     <td>{{item.kafil_id}}</td>
-                                    <!-- <td>{{item.company.company_name}}</td> -->
+                                    <td>
+                                        <div class="all_visa">
+                                            <div class="d-flex gap-2">
+                                                <div v-for="item in item.visa" :key="item.id">
+                                                       <span>{{item.trade_visa_no}},</span>
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td> <button @click="requisitionSector(item.id)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-band-aid edit_icon"></i></button></td>
                                     <td>{{item.requisition_date}}</td>
                                     <!-- <td>
@@ -81,7 +90,7 @@
                                         <i v-else class="fas fa-times"></i>
                                     </td> -->
                                     <td>
-                                        <router-link :to="{name: 'EditRequisition', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link>
+                                        <!-- <router-link :to="{name: 'EditRequisition', params: {id: item.id}}"><i class="far edit_icon fa-edit"></i></router-link> -->
                                         <a href="#" @click="requisitionDelete(item.id)" ><i class="fas delete_icon fa-trash-alt"></i></a>
 
                                         <router-link :to="{name: 'RequisitionTrade', params: {id: item.id}}" class="edit_icon"> <i class="fa fa-list act-btn-txt"></i></router-link>
@@ -118,14 +127,50 @@ export default {
     methods:{
 
         requisitionDelete(id){
-            axios.post(`delete-requisition/${id}`).then(res =>{
-                Toast.fire({
-                        icon: 'success',
-                        title: res.data.msg
-                });
+           
+            // axios.post(`delete-requisition/${id}`).then(res =>{
+            //     Toast.fire({
+            //             icon: 'success',
+            //             title: res.data.msg
+            //     });
 
-                let index = this.passengers.indexOf(item);
-                this.passengers.splice(index, 1);
+            //     let index = this.passengers.indexOf(item);
+            //     this.passengers.splice(index, 1);
+            // })
+
+              Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+
+
+                axios.post(`delete-requisition/${id}`).then(res =>{
+
+                     if(res.data.msg){
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.msg
+                        });
+
+                         window.location.reload();
+                     }
+
+                    if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                        });
+                    }
+                
+
+                });
+              }
             })
         },
 

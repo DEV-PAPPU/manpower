@@ -16,23 +16,23 @@
                                 <tr>
                                     <th style="width:60px">S/L</th>
                                     <th style="width:130px">Company Name</th>
-                                    <th>Address</th>
+                                    <!-- <th>Address</th> -->
                                     <th style="width:130px">Contact Person</th>
-                                    <th>Email</th>
                                     <th>Mobile</th>
+                                    <th>Email</th>
                                     <th>Country</th>
                                     <th style="width:70px">Status</th>
-                                    <th style="width:100px">Actions</th>
+                                    <th style="width:120px">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in companies" :key="item.id">
                                     <td>{{item.id}}</td>
                                     <td>{{item.company_name}}</td>
-                                    <td>{{item.company_address}}</td>
+                                    <!-- <td>{{item.company_address}}</td> -->
                                     <td>{{item.contact_person}}</td>
-                                    <td>{{item.company_email}}</td>
                                     <td>{{item.company_phone}}</td>
+                                    <td>{{item.company_email}}</td>
                                     <td style="width:90px">{{item.country_name}}</td>
                                     <td>
                                         <i v-if="item.company_status == '0'" class="fa fa-check Yes"></i>
@@ -50,6 +50,8 @@
 
                                         <router-link :to="{name: 'CompanyRequisitions', params: {id: item.id}}"><i
                                                 class="fa fa-list action_icon"></i></router-link>
+
+                                       <router-link :to="{name: 'CompanyProfile', params: {id: item.id}}"><i class="far fa-user edit_icon"></i></router-link>
                                     </td>
                                 </tr>
 
@@ -89,14 +91,14 @@ export default {
             {
                 this.companies = res.data.companies;
                 this.requisitions = res.data.companies;
-                setTimeout(() => {
+                   setTimeout(() => {
                     $(".dbtable").DataTable({
                         lengthMenu: [
                         [5,10, 25, 50, -1],
                         [5,10, 25, 50, "All"],
                         ],
                         pageLength: 10,
-                        "scrollX": true
+                        // "scrollX": true
                         // "bDestroy": true,                        
                     });
                     });

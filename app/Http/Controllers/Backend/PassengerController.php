@@ -50,6 +50,7 @@ class PassengerController extends Controller
 
          $error_msg = '';
          $msg = '';
+         $passenger_id = '';
 
          $old_passenger = Passenger::where('passport_no', $request->passport_no)->first();
 
@@ -71,17 +72,18 @@ class PassengerController extends Controller
             $passenger->passenger_phone = $request->passenger_phone;
             $passenger->district_id = $request->district_id;
             $passenger->passenger_total_pay = 0;
-            
-            if($passenger->agent_id){
-
-                $passenger->agent_id = $request->agent_id;
-            }
-
+        
             $passenger->passenger_discount = $request->discount;
             $passenger->passenger_trade_id = $request->trade_id;
             $passenger->passenger_sector_id = $request->sector_id;
             $passenger->passenger_company_id = $request->company_id;
             $passenger->passenger_note = $request->note;
+ 
+
+            if($passenger->agent_id){
+
+                $passenger->agent_id = $request->agent_id;
+            }
 
             if($request->hasFile('passenger_photo')){
 
@@ -93,7 +95,33 @@ class PassengerController extends Controller
 
                 $msg = 'Passenger Added Sucess';
             }
+
+            $passenger_id = $passenger->id;
          }
+
+
+            $interview = new Interview();
+            $interview->passenger_id = $passenger_id;
+            $interview->video_passenger = $request->video;
+            $interview->medical_result = $request->medical;
+            $interview->medical_gone_date = $request->gone_date;
+            $interview->pc_date = $request->pc_date;
+            $interview->tc_rcv_date = $request->tc_rcv_date;
+
+            if($request->tc_rcv_date){
+                $interview->tc_rcv_status = 1;
+            }
+            else{
+                $interview->tc_rcv_status = 0;
+            }
+    
+            if($request->pc_date){
+                $interview->pc_status = 1;
+            }
+            else{
+                $interview->pc_status = 0;
+            }
+            $interview->save();
 
 
          $trade = RequisitionTradeInfo::findOrfail($request->trade_id);
@@ -143,8 +171,18 @@ class PassengerController extends Controller
 
         // dd($request->all());
 
-         $passenger = Passenger::findOrfail($id);
-         $passenger->passenger_name = $request->passenger_name;
+        $passenger = Passenger::findOrfail($id);
+
+        
+        if($request->trade_id){
+
+            RequisitionTradeInfo::where('id', $passenger->passenger_trade_id)->increment('available');
+            RequisitionTradeInfo::where('id', $request->trade_id)->decrement('available');
+            $passenger->passenger_trade_id = $request->trade_id;
+        }
+        
+        
+        $passenger->passenger_name = $request->passenger_name;
         $passenger->passenger_father_name = $request->passenger_father_name;
         $passenger->passenger_gurdian_no = $request->passenger_gurdian_no;
         $passenger->passenger_date_of_birth = $request->passenger_date_of_birth;
@@ -155,12 +193,18 @@ class PassengerController extends Controller
         $passenger->passenger_gender = $request->passenger_gender;
         $passenger->passenger_phone = $request->passenger_phone;
         $passenger->district_id = $request->district_id;
-        $passenger->agent_id = $request->agent_id;
+
+        if($passenger->agent_id){
+
+            $passenger->agent_id = $request->agent_id;
+        }
+        
         $passenger->passenger_discount = $request->discount;
-        $passenger->passenger_trade_id = $request->trade_id;
         $passenger->passenger_sector_id = $request->sector_id;
+        
         $passenger->passenger_company_id = $request->company_id;
         $passenger->passenger_note = $request->note;
+
 
          if($request->hasFile('passenger_photo')){
 
@@ -181,6 +225,12 @@ class PassengerController extends Controller
         else{
             $passenger->save();
         }
+
+       
+
+
+      
+
 
          return response()->json(['msg' => 'Passenger Updated Sucess'], 200);
 

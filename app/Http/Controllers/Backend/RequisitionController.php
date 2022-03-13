@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\Sector;
 use App\Models\CompanySector;
 use App\Models\RequisitionSector;
+use App\Models\Passenger;
 use DB;
 class RequisitionController extends Controller
 {
@@ -157,14 +158,39 @@ class RequisitionController extends Controller
     public function destroy($id)
     {
         $requisition = Requisition::findOrfail($id);
+         
+        $visaTrade =  RequisitionTradeInfo::where('requisition_id', $requisition->id)->get();
 
-        if($requisition){
-            $requisition->delete();
 
-            return response()->json(['msg' => 'Requisition Delete Sucess'], 200);
-        }else {
-            return response()->json('failed', 404);
+        $msg = '';
+        $error_msg = '';
+        $is_passenger  = '';
+
+        foreach($visaTrade as $visatrade){
+
+            $passenger =  Passenger::where('passenger_trade_id', $visatrade->id)->first();
+
+            if($passenger){
+            
+                $is_passenger = $passenger;
+
+            }
+
         }
+
+
+        if($is_passenger){
+            $error_msg = 'Requisition has some passenger ';
+        }else{
+            $requisition->delete();
+            $msg = 'Delete Success';
+        }
+
+        return response()->json([
+            'msg' => $msg,
+            'error_msg' => $error_msg,
+
+        ], 200,);
     }
 
     public function requisition_visa_info($id){
@@ -187,7 +213,7 @@ class RequisitionController extends Controller
 
     public function requisition_list_by_company_id($id){
 
-        $data = Requisition::where('company_id', $id)->get();
+        $data = Requisition::with('visa')->where('company_id', $id)->get();
 
         return response()->json($data, 200);
 

@@ -76,7 +76,6 @@ class DataSearchController extends Controller
         
         $requisition = Requisition::where('company_id', $id)->first();
 
-
         // checking and getting  Requisition data by company id
         if($requisition){
 
@@ -103,8 +102,12 @@ class DataSearchController extends Controller
                     ->select('sectors.id', 'sectors.sector_name')
                     ->get();
           
-            if(!$sectors){
+            if(!$sectors->count()){
                 $msg = 'Sector not found in this company';
+            }
+
+            if(!$trade->count()){
+                $msg = 'No Remaning Trades';
             }
  
 
@@ -118,5 +121,33 @@ class DataSearchController extends Controller
             'trade' => $trade,
             'sectors' => $sectors,
         ], 200);
+    }
+
+
+    public function search_passport_for_print(Request $request){
+        
+        $data = '';
+        $error_msg = '';
+       
+        $passenger = Passenger::where('passport_no',  $request->passport_no)->first();
+
+        if(!$passenger){
+           
+             $error_msg = 'Passenger not found';
+        }
+        
+        // data collection
+        if($passenger){
+
+            $data = Passenger::with('agent','company','trade','stmpassport', 'manpowerpassport', 'tktpassport')
+                    ->where('passport_no',  $request->passport_no)
+                    ->first();
+        }
+
+        return response()->json([
+            'data' => $data,
+            'error_msg' => $error_msg
+        ], 200);
+
     }
 }

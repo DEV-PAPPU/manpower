@@ -9,7 +9,6 @@ class Passenger extends Model
 {
     protected  $guarded = [];
 
-
     public function agent()
     {
         return $this->belongsTo(Agent::class, 'agent_id');
@@ -20,12 +19,10 @@ class Passenger extends Model
         return $this->belongsTo(Interview::class, 'id', 'passenger_id');
     }
 
-
     public function stmpassport()
     {
         return $this->belongsTo(StmPassport::class, 'id','passenger_id');
     }
-
 
     public function manpowerpassport()
     {
@@ -35,9 +32,8 @@ class Passenger extends Model
 
     public function tktpassport()
     {
-        return $this->belongsTo(Tktpassport::class, 'id','passenger_id');
+        return $this->belongsTo(TktPassport::class, 'id','passenger_id');
     }
-
 
     public function trade()
     {

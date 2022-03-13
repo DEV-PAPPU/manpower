@@ -28,8 +28,14 @@
                                             <span v-if="item.payment_type == '0'">Cash</span>
                                             
                                             <div  v-if="item.bank">
-                                              <span>Bank N: {{item.bank.bank_name}} B: {{item.branch.branch_name}}</span>
-                                              <div> C.Date : {{item.bank_check_date}}</div>
+                                              <span>Bank N: {{item.bank.bank_name}} </span>
+
+                                              <div class="my-1">B : {{item.branch.branch_name}}</div>
+
+
+                                              <div class="mb-1">Bank C : NO : {{item.bank_check_number}}</div>
+
+                                              <div> C. Date : {{item.bank_check_date}}</div>
                                             </div>
 
                                         </td>
@@ -47,6 +53,9 @@
         <div>
             <PaymentFrom/>
         </div>
+        <div class="my-5">
+            <!-- <PaymentFilter v-on:filterdata="filterdata($event)"/> -->
+        </div>
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -62,10 +71,12 @@
                                 <th style="width:100px">Passenger Name</th>
                                 <th style="width:100px">Passenger Phone</th>
                                 <th style="width:100px">Passport No.</th>
-                                <th style="width:100px">Agent Name</th>
-                                <th style="width:100px">Agent Phone</th>
+                                <th style="width:120px">Company</th>
                                 <th style="width:60px">Visa NO.</th>
                                 <th style="width:60px">Trade</th>
+                                <th style="width:100px">Agent Name</th>
+                                <th style="width:100px">Agent Phone</th>
+                                
                                 <th style="width:80px">Visa Price</th>
                                 <th style="width:80px">Discount</th>
                                 <!-- <th style="width:120px">Visa Discount Price</th> -->
@@ -80,6 +91,9 @@
                                 <td>{{item.passenger_name}}</td>
                                 <td>{{item.passenger_phone}}</td>
                                 <td>{{item.passport_no}}</td>
+                                <td>{{item.company.company_name}}</td>
+                                 <td>{{item.trade.trade_visa_no}}</td>
+                                <td>{{item.trade.trade}}</td>
                                 <td>
                                     <span v-if="item.agent">{{item.agent.agent_name}}</span>
                                     <span v-else>{{item.passport_source}}</span>
@@ -88,8 +102,7 @@
                                     <span v-if="item.agent">{{item.agent.agent_phone}}</span>
                                     <span v-else>N/A</span>
                                 </td>
-                                <td>{{item.trade.trade_visa_no}}</td>
-                                <td>{{item.trade.trade}}</td>
+                               
                                 <td>{{item.trade.price_reference}}</td>
                                 <td>{{item.passenger_discount > 0 ? item.passenger_discount : 'N/A'}}</td>
 
@@ -128,6 +141,8 @@
 
 <script>
 import PaymentFrom from './PaymentFrom.vue'
+import PaymentFilter from './filter.vue'
+
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
@@ -136,7 +151,7 @@ import $ from 'jquery';
 import axios from 'axios';
 
 export default {
-    components:{PaymentFrom},
+    components:{PaymentFrom,PaymentFilter},
     data : () =>{
         return {
             form:{
@@ -170,6 +185,10 @@ export default {
             axios.get(`payment/history/for/passenger/${id}`).then(res =>{
                 this.paymentHistory = res.data
             })
+        },
+
+        filterdata(event){
+           this.passengers = event;
         }
 
     },

@@ -74,15 +74,15 @@ class ManPowerManageController extends Controller
 
 
 
-        if($passenger){
+        // if($passenger){
 
-            $old_passport = ManPowerPassport::where('passenger_id',  $passenger->id)->first();
+        //     $old_passport = ManPowerPassport::where('passenger_id',  $passenger->id)->first();
 
-            if($old_passport){
+        //     if($old_passport){
 
-                $error_msg =   'Already added in Man Power list';
-            }           
-        }
+        //         $error_msg =   'Already added in Man Power list';
+        //     }           
+        // }
 
 
         // checking passenger STM data
@@ -207,15 +207,26 @@ class ManPowerManageController extends Controller
     public function change_passport_status(Request $request){
            
             // checking for change status of manpower table. if all passport staus Complate then manpower table status will change to Complate
-             $manpower_total_passports = $request->total_passport;
+            
+              $total_passports = DB::table('man_power_passports')
+                            ->where('man_power_id', $request->manpower_id)    
+                            ->get();
 
-             //getting Complate passports 
-             $passports =  ManPowerPassport::where('man_power_passport_status', '1')->get();
-             $total_passport = $passports->count();
+                            
+                            
+             $total_complete_passports = DB::table('man_power_passports')
+                                        ->where('man_power_passport_status', 1)
+                                        ->where('man_power_id', $request->manpower_id)    
+                                        ->get();
+                            
+                            
+             $total_passport_of_mp = $total_passports->count();
+             $total_passport_complete = $total_complete_passports->count();
 
-             if($total_passport == $manpower_total_passports){
+
+             if($total_passport_of_mp == $total_passport_complete){
                 $manpower =  ManPower::findOrfail($request->manpower_id);
-                $manpower->man_power_status = '1';
+                $manpower->man_power_status = 1;
                 $manpower->save();
                  
              }
@@ -307,7 +318,7 @@ class ManPowerManageController extends Controller
                 ->first();  
 
         return response()->json([
-            'date' => $data,
+            'date' => $data->man_power_date,
             'label' => 'Man Power Processing Date',
         ], 200,);
     }

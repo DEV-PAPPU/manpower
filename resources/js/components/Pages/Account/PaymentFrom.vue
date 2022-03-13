@@ -4,7 +4,7 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">Payment</h6>
-                <span @click="fromToggle" class="cursor btn bg-light btn-sm">Toggle Form</span>
+                <span @click="fromToggle" class="cursor btn bg-light btn-sm">Collection</span>
             </div>
             <!-- Card Body -->
             <div v-if="isShowfrom" class="card-body">
@@ -98,13 +98,24 @@
                                        <input v-model="paymentForm.pay_amount" class="form-control" required type="number">
                                     </div>
                                 </div>
-                               <div class="col-md-2">
+
+                                <div v-if="paymentForm.payment_type == '1'" class="col-md-2 d-flex gap-2 flex-row align-items-center ">
+                                     <div class="form-group">
+                                        <label for="PassengerName">Check Number</label>
+                                         <input v-model="paymentForm.check_number" class="form-control" type="number">
+                                    </div>
+                                   </div>
+                              
+
+                                  <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PassengerName">Pay Date</label>
                                          <input v-model="paymentForm.pay_date" class="form-control" required type="date">
                                     </div>
                                 </div>
                                <div class="form_btn col-md-2">
+
+                                  
                                     <button class="btn btn-success" type="submit">Submit</button>
                                     <button class="btn btn-danger" type="reset">Cancel</button>
                                 </div>
@@ -147,8 +158,8 @@
                             </div>
                             <div v-else class="col-md-2">
                                 <div class="form-group">
-                                    <label for="agent">Agent </label>
-                                    <input v-model="form.agent_name" class="form-control" readonly type="text">
+                                    <label for="agent">Due Amount</label>
+                                    <input v-model="due" class="form-control" readonly type="text">
                                 </div>
                             </div>
                         </div>
@@ -177,7 +188,10 @@ export default {
                 company_name: '',
                 agent_name: '',
                 passport_source: '',
+                passenger_total_pay: '',
+                price_reference: '',
             },
+            due: '',
             paymentForm:{
               payment_type: '',
               bank: '',
@@ -186,6 +200,7 @@ export default {
               check_date: '',
               pay_date: '',
               passenger_id: '',
+              check_number: '',
             },
             passports: [],
             isShowfrom: false,
@@ -208,7 +223,9 @@ export default {
 
                 if(!res.data.error_msg){
                    this.form = res.data.passenger;
-                   this.paymentForm.passenger_id = res.data.passenger.id
+                   this.paymentForm.passenger_id = res.data.passenger.id;
+                   this.due = res.data.due;
+
                 }
 
                 if(res.data.error_msg){
@@ -234,6 +251,7 @@ export default {
               check_date: this.paymentForm.check_date,
               pay_date: this.paymentForm.pay_date,
               passenger_id: this.paymentForm.passenger_id,
+              check_number: this.paymentForm.check_number,
             };
             
             // 1 for bank
@@ -250,6 +268,9 @@ export default {
                  }
                  else if(!this.paymentForm.check_date){
                       alert('Please select check date');
+                 }
+                 else if(!this.paymentForm.check_number){
+                      alert('Please enter check number');
                  }
                  else{
                       axios.post('payment/passenger',form).then(res =>{
@@ -405,7 +426,8 @@ export default {
             // this.paymentForm.payment_type = null;
             // this.closeForm()
             // this.form = null;
-        }
+        },
+
 
     },
     mounted(){

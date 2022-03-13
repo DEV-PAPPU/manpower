@@ -132,9 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 
               _this2.agents.splice(index, 1);
 
-              axios__WEBPACK_IMPORTED_MODULE_4___default().get("agents").then(function (res) {
-                _this2.agents = res.data;
-              });
+              window.location.reload();
             }
 
             if (res.data.error_msg) {

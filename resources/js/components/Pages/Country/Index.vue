@@ -97,7 +97,7 @@
 
                             <div class="sectors">
                                 <div v-if="form.sector.length > 0">
-                                    <h3>Sectors</h3>
+                                    <!-- <h3>Sectors</h3> -->
                                         <div class="mt-1 old_sector">
                                         <div class="d-flex gap-1 flex-wrap ">
                                             <div v-for="sector in form.sector" :key="sector.id">
@@ -108,16 +108,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <div class="form-group">
-                                <label for="UserRole">Select Sector</label>
-
-                                 <input class="form-control mb-2" v-model="searchSector" type="text" placeholder="Search sector..." >
+                                 <input class="form-control mt-2 mb-2" v-model="searchSector" type="text" placeholder="Search sector..." >
                                 <div class="form-control filter-select">
-                                    
                                     <div v-for="sector in setors" :key="sector.id" :value="sector" required>
                                        
                                         <div @click="addSector(sector)" class="d-flex gap-2 addsector align-items-center mr-2">
@@ -136,7 +131,7 @@
                             <div class="d-flex gap-3" style="clear:both;">
                                 <button v-if="isEdit" class="btn btn-success" @click="update">Update</button>
                                 <button v-else class="btn btn-success" @click.prevent="addcountry">Save Changes</button>
-                                <button class="btn btn-danger" @click.prevent="Cancel" type="reset">Cancel</button>
+                                <!-- <button class="btn btn-danger" @click.prevent="Cancel" type="reset">Cancel</button> -->
                             </div>
                         </div>
                     </form>
@@ -148,23 +143,15 @@
 
 <script>
 
+
 //Bootstrap and jQuery libraries
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-
-//Datatable Modules
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import "datatables.net-buttons/js/dataTables.buttons.js"
-import "datatables.net-buttons/js/buttons.colVis.js"
-import "datatables.net-buttons/js/buttons.flash.js"
-import "datatables.net-buttons/js/buttons.html5.js"
-import "datatables.net-buttons/js/buttons.print.js"
-
 import $ from 'jquery'; 
 import axios from 'axios';
+
 
 export default {
     data : () =>{
@@ -192,15 +179,13 @@ export default {
             .then((res)=>
             {
                 this.country = res.data;
-                setTimeout(() => {
+                 setTimeout(() => {
                     $(".dbtable").DataTable({
-                        pagingType: 'full_numbers',
-                        pageLength: 1,
-                        processing: true,
-                         dom: 'Bfrtip',
-                        buttons: [
-                            'copy', 'csv', 'excel', 'pdf', 'print'
-                        ]                     
+                        lengthMenu: [
+                        [5,10, 25, 50, -1],
+                        [5,10, 25, 50, "All"],
+                        ],
+                        pageLength: 10,
                     });
                     });
               })
@@ -362,10 +347,30 @@ export default {
 
         removeSector(sector){
 
+            
              if(window.confirm("Do you really want to delete?")){
-                    let index = this.form.sector.indexOf(sector);
-                    this.form.sector.splice(index, 1);
-                    axios.post(`delete-country-sector/${sector.id}`)
+
+                  axios.post(`delete-country-sector/${sector.id}`).then(res =>{
+
+                 if(res.data.error_msg){
+                        Toast.fire({
+                                icon: 'error',
+                                title: res.data.error_msg
+                     });
+                    }
+
+                    else{
+
+                      let index = this.form.sector.indexOf(sector);
+                       this.form.sector.splice(index, 1);
+                       window.location.reload();
+                    }
+
+
+                  })
+
+
+                   
              }
         }
     },

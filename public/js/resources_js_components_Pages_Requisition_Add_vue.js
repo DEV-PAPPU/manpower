@@ -199,6 +199,9 @@ __webpack_require__.r(__webpack_exports__);
     axios__WEBPACK_IMPORTED_MODULE_3___default().get('companies').then(function (response) {
       _this5.companies = response.data.companies; // this.companysectors = response.data.companysector;
     });
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get('trade/lists').then(function (response) {
+      _this5.trades = response.data;
+    });
   }
 });
 
@@ -445,6 +448,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
 //
 //
 //
@@ -602,6 +606,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -619,7 +628,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       formData: [],
       addVisa: false,
-      tem_data: []
+      tem_data: [],
+      trades: ''
     };
   },
   methods: {
@@ -630,7 +640,7 @@ __webpack_require__.r(__webpack_exports__);
         return item.visa_no == _this.tradeForm.trade_visa_no;
       });
       var newData = {
-        trade: this.tradeForm.trade,
+        trade: this.tradeForm.trade.trade_name,
         salary: this.tradeForm.salary,
         price_reference: this.tradeForm.price_reference,
         trade_qty: this.tradeForm.trade_qty,
@@ -651,9 +661,10 @@ __webpack_require__.r(__webpack_exports__);
       visa_qty_added = totalqty.reduce(function (a, b) {
         return a + b;
       }, 0); // end checking
-      // console.log('tem total visa entry', visa_qty_added)
-      // console.log('main visa qty.', visa_form_visa_no.visa_qty)
-      // insert data base on condition
+
+      console.log('totalqty', totalqty);
+      console.log('tem total visa entry', visa_qty_added);
+      console.log('main qty.', visa_form_visa_no.visa_qty); // insert data base on condition
 
       if (visa_form_visa_no.visa_qty < this.tradeForm.trade_qty) {
         Toast.fire({
@@ -737,12 +748,24 @@ __webpack_require__.r(__webpack_exports__);
     tradeFormClear: function tradeFormClear() {
       this.tradeForm.trade = '';
       this.tradeForm.salary = '';
-      this.tradeForm.price_reference = '';
-      this.tradeForm.trade_qty = '';
-      this.tradeForm.trade_visa_no = '';
+      this.tradeForm.price_reference = ''; // this.tradeForm.trade_qty = '';
+      // this.tradeForm.trade_visa_no = '';
+      // this.tradeForm = {
+      //     trade:'',
+      //     salary: '',
+      //     price_reference: '',
+      //     trade_qty: '',
+      //     trade_visa_no: '',
+      // }
     }
   },
-  computed: {}
+  mounted: function mounted() {
+    var _this3 = this;
+
+    axios.get('trade/lists').then(function (response) {
+      _this3.trades = response.data;
+    });
+  }
 });
 
 /***/ }),
@@ -809,7 +832,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.visinfo_btn[data-v-0bf6ef8e]{\r\n    margin-top: 36px !important;\n}\ntable.dataTable thead th[data-v-0bf6ef8e], table.dataTable thead td[data-v-0bf6ef8e] {\r\n    font-size: 13px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-0bf6ef8e], .table th[data-v-0bf6ef8e] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 13;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.visinfo_btn[data-v-0bf6ef8e]{\r\n    margin-top: 36px !important;\n}\ntable.dataTable thead th[data-v-0bf6ef8e], table.dataTable thead td[data-v-0bf6ef8e] {\r\n    font-size: 13px;\r\n    color: rgb(43, 43, 43);\n}\n.table td[data-v-0bf6ef8e], .table th[data-v-0bf6ef8e] {\r\n    padding: 0.75rem;\r\n    vertical-align: top;\r\n    border-top: 1px solid #e3e6f0;\r\n    font-size: 13;\n}\n.act__btn[data-v-0bf6ef8e]{\r\n    margin-top: -15px !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1442,7 +1465,7 @@ var render = function () {
                 staticClass: "cursor btn btn-light btn-sm",
                 on: { click: _vm.fromToggle },
               },
-              [_vm._v("Company From Toggle")]
+              [_vm._v("Add Company ")]
             ),
           ]
         ),
@@ -2129,60 +2152,32 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-2" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "UserRole" } }, [
-                      _vm._v("Trade"),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.tradeForm.trade,
-                            expression: "tradeForm.trade",
-                          },
-                        ],
-                        staticClass: "form-control filter-select",
-                        attrs: { required: "", id: "UserRole" },
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.tradeForm,
-                              "trade",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "UserRole" } }, [
+                        _vm._v("Trade"),
+                      ]),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          label: "trade_name",
+                          placeholder: "Trade",
+                          options: _vm.trades,
                         },
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("-- Select --"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "helper" } }, [
-                          _vm._v("Helper"),
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "cleaner" } }, [
-                          _vm._v("Cleaner"),
-                        ]),
-                      ]
-                    ),
-                  ]),
+                        model: {
+                          value: _vm.tradeForm.trade,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.tradeForm, "trade", $$v)
+                          },
+                          expression: "tradeForm.trade",
+                        },
+                      }),
+                    ],
+                    1
+                  ),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-2" }, [
@@ -2286,7 +2281,7 @@ var render = function () {
                 _vm._m(1),
                 _vm._v(" "),
                 _vm.formData.length > 0
-                  ? _c("div", { staticClass: "database__table" }, [
+                  ? _c("div", { staticClass: "mt-3 database__table" }, [
                       _c(
                         "table",
                         {
@@ -2325,18 +2320,10 @@ var render = function () {
                                       },
                                     },
                                     [
-                                      _c(
-                                        "i",
-                                        {
-                                          staticClass:
-                                            "fas delete_icon fa-trash-alt",
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                                    Remove"
-                                          ),
-                                        ]
-                                      ),
+                                      _c("i", {
+                                        staticClass:
+                                          "fas delete_icon fa-trash-alt",
+                                      }),
                                     ]
                                   ),
                                 ]),
@@ -2375,7 +2362,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
+    return _c("div", { staticClass: "col-md-1 act__btn" }, [
       _c("div", { staticClass: "visinfo_btn" }, [
         _c(
           "button",
@@ -2385,7 +2372,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-danger btn-sm", attrs: { type: "reset" } },
+          {
+            staticClass: "mt-2 btn btn-danger btn-sm",
+            attrs: { type: "reset" },
+          },
           [_c("i", { staticClass: "fas fa-eraser" })]
         ),
       ]),

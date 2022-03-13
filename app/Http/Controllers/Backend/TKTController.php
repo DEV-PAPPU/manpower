@@ -68,15 +68,15 @@ class TKTController extends Controller
             $error_msg = 'Passenger Not Found!';
         }
 
-        if($passenger){
+        // if($passenger){
 
-            $old_passport = TktPassport::where('passenger_id',  $passenger->id)->first();
+        //     $old_passport = TktPassport::where('passenger_id',  $passenger->id)->first();
 
-            if($old_passport){
+        //     if($old_passport){
 
-                $error_msg =   'Already added in TKT list';
-            }           
-        }
+        //         $error_msg =   'Already added in TKT list';
+        //     }           
+        // }
 
 
 
@@ -217,13 +217,24 @@ class TKTController extends Controller
     public function change_passport_status(Request $request){
            
             // checking for change status of Tkt table. if all passport staus Complate then Tkt table status will change to Complate
-             $Tkt_total_passports = $request->total_passport;
 
-             //getting Complate passports 
-             $passports =  TktPassport::where('tkt_passport_status', '1')->get();
-             $total_passport = $passports->count();
+            $total_passports = DB::table('tkt_passports')
+                            ->where('tkt_id', $request->tkt_id)    
+                            ->get();
 
-             if($total_passport == $Tkt_total_passports){
+             $total_passport_of_tkt = $total_passports->count();
+
+
+            $total_complete_passports = DB::table('tkt_passports')
+                            ->where('tkt_passport_status', 1)
+                            ->where('tkt_id', $request->tkt_id)    
+                            ->get();
+
+                            
+             $total_passport_complete = $total_complete_passports->count();
+
+             if($total_passport_of_tkt == $total_passport_complete){
+                
                 $Tkt =  Tkt::findOrfail($request->tkt_id);
                 $Tkt->tkt_status = '1';
                 $Tkt->save();
@@ -304,7 +315,7 @@ class TKTController extends Controller
                 ->first();  
 
         return response()->json([
-            'date' => $data,
+            'date' => $data->tkt_date,
             'label' => 'TKT Processing Date',
         ], 200,);
     }

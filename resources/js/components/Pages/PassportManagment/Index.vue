@@ -38,12 +38,12 @@
                                 <th style="width:60px">Visa No</th>
                                 <th style="width:60px">Trade</th>
                                 <th style="width:90px">Video</th>
-                                <th style="width:90px">Medical</th>
+                                <th style="width:120px">Medical</th>
                                 <th style="width:90px">Pc Date</th>
                                 <th style="width:100px">STM Date</th>
                                 <th style="width:90px">TC RCV Date</th>
-                                <th style="width:90px">MP RCV Date</th>
-                                <th style="width:90px">TKT Date</th>
+                                <th style="width:100px">MP RCV Date</th>
+                                <th style="width:120px">TKT Date</th>
                                 <th style="width:100px">Fly</th>
                                 <th style="width:90px">Sector</th>
                                 <th style="width:80px">Agent</th>
@@ -102,8 +102,12 @@
                                
                                 <td>
                                     <div v-if="item.manpowerpassport">
-                                        <span
-                                            v-if="!item.manpowerpassport.man_power_passport_complete_date">Processing</span>
+                                        <span v-if="!item.manpowerpassport.man_power_passport_complete_date">
+                                             Processing 
+                                             <i @click="mpProcessDate(item.manpowerpassport.man_power_id)" class="fas fa-calendar-alt cursor edit_icon" data-toggle="modal" data-target="#exampleModalCenter" ></i> 
+
+                                        </span> 
+
                                         <span v-else>{{item.manpowerpassport.man_power_passport_complete_date}}</span>
                                     </div>
                                     <div v-else>
@@ -113,7 +117,9 @@
 
                                 <td>
                                     <div v-if="item.tktpassport">
-                                        <span v-if="!item.tktpassport.tkt_passport_booking_date">Processing</span>
+                                        <span v-if="!item.tktpassport.tkt_passport_booking_date">Processing
+                                             <i @click="tktProcessDate(item.tktpassport.tkt_id)" class="fas fa-calendar-alt cursor edit_icon" data-toggle="modal" data-target="#exampleModalCenter" ></i> 
+                                        </span>
                                         <span v-else>{{item.tktpassport.tkt_passport_booking_date}}</span>
                                     </div>
                                     <div v-else>
@@ -201,9 +207,27 @@ export default {
               })
         },
 
+        mpProcessDate(id){
+            
+            axios.get(`mp/processing-date/${id}`).then((res)=>{
+                this.processing_info.label = res.data.label;
+                this.processing_info.date = res.data.date;
+            })
+        },
+
         stmProcessDate(id){
             
             axios.get(`stm/processing-date/${id}`).then((res)=>{
+                this.processing_info.label = res.data.label;
+                this.processing_info.date = res.data.date;
+                console.log('l',res.data.label)
+                console.log('d',res.data.date)
+            })
+        },
+
+        tktProcessDate(id){
+            
+            axios.get(`tkt/processing-date/${id}`).then((res)=>{
                 this.processing_info.label = res.data.label;
                 this.processing_info.date = res.data.date;
                 console.log('l',res.data.label)

@@ -20,10 +20,14 @@ use App\Http\Controllers\Backend\InterviewController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DataSearchController;
 use App\Http\Controllers\Backend\CountryController;
+use App\Http\Controllers\Backend\TradeController;
 use App\Http\Controllers\Account\BranchController;
 use App\Http\Controllers\Account\BankController;
 use App\Http\Controllers\Account\PaymentController;
 use App\Http\Controllers\Report\STMReportController;
+use App\Http\Controllers\Report\ManpowerReportController;
+use App\Http\Controllers\Report\TKTReportController;
+use App\Http\Controllers\Report\InterviewReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +64,8 @@ use App\Http\Controllers\Report\STMReportController;
     Route::post('add-user', [UserController::class, 'store']);
     Route::get('edit-user/{id}', [UserController::class, 'edit']);
     Route::post('update-user/{id}', [UserController::class, 'update']);
-    Route::post('delete-user/{id}', [UserController::class, 'destroy']);
+    Route::post('user-delete/{id}', [UserController::class, 'destroy']);
+    Route::post('password-reset', [UserController::class, 'password_reset']);
     
 
     //------------------------------- Company Api Routes --------------------------\\
@@ -70,6 +75,7 @@ use App\Http\Controllers\Report\STMReportController;
     Route::get('edit-company/{id}', [CompanyController::class, 'edit']);
     Route::post('update-company/{id}', [CompanyController::class, 'update']);
     Route::post('delete-company/{id}', [CompanyController::class, 'destroy']);
+    Route::get('company-visa-trade/{id}', [CompanyController::class, 'company_visa_trade']);
 
 
     //------------------------------- District Api Routes --------------------------\\
@@ -129,6 +135,8 @@ use App\Http\Controllers\Report\STMReportController;
     //------------------------------------------------------------------\\
     Route::get('passenger-image/{id}', [PasssengerFileController::class, 'images']);
     Route::post('passenger-image', [PasssengerFileController::class, 'store']);
+    Route::post('passenger-image-delete/{id}', [PasssengerFileController::class, 'destroy']);
+    
 
 
     //------------------------------- Search Passport Api Routes --------------------------\\
@@ -158,6 +166,8 @@ use App\Http\Controllers\Report\STMReportController;
     Route::post('manpower-change-passport-status', [ManPowerManageController::class, 'change_passport_status']);
     Route::post('manpower/delete/{id}', [ManPowerManageController::class, 'manpower_delete']);
     Route::post('manpower/passenger/delete/{id}', [ManPowerManageController::class, 'manpower_passenger_delete']);
+    Route::get('mp/processing-date/{id}', [ManPowerManageController::class, 'man_power_processing_date']);
+
 
 
     
@@ -172,6 +182,8 @@ use App\Http\Controllers\Report\STMReportController;
         Route::get('/edit/{id}', [TKTController::class, 'edit']);
         Route::post('/delete/{id}', [TKTController::class, 'tkt_delete']);
         Route::post('/passenger/delete/{id}', [TKTController::class, 'tkt_passenger_delete']);
+        Route::get('/processing-date/{id}', [TKTController::class, 'tkt_processing_date']);
+
     });
 
 
@@ -193,6 +205,7 @@ use App\Http\Controllers\Report\STMReportController;
     Route::post('/search-passenger', [DataSearchController::class, 'search_passenger']);
     Route::get('search-sector-trade-by-company/{id}', [DataSearchController::class, 'search_sector_trade_by_company_id']);
     Route::get('search-sector-by-company/{id}', [DataSearchController::class, 'search_sector_by_company_id']);
+    Route::post('search-passport-for-print', [DataSearchController::class, 'search_passport_for_print']);
 
     
     
@@ -246,6 +259,20 @@ use App\Http\Controllers\Report\STMReportController;
         Route::post('/search/passenger', [PaymentController::class, 'search_passenger']);
         Route::post('/delete/{id}', [PaymentController::class, 'destroy']);
         Route::get('/history/for/passenger/{id}', [PaymentController::class, 'passenger_payment_history']);
+        Route::post('/filter', [PaymentController::class, 'filter_payment']);
+
+    });
+
+
+    //------------------------------- PaymentController Api Routes --------------------------\\
+    //------------------------------------------------------------------\\
+    Route::prefix('trade')->group(function () {
+        Route::get('/lists', [TradeController::class, 'index']);
+        Route::post('/add', [TradeController::class, 'store']);
+        Route::get('/edit/{id}', [TradeController::class, 'edit']);
+        Route::post('/update/{id}', [TradeController::class, 'update']);
+        Route::post('/delete/{id}', [TradeController::class, 'destroy']);
+
     });
 
 
@@ -255,6 +282,9 @@ use App\Http\Controllers\Report\STMReportController;
     Route::prefix('filter')->group(function () {
         Route::post('/stm', [STMReportController::class, 'stm_report_filter']);
         Route::post('/company/by-visa-no', [STMReportController::class, 'company_by_visa_no']);
+        Route::post('/mp', [ManpowerReportController::class, 'mp_report_filter']);
+        Route::post('/interview', [InterviewReportController::class, 'interview_report_filter']);
+        Route::post('/tkt', [TKTReportController::class, 'tkt_report_filter']);
 
     });
 

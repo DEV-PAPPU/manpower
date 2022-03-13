@@ -11,16 +11,16 @@
 
                         <div class="card-body p-1-9 p-xl-5">
                             <div class="mb-2">
-                                <h3 class="agent_info h4 mb-0"> Name: {{agent.agent_name}}</h3>
+                                <h3 class="agent_info h4 mb-0"> {{agent.agent_name}}</h3>
                             </div>
 
                             <div class="mt-3">
-                                <p class="agent_info"><i class="far fa-envelope display-25 me-3 text-secondary"> </i>
+                                <p class="agent_info mt-2"><i class="far fa-envelope display-25 me-3 text-secondary"> </i>
                                     {{agent.agent_email}}</p>
-                                <p class="agent_info"><i
+                                <p class="agent_info my-2"><i
                                         class="fas fa-mobile-alt display-25 me-3 text-secondary"></i>{{agent.agent_phone}}
                                 </p>
-                                <p class="agent_info"><a href="#!"><i
+                                <p class="agent_info my-2"><a href="#!"><i
                                             class="fas fa-map-marker-alt display-25 me-3 text-secondary"></i>Office :
                                         {{agent.agent_address_office}}</a></p>
                                 <p class="agent_info"><a href="#!"><i
@@ -33,36 +33,71 @@
             </div>
             <div class="col-xl-8">
 
+                 <!-- Agent passenger card-->
+                <div class="card mb-4">
+                    <div class="text-white card-header d-flex flex-row align-items-center justify-content-between">
+                        <span>Agent Docoment</span>
+                        <button @click="toggleImage" class="btn btn-light btn-sm">Show</button>
+                    </div>
+                    <div v-if="showAgentImage == true" class="card-body">
+                        <div class="mt-4 images">
+                            <div v-if="images.length" class="d-flex gap-3 flex-wrap">
+                                <div v-for="img in images" :key="img.id" class="mb-3">
+                                    <img :src="img.image" class="agent_images" alt="" srcset="">
+                                </div>
+                            </div>
+                            <p v-else class="p-6">No Images</p>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- Agent info card-->
                 <div class="card mb-4">
                     <div class="text-white card-header d-flex flex-row align-items-center justify-content-between">
-                        <span>Account Details</span>
-                        <button @click="toggleAgentinfo('agentinfo')" class="btn btn-light btn-sm">Toggle</button>
+                        <span>Referance Details</span>
+                        <button @click="toggleAgentinfo('agentinfo')" class="btn btn-light btn-sm">Show</button>
                     </div>
                     <div v-if="showAgentInfo" class="card-body">
 
-                      <div class="d-flex gap-3">
-                          <h6 class="agent_ref"> Agent Name : {{agent.agent_ref_1_name}}</h6>
-                          <h6 class="agent_ref"> Agent Phone : {{agent.agent_ref_1_phone}}</h6>
-                          <h6 class="agent_ref">  Agent Imo : {{agent.agent_ref_1_imo_number}}</h6>
-                          <h6 class="agent_ref">  Agent Wp : {{ agent.agent_ref_1_wp_number}}</h6>
-                      </div>
-                      
-                      <div>
-                          <h6 class="agent_ref"> Agent Name : {{agent.agent_ref_2_name}}</h6>
-                          <h6 class="agent_ref"> Agent Phone : {{agent.agent_ref_2_phone}}</h6>
-                          <h6 class="agent_ref">  Agent Imo : {{agent.agent_ref_2_imo_number}}</h6>
-                          <h6 class="agent_ref">  Agent Wp : {{ agent.agent_ref_2_wp_number}}</h6>
-                      </div>
-                      
-                      <div>
-                          <h6 class="agent_ref"> Agent Name :  {{ agent.agent_ref_3_name}}</h6>
-                          <h6 class="agent_ref"> Agent Phone : {{agent.agent_ref_3_phone}}</h6>
-                          <h6 class="agent_ref">  Agent Imo : {{agent.agent_ref_3_imo_number}}</h6>
-                          <h6 class="agent_ref">  Agent Wp : {{ agent.agent_ref_3_wp_number}}</h6>
-                      </div>
-    
+                        <div class="database__table">
+                                <table class="table table-hover table-bordered dbtable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:40px">Agent S/L</th>
+                                            <th style="width:100px">Agent Name</th>
+                                            <th style="width:100px">Agent Phone</th>
+                                            <th style="width:100px">Agent Imo</th>
+                                            <th style="width:100px">Agent Wp</th>
+                                            <!-- <th style="width:100px">District</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{{agent.agent_ref_1_name}}</td>
+                                            <td>{{agent.agent_ref_1_phone}}</td>
+                                            <td>{{agent.agent_ref_1_imo_number}}</td>
+                                            <td>{{agent.agent_ref_1_wp_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>{{agent.agent_ref_2_name}}</td>
+                                            <td>{{agent.agent_ref_2_phone}}</td>
+                                            <td>{{agent.agent_ref_2_imo_number}}</td>
+                                            <td>{{agent.agent_ref_2_wp_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>{{agent.agent_ref_3_name}}</td>
+                                            <td>{{agent.agent_ref_3_phone}}</td>
+                                            <td>{{agent.agent_ref_3_imo_number}}</td>
+                                            <td>{{agent.agent_ref_3_wp_number}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
 
                     </div>
                 </div>
@@ -71,8 +106,8 @@
                 <!-- Agent passenger card-->
                 <div class="card mb-4">
                     <div class="text-white card-header d-flex flex-row align-items-center justify-content-between">
-                        <span>Agent Passengers</span>
-                        <button @click="togglePassenger" class="btn btn-light btn-sm">Toggle</button>
+                        <span>Passenger Lists</span>
+                        <button @click="togglePassenger" class="btn btn-light btn-sm">Show</button>
                     </div>
                     <div v-if="showPassenger" class="card-body">
                         <div v-if="passenger.length">
@@ -81,7 +116,7 @@
                                 <table class="table table-hover table-bordered dbtable">
                                     <thead>
                                         <tr>
-                                            <th style="width:60px">S/L</th>
+                                            <!-- <th style="width:60px">S/L</th> -->
                                             <th style="width:100px">Passenger Name</th>
                                             <th style="width:100px">Passport No</th>
                                             <th style="width:100px">Passport Exp D</th>
@@ -91,7 +126,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="item in passenger" :key="item.id">
-                                            <td>{{item.id}}</td>
+                                            <!-- <td>{{item.id}}</td> -->
                                             <td>{{item.passenger_name}}</td>
                                             <td>{{item.passport_no}}</td>
                                             <td>{{item.passport_expire_date}}</td>
@@ -108,25 +143,7 @@
                         <p v-else class="p-6">No Passenger</p>
                     </div>
                 </div>
-
-
-                <!-- Agent passenger card-->
-                <div class="card mb-4">
-                    <div class="text-white card-header d-flex flex-row align-items-center justify-content-between">
-                        <span>Agent Images</span>
-                        <button @click="toggleImage" class="btn btn-light btn-sm">Toggle</button>
-                    </div>
-                    <div v-if="showAgentImage" class="card-body">
-                        <div class="mt-4 images">
-                            <div v-if="images.length" class="d-flex gap-3 flex-wrap">
-                                <div v-for="img in images" :key="img.id" class="mb-3">
-                                    <img :src="img.image" class="agent_images" alt="" srcset="">
-                                </div>
-                            </div>
-                            <p v-else class="p-6">No Images</p>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -138,9 +155,9 @@ import axios from 'axios'
         data: () =>{
             return {
                agent: '',
-               passenger:'',
                images: '',
                showAgentInfo: true,
+               passenger:'',
                showPassenger: false,
                showAgentImage: false,
             }

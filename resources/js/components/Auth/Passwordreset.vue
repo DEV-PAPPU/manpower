@@ -15,32 +15,31 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back! {{errors}}</h1>
                                     </div>
-                                    <form @submit.prevent="login" class="user">
+                                    <form @submit.prevent="reset" class="user">
                                         <div class="form-group">
-                                            <input type="email" v-model="form.email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
-                                                <small v-if="errors.email" class="form-text text-danger">{{ errors.email[0] }}</small>
+                                            <input type="email" v-model="form.email"
+                                                class="form-control form-control-user">
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" v-model="form.password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+
+                                        <div v-if="is_email">
+                                            <div class="form-group">
+                                                    <label for="UserRole">Password </label>
+                                                    <input class="form-control" v-model="form.password" type="password">
+                                                </div>
+
+                                           <!-- <div class="form-group">
+                                                    <label for="UserRole">Password Confirmation</label>
+                                                    <input class="form-control" v-model="form.password_confirmation"
+                                                        type="password">
+
+                                          </div> -->
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
                                     </form>
                                     <hr>
+
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <router-link :to="{name: 'Login'}" class="small">Login</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -63,57 +62,53 @@ export default {
         return{
             errors: '',
             success: '',
+            is_email: false,
             form:{
                 email: '',
-                password: ''
+                password: '',
+                password_confirmation: ''
             }
         }
         },
     methods:{
-         login(){
+         reset(){
 
-             axios.get('sanctum/csrf-cookie').then(response => {
-            
-             axios.post('login',this.form).then(response =>{
-
-             const token = response.data.token;
-             const user = response.data.user;
-
-              //  if user role is not "user" then it will work
-             if(user.role !== 'user'){
-                  this.$store.commit('SET_AUTHENTICATED',true);
-                  this.$router.push({name:'Dashboard'});
-                  this.$store.commit('SET_USER', response.data.user);
-                  localStorage.setItem('token', token);
-
-                  Toast.fire({
+             axios.post('password-reset',this.form).then(res =>{
+               
+                if(res.data.isUser){
+                    this.is_email = true
+                 }
+               
+                if(res.data.msg){
+                    Toast.fire({
                         icon: 'success',
-                        title: 'Login Success.'
-                    });
-             }
-
-             else{
-
-                 Toast.fire({
-                        icon: 'error',
-                        title: 'The provided credentials are incorrect.'
-                 });
-
-             }
-
-            })
-
-            .catch(() => {
-                
-                Toast.fire({
-                        icon: 'error',
-                        title: 'The provided credentials are incorrect.'
-                    });
-
+                        title: res.data.msg
                 });
-            });
 
-        },
+                 this.$router.push({name:'Login'});
+
+                }
+
+                 if(res.data.error_msg){
+                    Toast.fire({
+                        icon: 'error',
+                        title: res.data.error_msg
+                });
+
+                 
+                }
+
+
+             })
+             .catch(e =>{
+                  Toast.fire({
+                        icon: 'error',
+                        title: 'The password must be at least 6 characters.'
+                });
+             })
+
+         }      
+ 
 
     },
 

@@ -1,71 +1,96 @@
 <template>
     <div class="">
+
+                 <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{processing_info.label}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Date: {{processing_info.date}}
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">STM REPORT</h6>
+                <h6 class="m-0 font-weight-bold text-white">STM Report</h6>
+                <button  @click="reloadPage" class="btn bg-light btn-sm">Refresh</button>
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 <form @submit.prevent="filterData">
                     <div class="row">
                        
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="PassengerName">From Date</label>
                                 <input v-model="form.stm_date" class="form-control" type="date">
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="PassengerName">To Date</label>
                                 <input v-model="form.stm_end_date" class="form-control" type="date">
                             </div>
                         </div>
 
-                         <div class="col-md-2">
+                         
+
+                         <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="Company">Company</label>
+                                    <v-select label="company_name" v-model="form.company_id" placeholder="-- Select --" :options="company" />
+                                    <!-- <input type="text" v-model="company.company_name" readonly class="form-control"> -->
+                                </div>
+                        </div>
+
+                        <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="Company">Visa No. </label>
                                     <div class="d-flex gap-1" >
-                                        <input type="text" v-model="form.visa_no" required class="form-control">
-                                      <i @click="getCompanyByVisaNo" class="mt-2  cursor fas fa-plus-circle"></i>
+                                        <input type="text" v-model="form.visa_no" class="form-control">
+                                      <i v-if="form.visa_no" @click="getCompanyByVisaNo" class="mt-2  cursor fas fa-plus-circle"></i>
                                     </div>
                                 </div>
                         </div>
+                        
 
-                         <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="Company">Company</label>
-                                    <!-- <v-select label="company_name" v-model="form.company_id" placeholder="-- Select --" :options="companies" /> -->
-                                    <input type="text" v-model="company.company_name" readonly class="form-control">
-                                </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="UserRole">Trade</label>
+                             <v-select  label="trade_name" v-model="form.trade" placeholder="Trade" :options="trades" />
+
+                                <!-- <select v-model="form.trade" class="form-control filter-select">
+                                    <option value="">-- Select --</option>
+                                    <option value="helper">Helper</option>
+                                    <option value="cleaner">Cleaner</option>
+                                </select> -->
+                            </div>
                         </div>
 
-                        <div class="col-md-2">
+
+                        <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="sector">Sector</label>
                                     <v-select label="sector_name" v-model="form.sector_id" placeholder="Select" :options="sectors" />
                                 </div>
-                            </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="UserRole">Trade</label>
-                                <select v-model="form.trade" class="form-control filter-select">
-                                    <option value="">-- Select --</option>
-                                    <option value="helper">Helper</option>
-                                    <option value="cleaner">Cleaner</option>
-                                </select>
-                            </div>
                         </div>
 
 
-                    </div>
-
-                    <div class="row">
-                       
-                        <div class="col-md-3">
+                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="PassengerName">STM Status</label>
                                  <select v-model="form.stm_status"  class="form-control filter-select">
@@ -76,16 +101,46 @@
                             </div>
                         </div>
 
-                         <div class="col-md-3">
+
+                    </div>
+
+                    <div class="row">
+                       
+                        <!-- <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PassengerName">Police Clearance</label>
+                                 <select v-model="form.p_c"  class="form-control filter-select">
+                                    <option value="">-- Select --</option>
+                                    <option value="1">Complete</option>
+                                    <option value="0">Pending</option>
+                                </select>
+                            </div>
+                        </div> -->
+
+                       
+
+                         <!-- <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="name">Medical</label>
                                     <select v-model="form.medical"  class="form-control filter-select">
                                         <option value="">-- Select One --</option>
                                         <option value="0">Gone</option>
                                         <option value="1">Fit</option>
+                                        <option value="2">Unfit</option>
                                     </select>
                                 </div>
-                            </div>
+                        </div> -->
+
+                         <!-- <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="name">T.C</label>
+                                    <select v-model="form.t_c"  class="form-control filter-select">
+                                        <option value="">-- Select One --</option>
+                                        <option value="1">Complete</option>
+                                       <option value="0">Pending</option>
+                                    </select>
+                                </div>
+                        </div> -->
 
 
                     </div>
@@ -103,7 +158,7 @@
           <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Passenger List</h6>
+                <h6 class="m-0 font-weight-bold text-white">STM Report</h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -111,18 +166,26 @@
                     <table class="table table-hover table-bordered dbtable">
                         <thead>
                             <tr>
-                                <th style="width:60px">S/L</th>
                                 <th style="width:100px">Passenger Name</th>
                                 <th style="width:100px">Passport No</th>
-                                <th style="width:100px">Mobile</th>
+                                <th style="width:100px">Company</th>
+                                <th style="width:100px">Visa No.</th>
+                                <th style="width:100px">Trade</th>
+                                <th style="width:130px">STM Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in passengers" :key="item.id">
-                                <td>{{item.id}}</td>
                                 <td>{{item.passenger_name}}</td>
                                 <td>{{item.passport_no}}</td>
-                                <td>{{item.passenger_phone}}</td>                                
+                                <td>{{item.company_name}}</td>
+                                <td>{{item.visa_no}}</td>
+                                <td>{{item.trade}}</td>                                
+                                <td>
+                                    <span v-if="item.stm_passport_status == '1'">Complete Date: {{item.stm_passport_complete_date}} </span>
+
+                                    <span v-else>Processing  <i @click="stmProcessDate(item.stm_id)" class="fas fa-calendar-alt cursor edit_icon" data-toggle="modal" data-target="#exampleModalCenter" ></i> </span>
+                                </td>                                
                             </tr>
 
                         </tbody>
@@ -134,6 +197,8 @@
 </template>
 
 <script>
+import 'vue-select/dist/vue-select.css';
+
 import axios from 'axios';
 //Bootstrap and jQuery libraries
 import 'jquery/dist/jquery.min.js';
@@ -170,25 +235,68 @@ export default {
                 visa_no: '',
                 medical: '',
                 stm_status: '',
+                t_c: '',
+                p_c: '',
             },
             passengers: '',
             company: '',
             agents: '',
             sectors: '',
+              trades: '',
+            processing_info: {
+                label: '',
+                date: '',
+            },
         }
     },
 
     methods:{
         filterData(){
+  
+            //    if(!this.form.sector_id == 'null'){
+                  
+            //         this.form.sector_id = '';
+            //     }
 
                let data = new FormData();
                 data.append('stm_date', this.form.stm_date);
                 data.append('stm_end_date', this.form.stm_end_date);
-                data.append('trade', this.form.trade);
-                data.append('sector_id', this.form.sector_id.id);
+               
+                if(this.form.trade == null){
+                    this.form.trade = '';
+                }
+                else if(this.form.trade.trade_name){
+                    data.append('trade', this.form.trade.trade_name);
+                }
+               
+                if(this.form.sector_id == null){
+                    this.form.sector_id = '';;
+                }
+                else if(this.form.sector_id.id){
+                    data.append('sector_id', this.form.sector_id.id);
+                }
+
+
+                if(this.form.company_id == null){
+                   
+                   this.form.company_id = '';
+
+                }
+                else if(this.form.company_id.id){
+                     data.append('company_id', this.form.company_id.id);
+                }
+
+                
+
+                
+               
                 data.append('visa_no', this.form.visa_no);
                 data.append('medical', this.form.medical);
                 data.append('stm_status', this.form.stm_status);
+                data.append('p_c', this.form.p_c);
+                data.append('t_c', this.form.t_c);
+
+                
 
             axios.post('filter/stm', data).then(res =>{
                 
@@ -214,7 +322,7 @@ export default {
             }).then(res =>{
                 
                  if(!res.data.error_msg){
-                     this.company = res.data.company
+                     this.form.company_id = res.data.company
                      this.sectors = res.data.sector
                  }
 
@@ -225,7 +333,20 @@ export default {
                    });
                  }
             })
-        }
+        },
+
+         stmProcessDate(id){
+            
+            axios.get(`stm/processing-date/${id}`).then((res)=>{
+                this.processing_info.label = res.data.label;
+                this.processing_info.date = res.data.date;
+                console.log('l',res.data.label)
+                console.log('d',res.data.date)
+            })
+        },
+
+        reloadPage(){
+            window.location.reload()        }
 
     },
 
@@ -247,11 +368,14 @@ export default {
         });
 
         axios.get("companies").then(res =>{
-                this.companies = res.data.companies;
+                this.company = res.data.companies;
         });
         axios.get("sectors").then(res =>{
                 this.sectors = res.data;
         });
+         axios.get('trade/lists').then(response =>{
+                this.trades = response.data;
+              });
 
         // setTimeout(() => {
         //     $(".dbtable").DataTable({

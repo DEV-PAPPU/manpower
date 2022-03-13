@@ -31,21 +31,94 @@ class STMReportController extends Controller
                     ->leftJoin('sectors', 'sectors.id', 'passengers.passenger_sector_id')
                     ->join('interviews','interviews.passenger_id','stm_passports.passenger_id')
                     ->join('requisition_trade_infos', 'requisition_trade_infos.id', 'passengers.passenger_trade_id')
-                    ->join('requisition_visainfos', 'requisition_visainfos.visa_no', 'requisition_trade_infos.trade_visa_no')
+                    ->join('requisition_visainfos', 'requisition_visainfos.visa_no', 'requisition_trade_infos.trade_visa_no');
 
-                     ->whereBetween('stms.stm_date', [ $start_date, $end_date])
+                    
+                    if($request->stm_status == '0'){
+                        
+                        $data->where('stm_passports.stm_passport_status',  0);
+                    }
 
-                     ->where('sectors.id', $request->sector_id)    
-                     ->where('stm_passports.stm_passport_status', $request->stm_status)    
-                     ->where('requisition_trade_infos.trade', $request->trade)
+                    if($request->stm_status == '1'){
+                        
+                        $data->where('stm_passports.stm_passport_status',  1);
+                    }
 
-                     ->where('interviews.medical_result', $request->medical)  
 
-                    ->get();
+                    if($request->visa_no){
+
+                        $data->where('requisition_visainfos.visa_no', $request->visa_no);
+                    }
+
+                    if($request->company_id){
+
+                        $data->where('companies.id', $request->company_id);
+                    }
+
+
+                    if($request->trade){
+                        $data->where('requisition_trade_infos.trade', $request->trade);
+                    }
+
+
+                    // interview filter
+                    // if($request->medical){
+                    //     $data->where('interviews.medical_result', $request->medical);
+                    // }
+
+                    // if($request->medical == '0'){
+                    //     $data->whereNotNull('interviews.medical_gone_date');
+                    // }
+                    
+
+                    //  if($request->t_c == '0'){
+                    //     //  return $request->t_c;
+                    //     $data->whereNull('interviews.tc_rcv_date');
+                    //  }
+
+                    //  if($request->t_c == '1'){
+                    //     $data->whereNotNull('interviews.tc_rcv_date');
+    
+                    //  }
+
+                    // if($request->p_c){
+                        
+                    //     if($request->p_c == '1'){
+                    //         $data->whereNotNull('interviews.pc_date');
+
+                    //     }
+                    //     elseif($request->p_c == '0'){
+                    //        $data->whereNull('interviews.pc_date');
+                    //     }
+                    // }
+                    
+                    // if($request->t_c){
+
+                    //     if($request->t_c == '1'){
+                    //         $data->whereNotNull('interviews.tc_rcv_date');
+
+                    //     }
+                    //     elseif($request->t_c == '0'){
+                    //        $data->whereNull('interviews.tc_rcv_date');
+                    //     }
+                    // }
+
+
+
+                    if($request->sector_id){
+                        $data->where('sectors.id', $request->sector_id) ;
+                    }
+
+                    if($request->stm_date){
+                        $data->whereBetween('stms.stm_date', [ $start_date, $end_date]);
+                    }
+
+
+                    $collection = $data->get();
 
 
         return response()->json([
-            'passenger' => $data,
+            'passenger' => $collection,
             // 'error_msg' => 'no'
              
         ], 200);

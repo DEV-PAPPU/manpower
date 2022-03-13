@@ -51,8 +51,30 @@ class InterviewController extends Controller
         $interview->pc_date = $request->pc_date;
         $interview->tc_rcv_date = $request->tc_rcv_date;
         $interview->passenger_fly = $request->passenger_fly;
-        $interview->medical_gone_date = $request->medical_gone_date;
-        // $interview->interview_status = $request->interview_status;
+        
+        if($request->medical_result == '1'){
+            $interview->medical_gone_date = '';
+        }
+        else{
+
+            $interview->medical_gone_date = $request->medical_gone_date;
+
+        }
+
+        if($request->tc_rcv_date){
+            $interview->tc_rcv_status = 1;
+        }
+        else{
+            $interview->tc_rcv_status = 0;
+        }
+
+        if($request->pc_date){
+            $interview->pc_status = 1;
+        }
+        else{
+            $interview->pc_status = 0;
+        }
+        
         $interview->save();
 
         return response()->json([

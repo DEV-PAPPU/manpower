@@ -18,4 +18,9 @@ class Requisition extends Model
     {
         return $this->belongsTo(Sector::class, 'sector_id');
     }
+
+    public function visa()
+    {
+        return $this->hasMany(RequisitionTradeInfo::class, 'requisition_id');
+    }
 }

@@ -67,7 +67,7 @@
                                 <th style="width:100px">District</th>
                                 <th style="width:90px">Passport Source</th>
                                 <th style="width:100px">Agent Name</th>
-                                <th style="width:100px">Actions</th>
+                                <th style="width:120px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +89,8 @@
                                     <button @click="deletePassenger(item)"><i class="fas delete_icon fa-trash-alt"></i></button>
 
                                     <router-link :to="{name: 'PassengerFile', params: {id: item.id}}"><i class="edit_icon fas fa-align-justify"></i></router-link>
+
+                                     <router-link :to="{name: 'PassengerProfile', params: {id: item.id}}"><i class="far fa-user edit_icon"></i></router-link>
                                 </td>
                             </tr>
 

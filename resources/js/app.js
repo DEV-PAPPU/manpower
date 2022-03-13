@@ -48,6 +48,13 @@ Vue.filter('dateformat', value=> {
     return moment(String(value)).format('LL')
 });
 
+
+Vue.filter("strToUpper", value=> {
+    
+	return value.charAt(0).toUpperCase() + value.slice(1);
+});
+
+
 window.Toast = Toast
 
 // mixin

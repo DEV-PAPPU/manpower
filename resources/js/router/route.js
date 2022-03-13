@@ -9,14 +9,14 @@ import RequisitionTrade from "../components/Pages/Company/RequisitionTrade.vue";
 
 import AddCompany from "../components/Pages/Company/Add.vue";
 import EditCompany from "../components/Pages/Company/Edit.vue";
-import UserManagement from "../components/Pages/UserManagement/Index.vue";
 import DistrictList from "../components/Pages/District/Index.vue";
-import AddUser from "../components/Pages/UserManagement/Add.vue";
-import UserEdit from "../components/Pages/UserManagement/Edit";
+
 
 import SectorList from "../components/Pages/Sector/Index.vue";
 
 import AgentProfile from "../components/Pages/Profile/AgentProfile.vue";
+import PassengerProfile from "../components/Pages/Profile/PassengerProfile.vue";
+import CompanyProfile from "../components/Pages/Profile/CompanyProfile.vue";
 
 
 import STMLIST from "../components/Pages/STM/Index.vue";
@@ -55,13 +55,29 @@ import Branch from "../components/Pages/Branch/Index.vue";
 
 // Report
 import STMReport from '../components/Pages/Report/STMReport.vue'
+import CompanyReport from '../components/Pages/Report/CompanyReport.vue'
+import ManpowerReport from '../components/Pages/Report/ManpowerReport.vue'
+import TKTReport from '../components/Pages/Report/TKTReport.vue'
+import InterviewReport from '../components/Pages/Report/InterviewReport.vue'
 
+import Print from '../components/Pages/Print/Print.vue'
 Vue.use(VueRouter)
+
+
+
+// other routes
+import AccountRoute from './account';
+import SuperadminRoute from './superadmin';
+import AuthRoute from './auth';
 
 const routes = new VueRouter({
     mode: 'history',
     linkExactActiveClass: 'active',
     routes: [
+
+        ...SuperadminRoute,
+        ...AccountRoute,
+        ...AuthRoute,
 
             {
                 path: '/',
@@ -80,24 +96,9 @@ const routes = new VueRouter({
                 children:
                  [
                     {
-                        path: '/user-management',
-                        name: 'UserManagement',
-                        component: UserManagement,
-                    },
-                    {
                         path: '/district',
                         name: 'District',
                         component: DistrictList,
-                    },
-                    {
-                        path: '/add-user',
-                        name: 'AddUser',
-                        component: AddUser,
-                    },
-                    {
-                        path: '/edit/user/:id',
-                        name: 'UserEdit',
-                        component: UserEdit,
                     },
                     {
                         path: '/companies',
@@ -113,6 +114,11 @@ const routes = new VueRouter({
                         path: '/company/edit/:id',
                         name: 'company-edit',
                         component: EditCompany,
+                    },
+                    {
+                        path: '/company/profile/:id',
+                        name: 'CompanyProfile',
+                        component: CompanyProfile,
                     },
                     {
                         path: '/company/rquisitions/:id',
@@ -159,6 +165,11 @@ const routes = new VueRouter({
                         path: '/Agent/edit/:id',
                         name: 'AgentEdit',
                         component: () => import("../components/Pages/Agent/Edit.vue"),
+                    },
+                    {
+                        path: '/passenger/profile/:id',
+                        name: 'PassengerProfile',
+                        component: PassengerProfile,
                     },
                     {
                         path: '/Agent/profile/:id',
@@ -300,6 +311,31 @@ const routes = new VueRouter({
                         path: '/stm/report',
                         name: 'STMReport',
                         component: STMReport,
+                    },
+                    {
+                        path: '/company/report',
+                        name: 'CompanyReport',
+                        component: CompanyReport,
+                    },
+                    {
+                        path: '/manpower/report',
+                        name: 'MPReport',
+                        component: ManpowerReport,
+                    },
+                    {
+                        path: '/tkt/report',
+                        name: 'TKTReport',
+                        component: TKTReport,
+                    },
+                    {
+                        path: '/interview/report',
+                        name: 'InterviewReport',
+                        component: InterviewReport,
+                    },
+                    {
+                        path: '/Print',
+                        name: 'Print',
+                        component: Print,
                     },
                  ]
             },

@@ -36,7 +36,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer d-flex justify-between">
+                    <div class="modal-footer d-flex justify-content-between">
                         <div>
                             
                             <form v-if="isChangeStatus" @submit.prevent="changempStatus()">
@@ -192,6 +192,7 @@ export default {
             axios.post('manpower-change-passport-status', data);
             axios.get("manpower-lists").then((res)=>{
                 this.manpowerdata = res.data;
+                 window.location.reload();
             }); 
         },
 

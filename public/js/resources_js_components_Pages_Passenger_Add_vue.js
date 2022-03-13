@@ -206,6 +206,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -229,7 +279,12 @@ __webpack_require__.r(__webpack_exports__);
         sector_id: '',
         trade_id: '',
         note: '',
-        discount: 0
+        discount: 0,
+        medical: '',
+        gone_date: '',
+        video: '',
+        pc_date: '',
+        tc_rcv_date: ''
       },
       agents: '',
       companies: '',
@@ -261,6 +316,11 @@ __webpack_require__.r(__webpack_exports__);
       data.append('trade_id', this.form.trade_id);
       data.append('company_id', this.form.company_id.id);
       data.append('note', this.form.note);
+      data.append('medical', this.form.medical);
+      data.append('gone_date', this.form.gone_date);
+      data.append('video', this.form.video);
+      data.append('pc_date', this.form.pc_date);
+      data.append('tc_rcv_date', this.form.tc_rcv_date);
       data.append('passenger_photo', document.getElementById('file').files[0]);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('add-passenger', data).then(function (response) {
         if (response.data.error_msg) {
@@ -1182,6 +1242,220 @@ var render = function () {
                     }),
                   ]),
                 ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c("h5", { staticClass: "border-bottom pb-2 my-4" }, [
+                  _vm._v("Docoment"),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "name" } }, [_vm._v("Video")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.video,
+                            expression: "form.video",
+                          },
+                        ],
+                        staticClass: "form-control filter-select",
+                        attrs: { required: "" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "video",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("-- Select One --"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Yes"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
+                      ]
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "trade" } }, [
+                      _vm._v("PC Date"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.pc_date,
+                          expression: "form.pc_date",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "date" },
+                      domProps: { value: _vm.form.pc_date },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "pc_date", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "trade" } }, [
+                      _vm._v("TC RCV Date"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.tc_rcv_date,
+                          expression: "form.tc_rcv_date",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "date" },
+                      domProps: { value: _vm.form.tc_rcv_date },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "tc_rcv_date", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "UserRole" } }, [
+                      _vm._v("Medical"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.medical,
+                            expression: "form.medical",
+                          },
+                        ],
+                        staticClass: "form-control filter-select",
+                        attrs: { required: "" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "medical",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("-- Select One --"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Gone"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Fit"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "2" } }, [
+                          _vm._v("Unfit"),
+                        ]),
+                      ]
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _vm.form.medical == "0"
+                  ? _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "trade" } }, [
+                          _vm._v("Gone Date"),
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.gone_date,
+                              expression: "form.gone_date",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date" },
+                          domProps: { value: _vm.form.gone_date },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "gone_date",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                      ]),
+                    ])
+                  : _vm._e(),
               ]),
               _vm._v(" "),
               _vm._m(1),

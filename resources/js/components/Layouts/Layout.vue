@@ -25,12 +25,23 @@
         <!-- Sidebar -->
         <template class="left__sidebar">
             <transition name="slide-fade">
+              
                 <template v-if="AuthUser.role == 'superadmin'">
                     <SuperAdminMenu />
                 </template>
+
                 <template v-if="AuthUser.role == 'admin'">
                     <AdminMenu/>
                 </template>
+               
+                <template v-if="AuthUser.role == 'account'">
+                    <AccountMenu/>
+                </template>
+
+                 <template v-if="AuthUser.role == 'dataentry'">
+                    <DataEntryMenus/>
+                </template>
+
             </transition>
 
         </template>
@@ -79,13 +90,17 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{AuthUser.name}}</span>
+                           
+                            <!-- <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{AuthUser.name}}</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                            </a>
+                            </a> -->
+
+                                <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
+
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <!-- <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -100,7 +115,7 @@
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
-                            </div>
+                            </div> -->
                         </li>
 
                     </ul>
@@ -154,11 +169,12 @@ import axios from 'axios'
 import Dashboard from '../Pages/Dashboard/Dashboard.vue'
 import SuperAdminMenu from './Menus/SuperAdminMenus.vue'
 import AdminMenu from './Menus/AdminMenu.vue'
+import AccountMenu from './Menus/AccountMenus.vue'
+import DataEntryMenus from './Menus/DataEntryMenus.vue'
 export default {
-    components:{SuperAdminMenu, AdminMenu, Dashboard},
+    components:{SuperAdminMenu, AdminMenu, Dashboard, AccountMenu, DataEntryMenus},
     data : () =>{
         return {
-             text: 'hello',
              iSAdmin: true
         }
     },

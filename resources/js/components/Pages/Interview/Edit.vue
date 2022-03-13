@@ -45,6 +45,7 @@
                                         <option value="">-- Select One --</option>
                                         <option value="0">Gone</option>
                                         <option value="1">Fit</option>
+                                        <option value="2">Unfit</option>
                                     </select>
                                 </div>
                             </div>

@@ -117,9 +117,7 @@ export default {
                     let index = this.agents.indexOf(agent);
                     this.agents.splice(index, 1);
 
-                    axios.get("agents").then((res)=>{
-                       this.agents = res.data;
-                    });
+                     window.location.reload();
                     
                     }
 

@@ -122,6 +122,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //Bootstrap and jQuery libraries
 // import 'bootstrap/dist/css/bootstrap.min.css';
  //Datatable Modules
@@ -460,6 +462,19 @@ var render = function () {
                             }),
                           ]
                         ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: {
+                                name: "PassengerProfile",
+                                params: { id: item.id },
+                              },
+                            },
+                          },
+                          [_c("i", { staticClass: "far fa-user edit_icon" })]
+                        ),
                       ],
                       1
                     ),
@@ -622,7 +637,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Agent Name")]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "100px" } }, [_vm._v("Actions")]),
+        _c("th", { staticStyle: { width: "120px" } }, [_vm._v("Actions")]),
       ]),
     ])
   },
